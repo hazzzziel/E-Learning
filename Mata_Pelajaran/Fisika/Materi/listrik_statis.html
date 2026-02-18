@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaya Coulomb - Fisika Kelas 12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f0f5fa;
+            --bg-secondary: #e4ecf4;
+            --bg-card: #ffffff;
+            --fg-primary: #0a1628;
+            --fg-secondary: #2d4a6a;
+            --fg-muted: #5a7a9a;
+            --accent-primary: #0052cc;
+            --accent-primary-light: #3385ff;
+            --accent-primary-dark: #003d99;
+            --accent-glow: rgba(0, 82, 204, 0.2);
+            --accent-secondary: #00b8d4;
+            --accent-success: #00a76f;
+            --accent-warning: #ff8f00;
+            --accent-error: #ff5630;
+            --shadow-soft: 0 4px 20px rgba(0, 82, 204, 0.06);
+            --shadow-medium: 0 8px 32px rgba(0, 82, 204, 0.1);
+            --shadow-hover: 0 12px 40px rgba(0, 82, 204, 0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(0, 82, 204, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 50%, rgba(0, 184, 212, 0.05) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 100%, rgba(0, 82, 204, 0.04) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 82, 204, 0.08);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 68px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-logo svg {
+            width: 22px;
+            height: 22px;
+            color: white;
+        }
+
+        .navbar-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+        }
+
+        .navbar-title span { color: var(--accent-primary); }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid rgba(0, 82, 204, 0.1);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-nav:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+            transform: translateX(-3px);
+        }
+
+        .btn-nav svg { width: 16px; height: 16px; }
+
+        /* Hero */
+        .hero {
+            padding: 48px 24px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .breadcrumb svg { width: 14px; height: 14px; opacity: 0.4; }
+
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            color: var(--fg-primary);
+            margin-bottom: 12px;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.05rem;
+            color: var(--fg-secondary);
+            max-width: 700px;
+            line-height: 1.75;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(0, 82, 204, 0.08);
+            border: 1px solid rgba(0, 82, 204, 0.15);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .hero-badge svg { width: 14px; height: 14px; }
+
+        /* Section Navigation */
+        .section-nav {
+            position: sticky;
+            top: 68px;
+            background: rgba(240, 245, 250, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 82, 204, 0.06);
+            z-index: 999;
+            padding: 0 24px;
+        }
+
+        .section-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 12px 0;
+            scrollbar-width: none;
+        }
+
+        .section-nav-container::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+        }
+
+        .nav-tab:hover {
+            background: rgba(0, 82, 204, 0.06);
+            color: var(--accent-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 24px 80px;
+        }
+
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Module Section */
+        .module-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 28px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 82, 204, 0.04);
+            transition: var(--transition-medium);
+        }
+
+        .module-card:hover { box-shadow: var(--shadow-medium); }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .module-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(0, 82, 204, 0.1), rgba(0, 184, 212, 0.08));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .module-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--accent-primary);
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 6px;
+        }
+
+        .module-subtitle {
+            font-size: 0.9rem;
+            color: var(--fg-muted);
+        }
+
+        .module-content h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin: 24px 0 12px;
+        }
+
+        .module-content h3:first-child { margin-top: 0; }
+
+        .module-content p {
+            color: var(--fg-secondary);
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+
+        .module-content ul, .module-content ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        .module-content li {
+            color: var(--fg-secondary);
+            margin-bottom: 8px;
+            line-height: 1.7;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, rgba(0, 82, 204, 0.04), rgba(0, 184, 212, 0.02));
+            border: 1px solid rgba(0, 82, 204, 0.1);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .formula {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            letter-spacing: 0.02em;
+        }
+
+        .formula-description {
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+            margin-top: 12px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .info-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        .info-table td { color: var(--fg-secondary); }
+        .info-table tr:hover td { background: rgba(0, 82, 204, 0.02); }
+
+        .example-box {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent-secondary);
+        }
+
+        .example-label {
+            font-weight: 700;
+            color: var(--accent-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .reference-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(0, 82, 204, 0.06);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            margin: 4px;
+            transition: var(--transition-fast);
+        }
+
+        .reference-link:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .reference-link svg { width: 14px; height: 14px; }
+
+        /* Visualization Section */
+        .viz-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 28px;
+        }
+
+        .viz-controls {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 82, 204, 0.04);
+            height: fit-content;
+        }
+
+        .controls-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .controls-title svg {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-primary);
+        }
+
+        .control-group { margin-bottom: 20px; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            margin-bottom: 10px;
+        }
+
+        .control-value {
+            font-family: 'Space Grotesk', monospace;
+            color: var(--accent-primary);
+            background: rgba(0, 82, 204, 0.08);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px var(--accent-glow);
+            transition: var(--transition-fast);
+        }
+
+        .slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 12px 16px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid rgba(0, 82, 204, 0.1);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .select-control:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .toggle-group { display: flex; gap: 8px; }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 14px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: rgba(0, 82, 204, 0.06);
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-top: 8px;
+        }
+
+        .btn-reset:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        /* Visualization Canvas */
+        .viz-canvas-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 82, 204, 0.04);
+            overflow: hidden;
+        }
+
+        .viz-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .viz-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+        }
+
+        .viz-result {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            background: rgba(0, 82, 204, 0.08);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+        }
+
+        .viz-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 420px;
+            background: linear-gradient(180deg, #f8fafc 0%, #f0f4f8 100%);
+        }
+
+        .viz-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .viz-info {
+            padding: 20px 24px;
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(0, 82, 204, 0.06);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 28px 32px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 82, 204, 0.04);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .quiz-info h2 {
+            font-size: 1.3rem;
+            color: var(--fg-primary);
+            margin-bottom: 4px;
+        }
+
+        .quiz-info p {
+            font-size: 0.9rem;
+            color: var(--fg-muted);
+        }
+
+        .quiz-score {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(0, 82, 204, 0.08), rgba(0, 184, 212, 0.06));
+            border-radius: var(--radius-md);
+        }
+
+        .score-label { font-size: 0.85rem; color: var(--fg-muted); }
+
+        .score-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .quiz-actions { display: flex; gap: 12px; }
+
+        .btn-quiz {
+            padding: 12px 20px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+        }
+
+        .btn-generate {
+            background: var(--accent-secondary);
+            color: white;
+        }
+
+        .btn-generate:hover {
+            background: #0097a7;
+            transform: translateY(-2px);
+        }
+
+        .btn-retry {
+            background: var(--bg-secondary);
+            color: var(--fg-secondary);
+        }
+
+        .btn-retry:hover {
+            background: var(--fg-secondary);
+            color: white;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 82, 204, 0.04);
+            margin-bottom: 20px;
+            transition: var(--transition-medium);
+        }
+
+        .question-card.correct {
+            border-color: var(--accent-success);
+            background: rgba(0, 167, 111, 0.02);
+        }
+
+        .question-card.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(255, 86, 48, 0.02);
+        }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--fg-primary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.selected):not(.disabled) {
+            border-color: var(--accent-primary);
+            background: rgba(0, 82, 204, 0.04);
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent-primary);
+            background: rgba(0, 82, 204, 0.08);
+        }
+
+        .option-btn.correct {
+            border-color: var(--accent-success);
+            background: rgba(0, 167, 111, 0.1);
+        }
+
+        .option-btn.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(255, 86, 48, 0.1);
+        }
+
+        .option-btn.disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .option-letter {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 2px solid var(--fg-muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--fg-secondary);
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .option-btn.selected .option-letter {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--accent-success);
+            border-color: var(--accent-success);
+            color: white;
+        }
+
+        .option-btn.incorrect .option-letter {
+            background: var(--accent-error);
+            border-color: var(--accent-error);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 0.95rem;
+            color: var(--fg-secondary);
+            line-height: 1.5;
+        }
+
+        .feedback-box {
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .feedback-box.show { display: block; }
+
+        .feedback-box.correct {
+            background: rgba(0, 167, 111, 0.1);
+            color: #007a52;
+            border-left: 4px solid var(--accent-success);
+        }
+
+        .feedback-box.incorrect {
+            background: rgba(255, 86, 48, 0.1);
+            color: #c41e00;
+            border-left: 4px solid var(--accent-error);
+        }
+
+        .quiz-result-card {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-dark));
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            color: white;
+            margin-top: 24px;
+            display: none;
+        }
+
+        .quiz-result-card.show { display: block; }
+
+        .result-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .result-icon svg { width: 40px; height: 40px; }
+
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .result-score {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 16px 0;
+        }
+
+        .result-message {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .viz-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 16px; }
+            .navbar-title { font-size: 0.9rem; }
+            .btn-nav span { display: none; }
+            .hero { padding: 32px 16px 24px; }
+            .hero-title { font-size: 1.6rem; }
+            .section-nav { top: 64px; padding: 0 16px; }
+            .nav-tab { padding: 8px 14px; font-size: 0.8rem; }
+            .main-content { padding: 20px 16px 60px; }
+            .module-card { padding: 24px; }
+            .module-header { flex-direction: column; gap: 16px; }
+            .viz-controls { padding: 20px; }
+            .viz-canvas-wrapper { height: 350px; }
+            .quiz-header { padding: 20px; flex-direction: column; text-align: center; }
+            .question-card { padding: 20px; }
+            .info-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.4rem; }
+            .formula { font-size: 1.1rem; }
+            .option-btn { padding: 14px 16px; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            <a href="http://owenitb.great-site.net/" target="_self" class="btn-nav">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="breadcrumb">
+            <a href="http://owenitb.great-site.net/" target="_self">Dashboard</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/fisika.html" target="_self">Fisika</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <span>Listrik Statis</span>
+        </div>
+        <div class="hero-header">
+            <div>
+                <h1 class="hero-title">
+                    <span class="hero-title-accent">Gaya Coulomb</span> - Listrik Statis
+                </h1>
+                <p class="hero-description">
+                    Pelajari interaksi gaya listrik antara muatan, medan listrik, potensial listrik, dan kapasitor melalui visualisasi interaktif dan kuis adaptif.
+                </p>
+            </div>
+            <span class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Elektrostatika
+            </span>
+        </div>
+    </section>
+
+    <!-- Section Navigation -->
+    <div class="section-nav">
+        <div class="section-nav-container">
+            <button class="nav-tab active" data-section="module">Modul Materi</button>
+            <button class="nav-tab" data-section="visualization">Visualisasi Interaktif</button>
+            <button class="nav-tab" data-section="quiz">Kuis Interaktif</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Module Section -->
+        <section class="content-section active" id="module">
+            <div class="module-grid">
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Gaya Coulomb</h2>
+                            <p class="module-subtitle">Pengertian, Rumus, dan Aplikasi</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian Dasar</h3>
+                        <p>Gaya Coulomb adalah gaya tarik-menarik atau tolak-menolak yang timbul antara dua titik muatan listrik. Muatan sejenis (keduanya positif atau negatif) menghasilkan tolakan, sementara muatan tak sejenis menarik satu sama lain.</p>
+                        
+                        <div class="formula-box">
+                            <div class="formula">F = k × |q₁ × q₂| / r²</div>
+                            <p class="formula-description">di mana k = 9 × 10⁹ N·m²/C² (konstanta Coulomb di udara)</p>
+                        </div>
+
+                        <h3>Bunyi Hukum Coulomb</h3>
+                        <p>Gaya listrik antara dua muatan titik berbanding lurus dengan hasil kali besar muatan dan berbanding terbalik dengan kuadrat jarak antar muatan.</p>
+                        <ul>
+                            <li>F sebanding dengan q₁ × q₂ (hasil kali muatan)</li>
+                            <li>F berbanding terbalik dengan r² (kuadrat jarak)</li>
+                            <li>Konstanta k bergantung pada medium (udara, vakum, air)</li>
+                        </ul>
+
+                        <h3>Sifat Vektor Gaya Coulomb</h3>
+                        <p>Gaya Coulomb adalah besaran vektor, sehingga arahnya sepanjang garis penghubung muatan. Hukum aksi-reaksi berlaku: F₁₂ = -F₂₁ (besar sama, arah berlawanan).</p>
+
+                        <div class="example-box">
+                            <div class="example-label">Contoh Soal</div>
+                            <p>Dua muatan q₁ = +2 μC dan q₂ = -3 μC terpisah 0,5 m. Hitung gaya:</p>
+                            <p><strong>Jawab:</strong> F = 9×10⁹ × (2×10⁻⁶)(3×10⁻⁶)/(0,5)² = 0,216 N (tarik-menarik)</p>
+                        </div>
+
+                        <h3>Referensi Pembelajaran</h3>
+                        <div>
+                            <a href="https://www.ruangguru.com/blog/pengertian-hukum-coulomb" target="_self" class="reference-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                                Ruangguru
+                            </a>
+                            <a href="https://www.superprof.co.id/blog/hukum-coulomb/" target="_self" class="reference-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                                Superprof
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Medan Listrik</h2>
+                            <p class="module-subtitle">Kuat Medan dan Garis Gaya</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian Medan Listrik</h3>
+                        <p>Medan listrik adalah daerah di sekitar muatan listrik yang masih dipengaruhi gaya Coulomb. Garis gaya keluar dari muatan positif dan menuju muatan negatif.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">E = k × |Q| / r²</div>
+                            <p class="formula-description">Satuan: N/C atau V/m</p>
+                        </div>
+
+                        <h3>Arah dan Sifat Medan</h3>
+                        <ul>
+                            <li>Arah keluar (menjauhi) muatan positif</li>
+                            <li>Arah masuk (menuju) muatan negatif</li>
+                            <li>Berbanding terbalik dengan kuadrat jarak</li>
+                            <li>Sebanding dengan muatan sumber</li>
+                        </ul>
+
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th>Konfigurasi Muatan</th>
+                                    <th>Cara Hitung Resultan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dua muatan segaris</td>
+                                    <td>E = |E₁ ± E₂|</td>
+                                </tr>
+                                <tr>
+                                    <td>Muatan di segitiga</td>
+                                    <td>Eₓ = ΣEᵢₓ, Eᵧ = ΣEᵢᵧ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Potensial Listrik</h2>
+                            <p class="module-subtitle">Energi Potensial dan Beda Potensial</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian Dasar</h3>
+                        <p>Potensial listrik merupakan besaran skalar yang mengukur energi potensial per satuan muatan dalam medan listrik.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">V = k × Q / r</div>
+                            <p class="formula-description">Satuan: Volt (V), dimana 1 V = 1 J/C</p>
+                        </div>
+
+                        <h3>Rumus Penting</h3>
+                        <ul>
+                            <li><strong>Energi Potensial:</strong> EP = k × q₁q₂/r</li>
+                            <li><strong>Potensial Listrik:</strong> V = EP/q₀ = k × Q/r</li>
+                            <li><strong>Beda Potensial:</strong> ΔV = Vᵦ - Vᵢ</li>
+                            <li><strong>Usaha:</strong> W = q × ΔV</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Kapasitor</h2>
+                            <p class="module-subtitle">Penyimpan Muatan Listrik</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian Dasar</h3>
+                        <p>Kapasitor adalah alat penyimpan muatan listrik yang terdiri dari dua konduktor dipisahkan isolator (dielektrik). Kapasitas didefinisikan sebagai C = Q/V dengan satuan Farad (F).</p>
+
+                        <div class="formula-box">
+                            <div class="formula">C = ε × A / d</div>
+                            <p class="formula-description">Kapasitor keping sejajar: A = luas pelat, d = jarak antar pelat</p>
+                        </div>
+
+                        <h3>Rangkaian Kapasitor</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th>Rangkaian</th>
+                                    <th>Kapasitas Total</th>
+                                    <th>Muatan</th>
+                                    <th>Beda Potensial</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Paralel</td>
+                                    <td>C₁ + C₂ + ...</td>
+                                    <td>Qᵢ = Cᵢ × V</td>
+                                    <td>V sama</td>
+                                </tr>
+                                <tr>
+                                    <td>Seri</td>
+                                    <td>1/Ct = 1/C₁ + 1/C₂</td>
+                                    <td>Q sama</td>
+                                    <td>Vᵢ = Q/Cᵢ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Visualization Section -->
+        <section class="content-section" id="visualization">
+            <div class="viz-container">
+                <aside class="viz-controls">
+                    <h3 class="controls-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        Kontrol Simulasi
+                    </h3>
+
+                    <div class="control-group">
+                        <label class="control-label">
+                            Muatan q₁
+                            <span class="control-value" id="q1Value">+2.0 μC</span>
+                        </label>
+                        <input type="range" class="slider" id="q1Slider" min="-10" max="10" value="2" step="0.5">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">
+                            Muatan q₂
+                            <span class="control-value" id="q2Value">-3.0 μC</span>
+                        </label>
+                        <input type="range" class="slider" id="q2Slider" min="-10" max="10" value="-3" step="0.5">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">
+                            Jarak (r)
+                            <span class="control-value" id="rValue">0.50 m</span>
+                        </label>
+                        <input type="range" class="slider" id="rSlider" min="10" max="200" value="50" step="5">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Medium</label>
+                        <select class="select-control" id="mediumSelect">
+                            <option value="1">Udara/Vakum</option>
+                            <option value="80">Air</option>
+                            <option value="2.1">Minyak</option>
+                            <option value="5">Kaca</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Mode Tampilan</label>
+                        <div class="toggle-group">
+                            <button class="toggle-btn active" id="modeSkalar">Skalar</button>
+                            <button class="toggle-btn" id="modeVektor">Vektor</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Tampilkan Garis Gaya</label>
+                        <div class="toggle-group">
+                            <button class="toggle-btn active" id="showForce">Gaya F</button>
+                            <button class="toggle-btn" id="showField">Medan E</button>
+                        </div>
+                    </div>
+
+                    <button class="btn-reset" id="resetBtn">Reset Simulasi</button>
+                </aside>
+
+                <div class="viz-canvas-container">
+                    <div class="viz-header">
+                        <span class="viz-title">Simulasi Gaya Coulomb</span>
+                        <span class="viz-result" id="forceResult">F = 0.216 N</span>
+                    </div>
+                    <div class="viz-canvas-wrapper">
+                        <canvas class="viz-canvas" id="simCanvas"></canvas>
+                    </div>
+                    <div class="viz-info">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Besar Gaya (F)</span>
+                                <span class="info-value" id="infoForce">0.216 N</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Jenis Gaya</span>
+                                <span class="info-value" id="infoType">Tarik-menarik</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Konstanta k</span>
+                                <span class="info-value" id="infoK">9.0 × 10⁹</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Energi Potensial</span>
+                                <span class="info-value" id="infoEP">-5.4 × 10⁻² J</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="content-section" id="quiz">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h2>Kuis Gaya Coulomb</h2>
+                        <p>Uji pemahaman Anda tentang gaya Coulomb dan elektrostatika</p>
+                    </div>
+                    <div class="quiz-score">
+                        <span class="score-label">Skor:</span>
+                        <span class="score-value" id="scoreDisplay">0/5</span>
+                    </div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn-quiz btn-generate" id="generateBtn">Generate Soal Baru</button>
+                    <button class="btn-quiz btn-retry" id="retryBtn">Ulangi Kuis</button>
+                </div>
+
+                <div id="quizContainer"></div>
+
+                <div class="quiz-result-card" id="resultCard">
+                    <div class="result-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="result-title">Kuis Selesai</h3>
+                    <div class="result-score" id="finalScore">0/5</div>
+                    <p class="result-message" id="resultMessage">Terus berlatih untuk meningkatkan pemahaman!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // ========================================
+        // Question Bank
+        // ========================================
+        var questionBank = [
+            {
+                question: "Dua muatan sejenis akan mengalami gaya...",
+                options: ["Tarik-menarik", "Tolak-menolak", "Tidak berinteraksi", "Netral"],
+                correct: 1,
+                explanation: "Muatan sejenis (keduanya positif atau negatif) akan tolak-menolak sesuai hukum Coulomb."
+            },
+            {
+                question: "Besar gaya Coulomb berbanding terbalik dengan...",
+                options: ["r", "r²", "√r", "q"],
+                correct: 1,
+                explanation: "Gaya Coulomb berbanding terbalik dengan kuadrat jarak (r²)."
+            },
+            {
+                question: "Satuan konstanta Coulomb (k) adalah...",
+                options: ["N", "Nm", "N·m²/C²", "C²/N"],
+                correct: 2,
+                explanation: "Konstanta Coulomb k memiliki satuan N·m²/C²."
+            },
+            {
+                question: "Jika jarak dua muatan diperbesar 2 kali, gaya Coulomb menjadi...",
+                options: ["2 kali", "½ kali", "¼ kali", "4 kali"],
+                correct: 2,
+                explanation: "Karena F ∝ 1/r², jika r menjadi 2r maka F menjadi ¼ kali semula."
+            },
+            {
+                question: "Gaya Coulomb merupakan besaran...",
+                options: ["Skalar", "Vektor", "Tak berdimensi", "Energi"],
+                correct: 1,
+                explanation: "Gaya Coulomb adalah besaran vektor karena memiliki besar dan arah."
+            },
+            {
+                question: "Dua muatan q₁ = 2 μC dan q₂ = 3 μC berjarak 0,5 m. Berapa besar gaya Coulomb?",
+                options: ["0.108 N", "0.216 N", "0.432 N", "2.16 N"],
+                correct: 1,
+                explanation: "F = 9×10⁹ × 2×10⁻⁶ × 3×10⁻⁶ / (0,5)² = 0.216 N"
+            },
+            {
+                question: "Jika jarak dua muatan diperkecil menjadi setengahnya, gaya Coulomb menjadi...",
+                options: ["2 kali lipat", "4 kali lipat", "½ kali lipat", "¼ kali lipat"],
+                correct: 1,
+                explanation: "Karena F ∝ 1/r², jika r menjadi r/2 maka F menjadi 4 kali lipat."
+            },
+            {
+                question: "Medan listrik didefinisikan sebagai...",
+                options: ["Gaya per satuan waktu", "Gaya per satuan muatan", "Energi per satuan muatan", "Muatan per satuan luas"],
+                correct: 1,
+                explanation: "Medan listrik E = F/q, yaitu gaya per satuan muatan uji."
+            },
+            {
+                question: "Arah medan listrik dari muatan positif adalah...",
+                options: ["Menuju muatan", "Menjauhi muatan", "Tegak lurus muatan", "Tidak memiliki arah"],
+                correct: 1,
+                explanation: "Garis gaya medan listrik keluar (menjauhi) dari muatan positif."
+            },
+            {
+                question: "Satuan kuat medan listrik adalah...",
+                options: ["Volt", "Coulomb", "N/C atau V/m", "Farad"],
+                correct: 2,
+                explanation: "Kuat medan listrik memiliki satuan N/C atau V/m."
+            },
+            {
+                question: "Potensial listrik didefinisikan sebagai...",
+                options: ["Gaya per satuan muatan", "Energi per satuan muatan", "Medan per satuan waktu", "Muatan per satuan jarak"],
+                correct: 1,
+                explanation: "Potensial listrik V = EP/q, yaitu energi potensial per satuan muatan."
+            },
+            {
+                question: "Satuan potensial listrik adalah...",
+                options: ["Coulomb", "Volt", "Farad", "Ohm"],
+                correct: 1,
+                explanation: "Potensial listrik memiliki satuan Volt (V)."
+            },
+            {
+                question: "Kapasitas kapasitor didefinisikan sebagai...",
+                options: ["Q/V", "V/Q", "Q×V", "Q²/V"],
+                correct: 0,
+                explanation: "Kapasitas C = Q/V, yaitu muatan per beda potensial."
+            },
+            {
+                question: "Dua kapasitor 2 μF disusun seri. Kapasitas total adalah...",
+                options: ["4 μF", "2 μF", "1 μF", "0.5 μF"],
+                correct: 2,
+                explanation: "Seri: 1/Ct = 1/C₁ + 1/C₂ = 1/2 + 1/2 = 1, sehingga Ct = 1 μF."
+            },
+            {
+                question: "Dua kapasitor 2 μF disusun paralel. Kapasitas total adalah...",
+                options: ["4 μF", "2 μF", "1 μF", "0.5 μF"],
+                correct: 0,
+                explanation: "Paralel: Ct = C₁ + C₂ = 2 + 2 = 4 μF."
+            }
+        ];
+
+        // ========================================
+        // Global Variables
+        // ========================================
+        var currentQuestions = [];
+        var userAnswers = [];
+        var score = 0;
+        var quizSubmitted = false;
+
+        // Visualization State
+        var q1 = 2;
+        var q2 = -3;
+        var r = 50;
+        var medium = 1;
+        var modeVektor = false;
+        var showField = false;
+        var canvas = null;
+        var ctx = null;
+
+        // ========================================
+        // DOM Ready
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initVisualization();
+            initQuiz();
+            initAnimations();
+        });
+
+        // ========================================
+        // Navigation
+        // ========================================
+        function initNavigation() {
+            var navTabs = document.querySelectorAll('.nav-tab');
+            var sections = document.querySelectorAll('.content-section');
+
+            navTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var sectionId = this.getAttribute('data-section');
+                    
+                    navTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    
+                    sections.forEach(function(s) {
+                        s.classList.remove('active');
+                        if (s.id === sectionId) {
+                            s.classList.add('active');
+                        }
+                    });
+
+                    // Redraw visualization when switching to that tab
+                    if (sectionId === 'visualization') {
+                        setTimeout(function() {
+                            resizeCanvas();
+                            drawVisualization();
+                        }, 100);
+                    }
+                });
+            });
+        }
+
+        // ========================================
+        // Visualization
+        // ========================================
+        function initVisualization() {
+            canvas = document.getElementById('simCanvas');
+            if (!canvas) return;
+            
+            ctx = canvas.getContext('2d');
+
+            // Set initial canvas size
+            resizeCanvas();
+
+            // Event listeners for controls
+            var q1Slider = document.getElementById('q1Slider');
+            var q2Slider = document.getElementById('q2Slider');
+            var rSlider = document.getElementById('rSlider');
+            var mediumSelect = document.getElementById('mediumSelect');
+
+            if (q1Slider) {
+                q1Slider.addEventListener('input', function() {
+                    q1 = parseFloat(this.value);
+                    document.getElementById('q1Value').textContent = (q1 >= 0 ? '+' : '') + q1.toFixed(1) + ' μC';
+                    drawVisualization();
+                });
+            }
+
+            if (q2Slider) {
+                q2Slider.addEventListener('input', function() {
+                    q2 = parseFloat(this.value);
+                    document.getElementById('q2Value').textContent = (q2 >= 0 ? '+' : '') + q2.toFixed(1) + ' μC';
+                    drawVisualization();
+                });
+            }
+
+            if (rSlider) {
+                rSlider.addEventListener('input', function() {
+                    r = parseFloat(this.value);
+                    document.getElementById('rValue').textContent = (r / 100).toFixed(2) + ' m';
+                    drawVisualization();
+                });
+            }
+
+            if (mediumSelect) {
+                mediumSelect.addEventListener('change', function() {
+                    medium = parseFloat(this.value);
+                    drawVisualization();
+                });
+            }
+
+            // Mode buttons
+            var modeSkalar = document.getElementById('modeSkalar');
+            var modeVektor = document.getElementById('modeVektor');
+            var showForceBtn = document.getElementById('showForce');
+            var showFieldBtn = document.getElementById('showField');
+
+            if (modeSkalar) {
+                modeSkalar.addEventListener('click', function() {
+                    modeVektor = false;
+                    this.classList.add('active');
+                    if (modeVektor) modeVektor.classList.remove('active');
+                    document.getElementById('modeVektor').classList.remove('active');
+                    drawVisualization();
+                });
+            }
+
+            if (modeVektor) {
+                modeVektor.addEventListener('click', function() {
+                    modeVektor = true;
+                    this.classList.add('active');
+                    document.getElementById('modeSkalar').classList.remove('active');
+                    drawVisualization();
+                });
+            }
+
+            if (showForceBtn) {
+                showForceBtn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    drawVisualization();
+                });
+            }
+
+            if (showFieldBtn) {
+                showFieldBtn.addEventListener('click', function() {
+                    showField = !showField;
+                    this.classList.toggle('active');
+                    drawVisualization();
+                });
+            }
+
+            // Reset button
+            var resetBtn = document.getElementById('resetBtn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', resetVisualization);
+            }
+
+            // Window resize
+            window.addEventListener('resize', function() {
+                resizeCanvas();
+                drawVisualization();
+            });
+
+            // Initial draw
+            setTimeout(function() {
+                drawVisualization();
+            }, 100);
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            var wrapper = canvas.parentElement;
+            if (!wrapper) return;
+            
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+        }
+
+        function resetVisualization() {
+            q1 = 2;
+            q2 = -3;
+            r = 50;
+            medium = 1;
+            modeVektor = false;
+            showField = false;
+
+            var q1Slider = document.getElementById('q1Slider');
+            var q2Slider = document.getElementById('q2Slider');
+            var rSlider = document.getElementById('rSlider');
+            var mediumSelect = document.getElementById('mediumSelect');
+
+            if (q1Slider) q1Slider.value = 2;
+            if (q2Slider) q2Slider.value = -3;
+            if (rSlider) rSlider.value = 50;
+            if (mediumSelect) mediumSelect.value = '1';
+
+            document.getElementById('q1Value').textContent = '+2.0 μC';
+            document.getElementById('q2Value').textContent = '-3.0 μC';
+            document.getElementById('rValue').textContent = '0.50 m';
+
+            document.getElementById('modeSkalar').classList.add('active');
+            document.getElementById('modeVektor').classList.remove('active');
+            document.getElementById('showForce').classList.add('active');
+            document.getElementById('showField').classList.remove('active');
+
+            drawVisualization();
+        }
+
+        function calculateForce(q1Val, q2Val, rVal, mediumVal) {
+            var k = 9e9 / mediumVal;
+            var q1C = q1Val * 1e-6;
+            var q2C = q2Val * 1e-6;
+            var rMeters = rVal / 100;
+            var force = k * Math.abs(q1C * q2C) / (rMeters * rMeters);
+            return force;
+        }
+
+        function calculateEP(q1Val, q2Val, rVal, mediumVal) {
+            var k = 9e9 / mediumVal;
+            var q1C = q1Val * 1e-6;
+            var q2C = q2Val * 1e-6;
+            var rMeters = rVal / 100;
+            var ep = k * q1C * q2C / rMeters;
+            return ep;
+        }
+
+        function isAttraction(q1Val, q2Val) {
+            return (q1Val * q2Val) < 0;
+        }
+
+        function drawVisualization() {
+            if (!ctx || !canvas) return;
+            if (canvas.width === 0 || canvas.height === 0) {
+                resizeCanvas();
+            }
+
+            var width = canvas.width;
+            var height = canvas.height;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Background gradient
+            var bgGradient = ctx.createLinearGradient(0, 0, 0, height);
+            bgGradient.addColorStop(0, '#f8fafc');
+            bgGradient.addColorStop(1, '#e8f0f8');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, width, height);
+
+            // Grid lines
+            ctx.strokeStyle = 'rgba(0, 82, 204, 0.05)';
+            ctx.lineWidth = 1;
+            for (var x = 0; x < width; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            for (var y = 0; y < height; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            var centerX = width / 2;
+            var centerY = height / 2;
+            var dist = Math.min(r * 1.5, width * 0.35);
+            dist = Math.max(dist, 80);
+
+            var x1 = centerX - dist;
+            var x2 = centerX + dist;
+
+            // Draw field lines if enabled
+            if (showField) {
+                drawFieldLines(x1, centerY, x2, centerY, width, height);
+            }
+
+            // Draw connection line
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(0, 82, 204, 0.2)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 8]);
+            ctx.moveTo(x1, centerY);
+            ctx.lineTo(x2, centerY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw distance label
+            ctx.fillStyle = '#5a7a9a';
+            ctx.font = 'bold 14px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText('r = ' + (r / 100).toFixed(2) + ' m', centerX, centerY + 70);
+
+            // Draw charges
+            drawCharge(x1, centerY, q1, 'q₁', width, height);
+            drawCharge(x2, centerY, q2, 'q₂', width, height);
+
+            // Draw force vectors if vector mode
+            if (modeVektor) {
+                drawForceVectors(x1, centerY, x2, centerY);
+            }
+
+            // Update info display
+            updateInfoDisplay();
+        }
+
+        function drawCharge(x, y, charge, label, canvasWidth, canvasHeight) {
+            var radius = Math.min(35, canvasWidth * 0.05);
+            var isPositive = charge > 0;
+
+            // Glow effect
+            var glowRadius = radius * 2.5;
+            var gradient = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
+            if (isPositive) {
+                gradient.addColorStop(0, 'rgba(255, 86, 48, 0.25)');
+                gradient.addColorStop(1, 'rgba(255, 86, 48, 0)');
+            } else if (charge < 0) {
+                gradient.addColorStop(0, 'rgba(0, 82, 204, 0.25)');
+                gradient.addColorStop(1, 'rgba(0, 82, 204, 0)');
+            } else {
+                gradient.addColorStop(0, 'rgba(128, 128, 128, 0.25)');
+                gradient.addColorStop(1, 'rgba(128, 128, 128, 0)');
+            }
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Main circle
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            
+            var fillColor, strokeColor;
+            if (charge > 0) {
+                fillColor = '#ff5630';
+                strokeColor = '#cc4426';
+            } else if (charge < 0) {
+                fillColor = '#0052cc';
+                strokeColor = '#003d99';
+            } else {
+                fillColor = '#808080';
+                strokeColor = '#606060';
+            }
+
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Sign
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold ' + Math.floor(radius * 1.2) + 'px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            var sign = '';
+            if (charge > 0) sign = '+';
+            else if (charge < 0) sign = '−';
+            else sign = '0';
+            
+            ctx.fillText(sign, x, y);
+
+            // Label
+            ctx.fillStyle = '#0a1628';
+            ctx.font = '600 14px Plus Jakarta Sans';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            
+            var labelText = label + ' = ' + (charge >= 0 ? '+' : '') + charge.toFixed(1) + ' μC';
+            ctx.fillText(labelText, x, y + radius + 15);
+        }
+
+        function drawForceVectors(x1, y1, x2, y2) {
+            var attraction = isAttraction(q1, q2);
+            var arrowLength = 60;
+
+            // F12 (force on q1 due to q2)
+            var dir1 = attraction ? 1 : -1;
+            drawArrow(x1 + dir1 * 45, y1 - 45, x1 + dir1 * (45 + arrowLength), y1 - 45, '#00b8d4', 'F₁₂');
+
+            // F21 (force on q2 due to q1)
+            var dir2 = attraction ? -1 : 1;
+            drawArrow(x2 + dir2 * 45, y2 - 45, x2 + dir2 * (45 + arrowLength), y2 - 45, '#00b8d4', 'F₂₁');
+        }
+
+        function drawArrow(fromX, fromY, toX, toY, color, label) {
+            var headLen = 12;
+            var dx = toX - fromX;
+            var dy = toY - fromY;
+            var angle = Math.atan2(dy, dx);
+
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = 3;
+
+            // Line
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+
+            // Arrowhead
+            ctx.beginPath();
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI / 6), toY - headLen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI / 6), toY - headLen * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fill();
+
+            // Label
+            ctx.font = 'bold 12px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(label, (fromX + toX) / 2, fromY - 8);
+        }
+
+        function drawFieldLines(x1, y1, x2, y2, width, height) {
+            var attraction = isAttraction(q1, q2);
+            ctx.strokeStyle = 'rgba(0, 184, 212, 0.25)';
+            ctx.lineWidth = 1.5;
+
+            for (var i = -4; i <= 4; i++) {
+                var offsetY = i * 25;
+                var midY = (y1 + y2) / 2;
+
+                ctx.beginPath();
+                ctx.moveTo(x1 + 40, y1 + offsetY);
+                
+                if (attraction) {
+                    // Field lines curve between charges for attraction
+                    ctx.quadraticCurveTo((x1 + x2) / 2, midY + offsetY * 0.3, x2 - 40, y2 + offsetY);
+                } else {
+                    // Field lines curve away for repulsion
+                    var curveFactor = Math.abs(i) * 15;
+                    ctx.quadraticCurveTo((x1 + x2) / 2, midY + offsetY + curveFactor * (i > 0 ? 1 : -1), x2 - 40, y2 + offsetY);
+                }
+                
+                ctx.stroke();
+            }
+        }
+
+        function updateInfoDisplay() {
+            var force = calculateForce(q1, q2, r, medium);
+            var ep = calculateEP(q1, q2, r, medium);
+            var attraction = isAttraction(q1, q2);
+            var kValue = 9e9 / medium;
+
+            document.getElementById('forceResult').textContent = 'F = ' + force.toFixed(4) + ' N';
+            document.getElementById('infoForce').textContent = force.toExponential(2) + ' N';
+            document.getElementById('infoType').textContent = attraction ? 'Tarik-menarik' : 'Tolak-menolak';
+            document.getElementById('infoK').textContent = kValue.toExponential(1);
+            document.getElementById('infoEP').textContent = ep.toExponential(2) + ' J';
+        }
+
+        // ========================================
+        // Quiz System
+        // ========================================
+        function initQuiz() {
+            var generateBtn = document.getElementById('generateBtn');
+            var retryBtn = document.getElementById('retryBtn');
+
+            if (generateBtn) {
+                generateBtn.addEventListener('click', generateQuiz);
+            }
+            if (retryBtn) {
+                retryBtn.addEventListener('click', generateQuiz);
+            }
+
+            generateQuiz();
+        }
+
+        function shuffleArray(array) {
+            var newArray = array.slice();
+            for (var i = newArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
+            return newArray;
+        }
+
+        function generateQuiz() {
+            currentQuestions = shuffleArray(questionBank).slice(0, 5);
+            userAnswers = new Array(5).fill(null);
+            score = 0;
+            quizSubmitted = false;
+
+            document.getElementById('scoreDisplay').textContent = '0/5';
+            document.getElementById('resultCard').classList.remove('show');
+
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            var container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+
+            currentQuestions.forEach(function(q, qIndex) {
+                var card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = 'question-' + qIndex;
+
+                var questionTitle = document.createElement('p');
+                questionTitle.className = 'question-text';
+                questionTitle.innerHTML = '<span class="question-number">' + (qIndex + 1) + '</span>' + q.question;
+                card.appendChild(questionTitle);
+
+                var optionsList = document.createElement('div');
+                optionsList.className = 'options-list';
+
+                var letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach(function(opt, oIndex) {
+                    var btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.setAttribute('data-question', qIndex);
+                    btn.setAttribute('data-option', oIndex);
+                    btn.innerHTML = '<span class="option-letter">' + letters[oIndex] + '</span><span class="option-text">' + opt + '</span>';
+                    btn.addEventListener('click', function() {
+                        selectOption(qIndex, oIndex);
+                    });
+                    optionsList.appendChild(btn);
+                });
+
+                card.appendChild(optionsList);
+
+                var feedback = document.createElement('div');
+                feedback.className = 'feedback-box';
+                feedback.id = 'feedback-' + qIndex;
+                card.appendChild(feedback);
+
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qIndex, oIndex) {
+            if (quizSubmitted) return;
+
+            userAnswers[qIndex] = oIndex;
+
+            var questionCard = document.getElementById('question-' + qIndex);
+            var options = questionCard.querySelectorAll('.option-btn');
+
+            options.forEach(function(opt, idx) {
+                opt.classList.remove('selected');
+                if (idx === oIndex) {
+                    opt.classList.add('selected');
+                }
+            });
+
+            if (userAnswers.indexOf(null) === -1) {
+                submitQuiz();
+            }
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            score = 0;
+
+            currentQuestions.forEach(function(q, qIndex) {
+                var questionCard = document.getElementById('question-' + qIndex);
+                var options = questionCard.querySelectorAll('.option-btn');
+                var feedback = document.getElementById('feedback-' + qIndex);
+                var userAnswer = userAnswers[qIndex];
+                var correctAnswer = q.correct;
+
+                options.forEach(function(opt, idx) {
+                    opt.classList.add('disabled');
+                    opt.classList.remove('selected');
+
+                    if (idx === correctAnswer) {
+                        opt.classList.add('correct');
+                    } else if (idx === userAnswer && userAnswer !== correctAnswer) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    questionCard.classList.add('correct');
+                    feedback.className = 'feedback-box show correct';
+                    feedback.textContent = 'Benar! ' + q.explanation;
+                } else {
+                    questionCard.classList.add('incorrect');
+                    feedback.className = 'feedback-box show incorrect';
+                    feedback.textContent = 'Salah. ' + q.explanation;
+                }
+            });
+
+            document.getElementById('scoreDisplay').textContent = score + '/5';
+            document.getElementById('finalScore').textContent = score + '/5';
+
+            var resultCard = document.getElementById('resultCard');
+            var resultMessage = document.getElementById('resultMessage');
+
+            if (score === 5) {
+                resultMessage.textContent = 'Sempurna! Anda menguasai materi dengan sangat baik!';
+            } else if (score >= 3) {
+                resultMessage.textContent = 'Bagus! Terus tingkatkan pemahaman Anda.';
+            } else {
+                resultMessage.textContent = 'Pelajari kembali materi dan coba lagi!';
+            }
+
+            resultCard.classList.add('show');
+        }
+
+        // ========================================
+        // Animations
+        // ========================================
+        function initAnimations() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.module-card').forEach(function(card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>

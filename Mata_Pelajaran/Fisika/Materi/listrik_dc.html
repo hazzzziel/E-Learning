@@ -1,0 +1,2518 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkaian Arus Searah (DC) - Fisika Kelas 12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f4f6f9;
+            --bg-secondary: #e8ecf2;
+            --bg-card: #ffffff;
+            --fg-primary: #0f1419;
+            --fg-secondary: #3a4553;
+            --fg-muted: #6b7c8f;
+            --accent-primary: #2563eb;
+            --accent-primary-light: #3b82f6;
+            --accent-primary-dark: #1d4ed8;
+            --accent-glow: rgba(37, 99, 235, 0.15);
+            --accent-secondary: #0891b2;
+            --accent-success: #059669;
+            --accent-warning: #d97706;
+            --accent-error: #dc2626;
+            --shadow-soft: 0 2px 12px rgba(15, 20, 25, 0.04);
+            --shadow-medium: 0 8px 32px rgba(15, 20, 25, 0.08);
+            --shadow-hover: 0 12px 40px rgba(37, 99, 235, 0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-xl: 24px;
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.65;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(37, 99, 235, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(8, 145, 178, 0.04) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(37, 99, 235, 0.08);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-logo svg { width: 20px; height: 20px; color: white; }
+
+        .navbar-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+        }
+
+        .navbar-title span { color: var(--accent-primary); }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-nav:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .btn-nav svg { width: 16px; height: 16px; }
+
+        /* Hero */
+        .hero {
+            padding: 40px 24px 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .breadcrumb svg { width: 14px; height: 14px; opacity: 0.4; }
+
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 800;
+            color: var(--fg-primary);
+            margin-bottom: 10px;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1rem;
+            color: var(--fg-secondary);
+            max-width: 650px;
+            line-height: 1.7;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(37, 99, 235, 0.08);
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .hero-badge svg { width: 14px; height: 14px; }
+
+        /* Section Navigation */
+        .section-nav {
+            position: sticky;
+            top: 64px;
+            background: rgba(244, 246, 249, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(37, 99, 235, 0.06);
+            z-index: 999;
+            padding: 0 24px;
+        }
+
+        .section-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .section-nav-container::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+        }
+
+        .nav-tab:hover {
+            background: rgba(37, 99, 235, 0.06);
+            color: var(--accent-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 24px 80px;
+        }
+
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Module Cards */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(37, 99, 235, 0.04);
+            transition: var(--transition-medium);
+        }
+
+        .module-card:hover { box-shadow: var(--shadow-medium); }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .module-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(8, 145, 178, 0.08));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .module-icon svg { width: 24px; height: 24px; color: var(--accent-primary); }
+
+        .module-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 4px;
+        }
+
+        .module-subtitle {
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+        }
+
+        .module-content h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin: 20px 0 10px;
+        }
+
+        .module-content h3:first-child { margin-top: 0; }
+
+        .module-content p {
+            color: var(--fg-secondary);
+            margin-bottom: 12px;
+            line-height: 1.75;
+            font-size: 0.95rem;
+        }
+
+        .module-content ul, .module-content ol {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .module-content li {
+            color: var(--fg-secondary);
+            margin-bottom: 6px;
+            line-height: 1.65;
+            font-size: 0.9rem;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.04), rgba(8, 145, 178, 0.02));
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .formula {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .formula-description {
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+            margin-top: 10px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.85rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .info-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--fg-primary);
+            font-size: 0.8rem;
+        }
+
+        .info-table td { color: var(--fg-secondary); }
+
+        .example-box {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            margin: 16px 0;
+            border-left: 3px solid var(--accent-secondary);
+        }
+
+        .example-label {
+            font-weight: 700;
+            color: var(--accent-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
+        }
+
+        .reference-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: rgba(37, 99, 235, 0.06);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            margin: 3px;
+            transition: var(--transition-fast);
+        }
+
+        .reference-link:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .reference-link svg { width: 12px; height: 12px; }
+
+        /* Visualization */
+        .viz-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+        }
+
+        .viz-controls {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(37, 99, 235, 0.04);
+            height: fit-content;
+        }
+
+        .controls-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .controls-title svg { width: 18px; height: 18px; color: var(--accent-primary); }
+
+        .control-group { margin-bottom: 18px; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            margin-bottom: 8px;
+        }
+
+        .control-value {
+            font-family: 'Space Grotesk', monospace;
+            color: var(--accent-primary);
+            background: rgba(37, 99, 235, 0.08);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--accent-glow);
+            transition: var(--transition-fast);
+        }
+
+        .slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
+
+        .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 10px 14px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .select-control:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .toggle-group { display: flex; gap: 6px; }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 9px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-top: 6px;
+        }
+
+        .btn-reset:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .viz-canvas-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(37, 99, 235, 0.04);
+            overflow: hidden;
+        }
+
+        .viz-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .viz-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+        }
+
+        .viz-result {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            background: rgba(37, 99, 235, 0.08);
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+        }
+
+        .viz-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
+        }
+
+        .viz-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .viz-info {
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(37, 99, 235, 0.06);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .info-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(37, 99, 235, 0.04);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .quiz-info h2 {
+            font-size: 1.2rem;
+            color: var(--fg-primary);
+            margin-bottom: 3px;
+        }
+
+        .quiz-info p {
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+        }
+
+        .quiz-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(8, 145, 178, 0.06));
+            border-radius: var(--radius-md);
+        }
+
+        .score-label { font-size: 0.8rem; color: var(--fg-muted); }
+
+        .score-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .quiz-actions { display: flex; gap: 10px; }
+
+        .btn-quiz {
+            padding: 10px 18px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+        }
+
+        .btn-generate {
+            background: var(--accent-secondary);
+            color: white;
+        }
+
+        .btn-generate:hover {
+            background: #0e7490;
+            transform: translateY(-2px);
+        }
+
+        .btn-retry {
+            background: var(--bg-secondary);
+            color: var(--fg-secondary);
+        }
+
+        .btn-retry:hover {
+            background: var(--fg-secondary);
+            color: white;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(37, 99, 235, 0.04);
+            margin-bottom: 16px;
+            transition: var(--transition-medium);
+        }
+
+        .question-card.correct {
+            border-color: var(--accent-success);
+            background: rgba(5, 150, 105, 0.02);
+        }
+
+        .question-card.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(220, 38, 38, 0.02);
+        }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        .question-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--fg-primary);
+            margin-bottom: 18px;
+            line-height: 1.55;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.selected):not(.disabled) {
+            border-color: var(--accent-primary);
+            background: rgba(37, 99, 235, 0.04);
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent-primary);
+            background: rgba(37, 99, 235, 0.08);
+        }
+
+        .option-btn.correct {
+            border-color: var(--accent-success);
+            background: rgba(5, 150, 105, 0.1);
+        }
+
+        .option-btn.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(220, 38, 38, 0.1);
+        }
+
+        .option-btn.disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .option-letter {
+            width: 28px;
+            height: 28px;
+            background: white;
+            border: 2px solid var(--fg-muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--fg-secondary);
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .option-btn.selected .option-letter {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--accent-success);
+            border-color: var(--accent-success);
+            color: white;
+        }
+
+        .option-btn.incorrect .option-letter {
+            background: var(--accent-error);
+            border-color: var(--accent-error);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 0.9rem;
+            color: var(--fg-secondary);
+            line-height: 1.45;
+        }
+
+        .feedback-box {
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .feedback-box.show { display: block; }
+
+        .feedback-box.correct {
+            background: rgba(5, 150, 105, 0.1);
+            color: #047857;
+            border-left: 3px solid var(--accent-success);
+        }
+
+        .feedback-box.incorrect {
+            background: rgba(220, 38, 38, 0.1);
+            color: #b91c1c;
+            border-left: 3px solid var(--accent-error);
+        }
+
+        .quiz-result-card {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-dark));
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .quiz-result-card.show { display: block; }
+
+        .result-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .result-icon svg { width: 36px; height: 36px; }
+
+        .result-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .result-score {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 14px 0;
+        }
+
+        .result-message {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .module-grid { grid-template-columns: 1fr; }
+            .viz-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 16px; }
+            .navbar-title { font-size: 0.9rem; }
+            .btn-nav span { display: none; }
+            .hero { padding: 28px 16px 20px; }
+            .hero-title { font-size: 1.5rem; }
+            .section-nav { top: 64px; padding: 0 16px; }
+            .nav-tab { padding: 8px 14px; font-size: 0.8rem; }
+            .main-content { padding: 16px 16px 60px; }
+            .module-card { padding: 22px; }
+            .module-header { flex-direction: column; gap: 12px; }
+            .viz-controls { padding: 18px; }
+            .viz-canvas-wrapper { height: 320px; }
+            .quiz-header { padding: 18px; flex-direction: column; text-align: center; }
+            .question-card { padding: 18px; }
+            .info-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.3rem; }
+            .formula { font-size: 1.1rem; }
+            .option-btn { padding: 12px 14px; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            <a href="http://owenitb.great-site.net/" target="_self" class="btn-nav">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="breadcrumb">
+            <a href="http://owenitb.great-site.net/" target="_self">Dashboard</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/fisika.html" target="_self">Fisika</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <span>Listrik DC</span>
+        </div>
+        <div class="hero-header">
+            <div>
+                <h1 class="hero-title">
+                    <span class="hero-title-accent">Rangkaian Arus Searah (DC)</span>
+                </h1>
+                <p class="hero-description">
+                    Pelajari Hukum Ohm, hambatan listrik, Hukum Kirchhoff, dan rangkaian seri-paralel melalui visualisasi interaktif dan kuis adaptif.
+                </p>
+            </div>
+            <span class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Listrik Dinamis
+            </span>
+        </div>
+    </section>
+
+    <!-- Section Navigation -->
+    <div class="section-nav">
+        <div class="section-nav-container">
+            <button class="nav-tab active" data-section="module">Modul Materi</button>
+            <button class="nav-tab" data-section="visualization">Visualisasi Interaktif</button>
+            <button class="nav-tab" data-section="quiz">Kuis Interaktif</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Module Section -->
+        <section class="content-section active" id="module">
+            <div class="module-grid">
+                <!-- Card 1: Hukum Ohm -->
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Hukum Ohm</h2>
+                            <p class="module-subtitle">Hubungan V, I, dan R</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian Hukum Ohm</h3>
+                        <p>Hukum Ohm menyatakan bahwa arus listrik (I) yang mengalir melalui konduktor sebanding lurus dengan beda potensial (V) dan berbanding terbalik dengan hambatan (R), pada suhu konstan.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">V = I × R</div>
+                            <p class="formula-description">V = Volt, I = Ampere, R = Ohm</p>
+                        </div>
+
+                        <h3>Rumus Turunan</h3>
+                        <ul>
+                            <li>I = V / R (mencari arus)</li>
+                            <li>R = V / I (mencari hambatan)</li>
+                        </ul>
+
+                        <h3>Satuan dan Pengukuran</h3>
+                        <ul>
+                            <li>Tegangan (V) diukur voltmeter secara paralel</li>
+                            <li>Arus (I) diukur ampermeter secara seri</li>
+                            <li>1 Ohm = 1 Volt / 1 Ampere</li>
+                        </ul>
+
+                        <div class="example-box">
+                            <div class="example-label">Contoh Soal</div>
+                            <p>Resistor 20 Ohm dialiri arus 5 A. Hitung tegangan!</p>
+                            <p><strong>Jawab:</strong> V = I × R = 5 × 20 = 100 V</p>
+                        </div>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.quipper.com/id/blog/mapel/fisika/hukum-ohm-fisika-g12/" target="_self" class="reference-link">Quipper</a>
+                            <a href="https://bee.telkomuniversity.ac.id/hukum-ohm-pengertian-rumus-dan-contoh-soal/" target="_self" class="reference-link">Telkom University</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 2: Hambatan Listrik -->
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Hambatan Listrik</h2>
+                            <p class="module-subtitle">Faktor dan Jenis Hambatan</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian Hambatan</h3>
+                        <p>Hambatan listrik (R) adalah perbandingan antara beda potensial dengan arus yang mengalir. Hambatan muncul dari tabrakan elektron dengan ion kisi kristal bahan.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">R = ρ × l / A</div>
+                            <p class="formula-description">ρ = resistivitas, l = panjang, A = luas penampang</p>
+                        </div>
+
+                        <h3>Faktor yang Mempengaruhi</h3>
+                        <ul>
+                            <li>Jenis bahan (resistivitas ρ)</li>
+                            <li>Panjang kawat (l) - berbanding lurus</li>
+                            <li>Luas penampang (A) - berbanding terbalik</li>
+                            <li>Suhu - pada logam, R naik saat suhu naik</li>
+                        </ul>
+
+                        <h3>Konduktor Ohmik vs Non-Ohmik</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th>Jenis</th>
+                                    <th>Contoh</th>
+                                    <th>Grafik V-I</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ohmik</td>
+                                    <td>Resistor tetap</td>
+                                    <td>Garis lurus</td>
+                                </tr>
+                                <tr>
+                                    <td>Non-Ohmik</td>
+                                    <td>Bohlam, dioda</td>
+                                    <td>Lengkung</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="example-box">
+                            <div class="example-label">Contoh Soal</div>
+                            <p>Kawat tembaga panjang 200 m, A = 2 mm², ρ = 1,7×10⁻⁸ Ωm. Hitung R!</p>
+                            <p><strong>Jawab:</strong> R = 1,7×10⁻⁸ × 200/(2×10⁻⁶) = 1,7 Ω</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 3: Hukum Kirchhoff -->
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Hukum Kirchhoff</h2>
+                            <p class="module-subtitle">KCL dan KVL</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Hukum I Kirchhoff (KCL)</h3>
+                        <p>Jumlah arus masuk sama dengan jumlah arus keluar di suatu titik percabangan (kekekalan muatan).</p>
+                        <div class="formula-box">
+                            <div class="formula">ΣI masuk = ΣI keluar</div>
+                        </div>
+
+                        <h3>Hukum II Kirchhoff (KVL)</h3>
+                        <p>Jumlah GGL sama dengan jumlah penurunan tegangan dalam loop tertutup (kekekalan energi).</p>
+                        <div class="formula-box">
+                            <div class="formula">Σε = ΣIR</div>
+                        </div>
+
+                        <h3>Ringkasan</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th>Hukum</th>
+                                    <th>Bunyi Singkat</th>
+                                    <th>Rumus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>I (KCL)</td>
+                                    <td>ΣI masuk = ΣI keluar</td>
+                                    <td>ΣI = 0 di simpul</td>
+                                </tr>
+                                <tr>
+                                    <td>II (KVL)</td>
+                                    <td>Σε = ΣIR di loop</td>
+                                    <td>ΣV = 0 di loop</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.ruangguru.com/blog/penjelasan-hukum-i-dan-ii-kirchoff" target="_self" class="reference-link">Ruangguru</a>
+                            <a href="https://id.wikipedia.org/wiki/Hukum_sirkuit_Kirchhoff" target="_self" class="reference-link">Wikipedia</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 4: Rangkaian Seri-Paralel -->
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Rangkaian Seri-Paralel</h2>
+                            <p class="module-subtitle">Hambatan Pengganti</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Rangkaian Seri</h3>
+                        <p>Komponen tersusun berurutan dalam satu jalur tunggal. Arus sama di setiap titik, tegangan terbagi.</p>
+                        <div class="formula-box">
+                            <div class="formula">Rt = R₁ + R₂ + ... + Rₙ</div>
+                        </div>
+
+                        <h3>Rangkaian Paralel</h3>
+                        <p>Komponen tersusun bercabang sejajar. Tegangan sama di setiap cabang, arus terbagi.</p>
+                        <div class="formula-box">
+                            <div class="formula">1/Rt = 1/R₁ + 1/R₂ + ... + 1/Rₙ</div>
+                        </div>
+
+                        <h3>Perbandingan</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th>Karakteristik</th>
+                                    <th>Seri</th>
+                                    <th>Paralel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Arus</td>
+                                    <td>Sama semua</td>
+                                    <td>Berbeda cabang</td>
+                                </tr>
+                                <tr>
+                                    <td>Tegangan</td>
+                                    <td>Berbeda</td>
+                                    <td>Sama semua</td>
+                                </tr>
+                                <tr>
+                                    <td>Kerusakan</td>
+                                    <td>Semua mati</td>
+                                    <td>Cabang lain hidup</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="example-box">
+                            <div class="example-label">Contoh Soal</div>
+                            <p>Baterai 12 V, seri R1=2Ω, paralel R2=4Ω dan R3=6Ω. Hitung arus total!</p>
+                            <p><strong>Jawab:</strong> Rp = 2,4Ω, Rt = 4,4Ω, I = 12/4,4 ≈ 2,73 A</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Visualization Section -->
+        <section class="content-section" id="visualization">
+            <div class="viz-container">
+                <aside class="viz-controls">
+                    <h3 class="controls-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        Kontrol Simulasi
+                    </h3>
+
+                    <div class="control-group">
+                        <label class="control-label">
+                            Mode Simulasi
+                        </label>
+                        <select class="select-control" id="simMode">
+                            <option value="ohm">Hukum Ohm</option>
+                            <option value="resistance">Hambatan Listrik</option>
+                            <option value="circuit">Rangkaian Seri-Paralel</option>
+                        </select>
+                    </div>
+
+                    <div id="ohmControls">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Tegangan (V)
+                                <span class="control-value" id="voltageValue">12.0 V</span>
+                            </label>
+                            <input type="range" class="slider" id="voltageSlider" min="0" max="50" value="12" step="1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Hambatan (R)
+                                <span class="control-value" id="resistanceValue">10.0 Ω</span>
+                            </label>
+                            <input type="range" class="slider" id="resistanceSlider" min="1" max="100" value="10" step="1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Kunci Variabel</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="lockR">Kunci R</button>
+                                <button class="toggle-btn" id="lockV">Kunci V</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="resistanceControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Panjang Kawat (l)
+                                <span class="control-value" id="lengthValue">1.0 m</span>
+                            </label>
+                            <input type="range" class="slider" id="lengthSlider" min="0.1" max="5" value="1" step="0.1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Luas Penampang (A)
+                                <span class="control-value" id="areaValue">1.0 mm²</span>
+                            </label>
+                            <input type="range" class="slider" id="areaSlider" min="0.1" max="5" value="1" step="0.1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Jenis Bahan</label>
+                            <select class="select-control" id="materialSelect">
+                                <option value="1.7e-8">Tembaga (ρ=1.7×10⁻⁸)</option>
+                                <option value="2.8e-8">Aluminium (ρ=2.8×10⁻⁸)</option>
+                                <option value="1.0e-7">Besi (ρ=1.0×10⁻⁷)</option>
+                                <option value="1.5e-7">Nikrom (ρ=1.5×10⁻⁷)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="circuitControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Tegangan Sumber
+                                <span class="control-value" id="sourceVoltageValue">12 V</span>
+                            </label>
+                            <input type="range" class="slider" id="sourceVoltageSlider" min="1" max="24" value="12" step="1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Jenis Rangkaian</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="seriesMode">Seri</button>
+                                <button class="toggle-btn" id="parallelMode">Paralel</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                R₁
+                                <span class="control-value" id="r1Value">10 Ω</span>
+                            </label>
+                            <input type="range" class="slider" id="r1Slider" min="1" max="50" value="10" step="1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                R₂
+                                <span class="control-value" id="r2Value">20 Ω</span>
+                            </label>
+                            <input type="range" class="slider" id="r2Slider" min="1" max="50" value="20" step="1">
+                        </div>
+                    </div>
+
+                    <button class="btn-reset" id="resetBtn">Reset Simulasi</button>
+                </aside>
+
+                <div class="viz-canvas-container">
+                    <div class="viz-header">
+                        <span class="viz-title" id="vizTitle">Simulasi Hukum Ohm</span>
+                        <span class="viz-result" id="vizResult">I = 1.20 A</span>
+                    </div>
+                    <div class="viz-canvas-wrapper">
+                        <canvas class="viz-canvas" id="simCanvas"></canvas>
+                    </div>
+                    <div class="viz-info">
+                        <div class="info-grid" id="infoGrid">
+                            <div class="info-item">
+                                <span class="info-label">Arus (I)</span>
+                                <span class="info-value" id="infoCurrent">1.20 A</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Daya (P)</span>
+                                <span class="info-value" id="infoPower">14.4 W</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Energi/Jam</span>
+                                <span class="info-value" id="infoEnergy">51.8 kJ</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Status</span>
+                                <span class="info-value" id="infoStatus">Aman</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="content-section" id="quiz">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h2>Kuis Rangkaian DC</h2>
+                        <p>Uji pemahaman Anda tentang listrik arus searah</p>
+                    </div>
+                    <div class="quiz-score">
+                        <span class="score-label">Skor:</span>
+                        <span class="score-value" id="scoreDisplay">0/5</span>
+                    </div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn-quiz btn-generate" id="generateBtn">Generate Soal Baru</button>
+                    <button class="btn-quiz btn-retry" id="retryBtn">Ulangi Kuis</button>
+                </div>
+
+                <div id="quizContainer"></div>
+
+                <div class="quiz-result-card" id="resultCard">
+                    <div class="result-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="result-title">Kuis Selesai</h3>
+                    <div class="result-score" id="finalScore">0/5</div>
+                    <p class="result-message" id="resultMessage">Terus berlatih untuk meningkatkan pemahaman!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // ========================================
+        // Question Bank - TAMBAHKAN SOAL DI SINI
+        // ========================================
+        var questionBank = [
+            // Hukum Ohm
+            {
+                question: "Hukum Ohm menyatakan hubungan antara V, I, dan R adalah...",
+                options: ["V = I/R", "V = I × R", "I = V × R", "R = V × I"],
+                correct: 1,
+                explanation: "Hukum Ohm: V = I × R, di mana V sebanding dengan I pada R konstan."
+            },
+            {
+                question: "Jika V = 12 V dan R = 4 Ω, maka arusnya adalah...",
+                options: ["2 A", "3 A", "4 A", "48 A"],
+                correct: 1,
+                explanation: "I = V/R = 12/4 = 3 A"
+            },
+            {
+                question: "Satuan hambatan listrik adalah...",
+                options: ["Volt", "Ampere", "Ohm", "Watt"],
+                correct: 2,
+                explanation: "Hambatan listrik memiliki satuan Ohm (Ω)."
+            },
+            {
+                question: "Grafik V terhadap I pada konduktor ohmik berbentuk...",
+                options: ["Parabola", "Garis lurus", "Eksponensial", "Sinusoidal"],
+                correct: 1,
+                explanation: "Konduktor ohmik memiliki hubungan linear V-I, grafiknya garis lurus."
+            },
+            {
+                question: "Alat untuk mengukur arus adalah...",
+                options: ["Voltmeter", "Amperemeter", "Ohmmeter", "Wattmeter"],
+                correct: 1,
+                explanation: "Amperemeter digunakan untuk mengukur arus listrik."
+            },
+            // Hambatan Listrik
+            {
+                question: "Rumus hambatan kawat adalah...",
+                options: ["R = ρ × A / l", "R = ρ × l / A", "R = l × A / ρ", "R = ρ / (l × A)"],
+                correct: 1,
+                explanation: "R = ρ × l / A, di mana ρ resistivitas, l panjang, A luas penampang."
+            },
+            {
+                question: "Jika panjang kawat bertambah, hambatan...",
+                options: ["Berkurang", "Tetap", "Bertambah", "Menjadi nol"],
+                correct: 2,
+                explanation: "R berbanding lurus dengan panjang kawat (R ∝ l)."
+            },
+            {
+                question: "Jika luas penampang diperbesar, hambatan...",
+                options: ["Bertambah", "Berkurang", "Tetap", "Menjadi tak hingga"],
+                correct: 1,
+                explanation: "R berbanding terbalik dengan luas penampang (R ∝ 1/A)."
+            },
+            {
+                question: "Resistivitas dilambangkan dengan...",
+                options: ["R", "ρ (rho)", "σ", "κ"],
+                correct: 1,
+                explanation: "Resistivitas dilambangkan dengan huruf Yunani ρ (rho)."
+            },
+            {
+                question: "Jika suhu logam naik, hambatan...",
+                options: ["Turun", "Tetap", "Naik", "Menjadi nol"],
+                correct: 2,
+                explanation: "Pada logam, hambatan meningkat saat suhu naik (koefisien suhu positif)."
+            },
+            // Hukum Kirchhoff
+            {
+                question: "Hukum I Kirchhoff disebut juga...",
+                options: ["KVL", "KCL", "Ohm", "Faraday"],
+                correct: 1,
+                explanation: "Hukum I Kirchhoff disebut KCL (Kirchhoff's Current Law)."
+            },
+            {
+                question: "KCL berdasarkan hukum kekekalan...",
+                options: ["Energi", "Muatan", "Momentum", "Massa"],
+                correct: 1,
+                explanation: "KCL didasarkan pada hukum kekekalan muatan listrik."
+            },
+            {
+                question: "KVL berdasarkan hukum kekekalan...",
+                options: ["Energi", "Muatan", "Momentum", "Massa"],
+                correct: 0,
+                explanation: "KVL didasarkan pada hukum kekekalan energi."
+            },
+            {
+                question: "Pada simpul, jika I1=5A masuk dan I2=2A keluar, maka I3...",
+                options: ["3 A keluar", "7 A keluar", "3 A masuk", "7 A masuk"],
+                correct: 0,
+                explanation: "KCL: I masuk = I keluar, 5 = 2 + I3, I3 = 3 A keluar."
+            },
+            {
+                question: "Pada KVL, ΣV dalam loop tertutup sama dengan...",
+                options: ["Tak hingga", "Satu", "Nol", "Tegangan sumber"],
+                correct: 2,
+                explanation: "KVL: ΣV = 0 dalam loop tertutup."
+            },
+            // Rangkaian Seri-Paralel
+            {
+                question: "Rangkaian seri memiliki jalur arus...",
+                options: ["Bercabang", "Satu jalur", "Tidak ada", "Ganda"],
+                correct: 1,
+                explanation: "Rangkaian seri memiliki satu jalur arus yang sama di setiap komponen."
+            },
+            {
+                question: "Pada rangkaian paralel, tegangan...",
+                options: ["Berbeda tiap cabang", "Sama di semua cabang", "Tidak ada", "Bertambah"],
+                correct: 1,
+                explanation: "Rangkaian paralel memiliki tegangan yang sama di setiap cabang."
+            },
+            {
+                question: "Hambatan total dua resistor 4Ω seri adalah...",
+                options: ["2 Ω", "4 Ω", "8 Ω", "16 Ω"],
+                correct: 2,
+                explanation: "Seri: Rt = R1 + R2 = 4 + 4 = 8 Ω"
+            },
+            {
+                question: "Hambatan total dua resistor 4Ω paralel adalah...",
+                options: ["1 Ω", "2 Ω", "4 Ω", "8 Ω"],
+                correct: 1,
+                explanation: "Paralel: 1/Rt = 1/4 + 1/4 = 1/2, Rt = 2 Ω"
+            },
+            {
+                question: "Jika satu lampu seri putus...",
+                options: ["Lainnya tetap menyala", "Semua mati", "Menyala terang", "Tidak terjadi apa-apa"],
+                correct: 1,
+                explanation: "Rangkaian seri terputus di satu titik menyebabkan semua komponen mati."
+            },
+            {
+                question: "Rangkaian rumah tangga menggunakan sistem...",
+                options: ["Seri", "Paralel", "Seri-paralel", "Campuran"],
+                correct: 1,
+                explanation: "Instalasi rumah menggunakan rangkaian paralel agar setiap perangkat mendapat tegangan sama."
+            },
+            // Perhitungan
+            {
+                question: "Resistor 10Ω dialiri 2A, tegangannya...",
+                options: ["5 V", "12 V", "20 V", "0.2 V"],
+                correct: 2,
+                explanation: "V = I × R = 2 × 10 = 20 V"
+            },
+            {
+                question: "Arus 0.5A mengalir pada hambatan 20Ω, V =...",
+                options: ["10 V", "40 V", "0.025 V", "20.5 V"],
+                correct: 0,
+                explanation: "V = I × R = 0.5 × 20 = 10 V"
+            },
+            {
+                question: "Hambatan 50Ω diberi 100V, arusnya...",
+                options: ["0.5 A", "2 A", "5000 A", "500 A"],
+                correct: 1,
+                explanation: "I = V/R = 100/50 = 2 A"
+            },
+            {
+                question: "Kawat tembaga ρ=1.7×10⁻⁸, l=100m, A=2×10⁻⁶m². R =...",
+                options: ["0.085 Ω", "0.85 Ω", "8.5 Ω", "85 Ω"],
+                correct: 1,
+                explanation: "R = ρl/A = 1.7×10⁻⁸ × 100 / 2×10⁻⁶ = 0.85 Ω"
+            },
+            {
+                question: "Seri 5Ω dan 10Ω, R_total =...",
+                options: ["2 Ω", "15 Ω", "50 Ω", "3.33 Ω"],
+                correct: 1,
+                explanation: "Seri: Rt = 5 + 10 = 15 Ω"
+            },
+            {
+                question: "Paralel 6Ω dan 3Ω, R_total =...",
+                options: ["9 Ω", "18 Ω", "2 Ω", "0.5 Ω"],
+                correct: 2,
+                explanation: "Paralel: 1/Rt = 1/6 + 1/3 = 1/2, Rt = 2 Ω"
+            },
+            {
+                question: "Konduktor ohmik memiliki grafik V-I...",
+                options: ["Melengkung", "Lurus melalui origin", "Horizontal", "Vertikal"],
+                correct: 1,
+                explanation: "Konduktor ohmik memiliki grafik V-I garis lurus melalui titik asal."
+            },
+            {
+                question: "Voltmeter dipasang secara...",
+                options: ["Seri", "Paralel", "Campuran", "Tidak perlu dipasang"],
+                correct: 1,
+                explanation: "Voltmeter dipasang paralel dengan komponen yang diukur."
+            },
+            {
+                question: "Amperemeter dipasang secara...",
+                options: ["Seri", "Paralel", "Campuran", "Tidak perlu dipasang"],
+                correct: 0,
+                explanation: "Amperemeter dipasang seri dalam rangkaian."
+            },
+            {
+                question: "Jika R_total mengecil, arus...",
+                options: ["Mengecil", "Membesar", "Tetap", "Menjadi nol"],
+                correct: 1,
+                explanation: "Dari I = V/R, jika R mengecil maka I membesar."
+            }
+        ];
+
+        // ========================================
+        // Global State
+        // ========================================
+        var currentQuestions = [];
+        var userAnswers = [];
+        var score = 0;
+        var quizSubmitted = false;
+
+        // Visualization State
+        var simMode = 'ohm';
+        var voltage = 12;
+        var resistance = 10;
+        var wireLength = 1;
+        var wireArea = 1;
+        var materialResistivity = 1.7e-8;
+        var isSeries = true;
+        var r1 = 10;
+        var r2 = 20;
+        var sourceVoltage = 12;
+        var lockedVariable = 'R';
+        var canvas = null;
+        var ctx = null;
+        var animationFrame = null;
+        var time = 0;
+
+        // ========================================
+        // DOM Ready
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initVisualization();
+            initQuiz();
+            initAnimations();
+        });
+
+        // ========================================
+        // Navigation
+        // ========================================
+        function initNavigation() {
+            var navTabs = document.querySelectorAll('.nav-tab');
+            var sections = document.querySelectorAll('.content-section');
+
+            navTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var sectionId = this.getAttribute('data-section');
+                    
+                    navTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    
+                    sections.forEach(function(s) {
+                        s.classList.remove('active');
+                        if (s.id === sectionId) {
+                            s.classList.add('active');
+                        }
+                    });
+
+                    if (sectionId === 'visualization') {
+                        setTimeout(function() {
+                            resizeCanvas();
+                            drawVisualization();
+                        }, 100);
+                    }
+                });
+            });
+        }
+
+        // ========================================
+        // Visualization
+        // ========================================
+        function initVisualization() {
+            canvas = document.getElementById('simCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+
+            resizeCanvas();
+            setupVisualizationControls();
+            startAnimation();
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            var wrapper = canvas.parentElement;
+            if (!wrapper) return;
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+        }
+
+        function setupVisualizationControls() {
+            // Mode selector
+            var simModeSelect = document.getElementById('simMode');
+            if (simModeSelect) {
+                simModeSelect.addEventListener('change', function() {
+                    simMode = this.value;
+                    updateControlVisibility();
+                    drawVisualization();
+                });
+            }
+
+            // Ohm's Law controls
+            var voltageSlider = document.getElementById('voltageSlider');
+            var resistanceSlider = document.getElementById('resistanceSlider');
+
+            if (voltageSlider) {
+                voltageSlider.addEventListener('input', function() {
+                    voltage = parseFloat(this.value);
+                    document.getElementById('voltageValue').textContent = voltage.toFixed(1) + ' V';
+                    if (lockedVariable === 'V') {
+                        resistance = voltage > 0 ? resistance : 10;
+                    }
+                    updateVisualization();
+                });
+            }
+
+            if (resistanceSlider) {
+                resistanceSlider.addEventListener('input', function() {
+                    resistance = parseFloat(this.value);
+                    document.getElementById('resistanceValue').textContent = resistance.toFixed(1) + ' Ω';
+                    updateVisualization();
+                });
+            }
+
+            // Lock buttons
+            var lockR = document.getElementById('lockR');
+            var lockV = document.getElementById('lockV');
+
+            if (lockR) {
+                lockR.addEventListener('click', function() {
+                    lockedVariable = 'R';
+                    this.classList.add('active');
+                    if (lockV) lockV.classList.remove('active');
+                });
+            }
+
+            if (lockV) {
+                lockV.addEventListener('click', function() {
+                    lockedVariable = 'V';
+                    this.classList.add('active');
+                    if (lockR) lockR.classList.remove('active');
+                });
+            }
+
+            // Resistance controls
+            var lengthSlider = document.getElementById('lengthSlider');
+            var areaSlider = document.getElementById('areaSlider');
+            var materialSelect = document.getElementById('materialSelect');
+
+            if (lengthSlider) {
+                lengthSlider.addEventListener('input', function() {
+                    wireLength = parseFloat(this.value);
+                    document.getElementById('lengthValue').textContent = wireLength.toFixed(1) + ' m';
+                    updateVisualization();
+                });
+            }
+
+            if (areaSlider) {
+                areaSlider.addEventListener('input', function() {
+                    wireArea = parseFloat(this.value);
+                    document.getElementById('areaValue').textContent = wireArea.toFixed(1) + ' mm²';
+                    updateVisualization();
+                });
+            }
+
+            if (materialSelect) {
+                materialSelect.addEventListener('change', function() {
+                    materialResistivity = parseFloat(this.value);
+                    updateVisualization();
+                });
+            }
+
+            // Circuit controls
+            var sourceVoltageSlider = document.getElementById('sourceVoltageSlider');
+            var r1Slider = document.getElementById('r1Slider');
+            var r2Slider = document.getElementById('r2Slider');
+            var seriesMode = document.getElementById('seriesMode');
+            var parallelMode = document.getElementById('parallelMode');
+
+            if (sourceVoltageSlider) {
+                sourceVoltageSlider.addEventListener('input', function() {
+                    sourceVoltage = parseFloat(this.value);
+                    document.getElementById('sourceVoltageValue').textContent = sourceVoltage + ' V';
+                    updateVisualization();
+                });
+            }
+
+            if (r1Slider) {
+                r1Slider.addEventListener('input', function() {
+                    r1 = parseFloat(this.value);
+                    document.getElementById('r1Value').textContent = r1 + ' Ω';
+                    updateVisualization();
+                });
+            }
+
+            if (r2Slider) {
+                r2Slider.addEventListener('input', function() {
+                    r2 = parseFloat(this.value);
+                    document.getElementById('r2Value').textContent = r2 + ' Ω';
+                    updateVisualization();
+                });
+            }
+
+            if (seriesMode) {
+                seriesMode.addEventListener('click', function() {
+                    isSeries = true;
+                    this.classList.add('active');
+                    if (parallelMode) parallelMode.classList.remove('active');
+                    updateVisualization();
+                });
+            }
+
+            if (parallelMode) {
+                parallelMode.addEventListener('click', function() {
+                    isSeries = false;
+                    this.classList.add('active');
+                    if (seriesMode) seriesMode.classList.remove('active');
+                    updateVisualization();
+                });
+            }
+
+            // Reset button
+            var resetBtn = document.getElementById('resetBtn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', resetVisualization);
+            }
+
+            window.addEventListener('resize', function() {
+                resizeCanvas();
+                drawVisualization();
+            });
+        }
+
+        function updateControlVisibility() {
+            var ohmControls = document.getElementById('ohmControls');
+            var resistanceControls = document.getElementById('resistanceControls');
+            var circuitControls = document.getElementById('circuitControls');
+            var vizTitle = document.getElementById('vizTitle');
+
+            if (ohmControls) ohmControls.style.display = 'none';
+            if (resistanceControls) resistanceControls.style.display = 'none';
+            if (circuitControls) circuitControls.style.display = 'none';
+
+            if (simMode === 'ohm') {
+                if (ohmControls) ohmControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Simulasi Hukum Ohm';
+            } else if (simMode === 'resistance') {
+                if (resistanceControls) resistanceControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Simulasi Hambatan Listrik';
+            } else if (simMode === 'circuit') {
+                if (circuitControls) circuitControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Simulasi Rangkaian Seri-Paralel';
+            }
+        }
+
+        function updateVisualization() {
+            drawVisualization();
+            updateInfoDisplay();
+        }
+
+        function resetVisualization() {
+            voltage = 12;
+            resistance = 10;
+            wireLength = 1;
+            wireArea = 1;
+            materialResistivity = 1.7e-8;
+            isSeries = true;
+            r1 = 10;
+            r2 = 20;
+            sourceVoltage = 12;
+            lockedVariable = 'R';
+
+            // Reset sliders
+            var voltageSlider = document.getElementById('voltageSlider');
+            var resistanceSlider = document.getElementById('resistanceSlider');
+            var lengthSlider = document.getElementById('lengthSlider');
+            var areaSlider = document.getElementById('areaSlider');
+            var sourceVoltageSlider = document.getElementById('sourceVoltageSlider');
+            var r1Slider = document.getElementById('r1Slider');
+            var r2Slider = document.getElementById('r2Slider');
+
+            if (voltageSlider) voltageSlider.value = 12;
+            if (resistanceSlider) resistanceSlider.value = 10;
+            if (lengthSlider) lengthSlider.value = 1;
+            if (areaSlider) areaSlider.value = 1;
+            if (sourceVoltageSlider) sourceVoltageSlider.value = 12;
+            if (r1Slider) r1Slider.value = 10;
+            if (r2Slider) r2Slider.value = 20;
+
+            // Reset displays
+            if (document.getElementById('voltageValue')) document.getElementById('voltageValue').textContent = '12.0 V';
+            if (document.getElementById('resistanceValue')) document.getElementById('resistanceValue').textContent = '10.0 Ω';
+            if (document.getElementById('lengthValue')) document.getElementById('lengthValue').textContent = '1.0 m';
+            if (document.getElementById('areaValue')) document.getElementById('areaValue').textContent = '1.0 mm²';
+            if (document.getElementById('sourceVoltageValue')) document.getElementById('sourceVoltageValue').textContent = '12 V';
+            if (document.getElementById('r1Value')) document.getElementById('r1Value').textContent = '10 Ω';
+            if (document.getElementById('r2Value')) document.getElementById('r2Value').textContent = '20 Ω';
+
+            var lockR = document.getElementById('lockR');
+            var lockV = document.getElementById('lockV');
+            var seriesMode = document.getElementById('seriesMode');
+            var parallelMode = document.getElementById('parallelMode');
+
+            if (lockR) lockR.classList.add('active');
+            if (lockV) lockV.classList.remove('active');
+            if (seriesMode) seriesMode.classList.add('active');
+            if (parallelMode) parallelMode.classList.remove('active');
+
+            drawVisualization();
+        }
+
+        function startAnimation() {
+            function animate() {
+                time += 0.02;
+                drawVisualization();
+                animationFrame = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function drawVisualization() {
+            if (!ctx || !canvas) return;
+            if (canvas.width === 0 || canvas.height === 0) resizeCanvas();
+
+            var w = canvas.width;
+            var h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Background
+            var bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+            bgGrad.addColorStop(0, '#fafbfc');
+            bgGrad.addColorStop(1, '#f0f4f8');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Grid
+            ctx.strokeStyle = 'rgba(37, 99, 235, 0.04)';
+            ctx.lineWidth = 1;
+            for (var x = 0; x < w; x += 30) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+                ctx.stroke();
+            }
+            for (var y = 0; y < h; y += 30) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+                ctx.stroke();
+            }
+
+            if (simMode === 'ohm') {
+                drawOhmVisualization(w, h);
+            } else if (simMode === 'resistance') {
+                drawResistanceVisualization(w, h);
+            } else if (simMode === 'circuit') {
+                drawCircuitVisualization(w, h);
+            }
+
+            updateInfoDisplay();
+        }
+
+        function drawOhmVisualization(w, h) {
+            var current = voltage / resistance;
+            var power = voltage * current;
+
+            // Circuit
+            var cx = w / 2;
+            var cy = h / 2;
+
+            // Wires
+            ctx.strokeStyle = '#3b4a5a';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(80, cy);
+            ctx.lineTo(w - 80, cy);
+            ctx.stroke();
+
+            // Battery
+            ctx.fillStyle = '#1d4ed8';
+            ctx.fillRect(80, cy - 30, 15, 60);
+            ctx.fillStyle = '#dc2626';
+            ctx.fillRect(95, cy - 15, 5, 30);
+
+            // Label V
+            ctx.fillStyle = '#1f2937';
+            ctx.font = 'bold 14px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText(voltage + 'V', 87, cy + 55);
+
+            // Resistor
+            var resistorX = cx;
+            ctx.strokeStyle = '#059669';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(resistorX - 40, cy);
+            for (var i = 0; i < 8; i++) {
+                var zigX = resistorX - 35 + i * 10;
+                var zigY = cy + (i % 2 === 0 ? -15 : 15);
+                ctx.lineTo(zigX, zigY);
+            }
+            ctx.lineTo(resistorX + 40, cy);
+            ctx.stroke();
+
+            // Label R
+            ctx.fillStyle = '#059669';
+            ctx.fillText(resistance + 'Ω', resistorX, cy + 55);
+
+            // Current flow animation
+            if (current > 0) {
+                var particleCount = Math.min(Math.floor(current * 3), 15);
+                for (var p = 0; p < particleCount; p++) {
+                    var progress = ((time * current * 0.3 + p / particleCount) % 1);
+                    var px = 120 + progress * (w - 200);
+                    
+                    if (Math.abs(px - resistorX) > 45) {
+                        ctx.beginPath();
+                        ctx.arc(px, cy, 4, 0, Math.PI * 2);
+                        ctx.fillStyle = '#fbbf24';
+                        ctx.fill();
+                    }
+                }
+            }
+
+            // Arrows for current direction
+            if (current > 0) {
+                drawArrow(ctx, w - 120, cy - 35, w - 90, cy - 35, '#f59e0b', 'I');
+            }
+
+            // Update displays
+            document.getElementById('vizResult').textContent = 'I = ' + current.toFixed(2) + ' A';
+            document.getElementById('infoCurrent').textContent = current.toFixed(2) + ' A';
+            document.getElementById('infoPower').textContent = power.toFixed(1) + ' W';
+            document.getElementById('infoEnergy').textContent = (power * 3.6).toFixed(1) + ' kJ';
+            document.getElementById('infoStatus').textContent = current > 5 ? 'Bahaya!' : 'Aman';
+            document.getElementById('infoStatus').style.color = current > 5 ? '#dc2626' : '#059669';
+        }
+
+        function drawResistanceVisualization(w, h) {
+            var calculatedR = materialResistivity * wireLength / (wireArea * 1e-6);
+
+            // Wire visualization
+            var wireLengthPx = Math.min(wireLength * 60, w - 200);
+            var wireHeightPx = Math.max(wireArea * 20, 10);
+
+            var cx = w / 2;
+            var cy = h / 2;
+
+            // Wire body
+            var wireGrad = ctx.createLinearGradient(cx - wireLengthPx/2, cy, cx + wireLengthPx/2, cy);
+            wireGrad.addColorStop(0, '#b45309');
+            wireGrad.addColorStop(0.5, '#d97706');
+            wireGrad.addColorStop(1, '#b45309');
+
+            ctx.fillStyle = wireGrad;
+            ctx.fillRect(cx - wireLengthPx/2, cy - wireHeightPx/2, wireLengthPx, wireHeightPx);
+
+            // Wire outline
+            ctx.strokeStyle = '#78350f';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(cx - wireLengthPx/2, cy - wireHeightPx/2, wireLengthPx, wireHeightPx);
+
+            // Terminal connectors
+            ctx.fillStyle = '#4b5563';
+            ctx.fillRect(cx - wireLengthPx/2 - 15, cy - wireHeightPx/2 - 5, 15, wireHeightPx + 10);
+            ctx.fillRect(cx + wireLengthPx/2, cy - wireHeightPx/2 - 5, 15, wireHeightPx + 10);
+
+            // Labels
+            ctx.fillStyle = '#1f2937';
+            ctx.font = 'bold 13px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText('l = ' + wireLength.toFixed(1) + ' m', cx, cy + wireHeightPx/2 + 30);
+            ctx.fillText('A = ' + wireArea.toFixed(1) + ' mm²', cx, cy + wireHeightPx/2 + 50);
+
+            // Dimension arrows
+            ctx.strokeStyle = '#6b7280';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(cx - wireLengthPx/2, cy - wireHeightPx/2 - 15);
+            ctx.lineTo(cx + wireLengthPx/2, cy - wireHeightPx/2 - 15);
+            ctx.stroke();
+
+            // Formula display
+            ctx.fillStyle = '#1d4ed8';
+            ctx.font = 'bold 16px Space Grotesk';
+            ctx.fillText('R = ρl/A', cx, cy - wireHeightPx/2 - 50);
+            ctx.font = '13px Plus Jakarta Sans';
+            ctx.fillStyle = '#4b5563';
+            ctx.fillText('R = ' + calculatedR.toFixed(4) + ' Ω', cx, cy - wireHeightPx/2 - 70);
+
+            // Update displays
+            document.getElementById('vizResult').textContent = 'R = ' + calculatedR.toFixed(4) + ' Ω';
+            document.getElementById('infoCurrent').textContent = calculatedR.toExponential(2) + ' Ω';
+            document.getElementById('infoPower').textContent = 'ρ = ' + materialResistivity.toExponential(1);
+            document.getElementById('infoEnergy').textContent = wireLength.toFixed(1) + ' m';
+            document.getElementById('infoStatus').textContent = wireArea.toFixed(1) + ' mm²';
+        }
+
+        function drawCircuitVisualization(w, h) {
+            var totalR;
+            if (isSeries) {
+                totalR = r1 + r2;
+            } else {
+                totalR = (r1 * r2) / (r1 + r2);
+            }
+            var current = sourceVoltage / totalR;
+
+            var cx = w / 2;
+            var cy = h / 2;
+
+            // Battery
+            ctx.fillStyle = '#1d4ed8';
+            ctx.fillRect(60, cy - 25, 12, 50);
+            ctx.fillStyle = '#dc2626';
+            ctx.fillRect(72, cy - 12, 4, 24);
+            ctx.fillStyle = '#1f2937';
+            ctx.font = 'bold 12px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText(sourceVoltage + 'V', 68, cy + 50);
+
+            if (isSeries) {
+                // Series circuit
+                ctx.strokeStyle = '#3b4a5a';
+                ctx.lineWidth = 3;
+
+                // Top wire
+                ctx.beginPath();
+                ctx.moveTo(76, cy - 25);
+                ctx.lineTo(150, cy - 25);
+                ctx.lineTo(150, cy);
+                ctx.stroke();
+
+                // Bottom wire
+                ctx.beginPath();
+                ctx.moveTo(76, cy + 25);
+                ctx.lineTo(w - 100, cy + 25);
+                ctx.lineTo(w - 100, cy);
+                ctx.stroke();
+
+                // R1
+                drawResistor(ctx, 150, cy, 80, r1, '#059669');
+
+                // Wire between R1 and R2
+                ctx.strokeStyle = '#3b4a5a';
+                ctx.beginPath();
+                ctx.moveTo(230, cy);
+                ctx.lineTo(280, cy);
+                ctx.stroke();
+
+                // R2
+                drawResistor(ctx, 280, cy, 80, r2, '#0891b2');
+
+                // Wire to end
+                ctx.strokeStyle = '#3b4a5a';
+                ctx.beginPath();
+                ctx.moveTo(360, cy);
+                ctx.lineTo(w - 100, cy);
+                ctx.stroke();
+
+                // Current animation
+                if (current > 0) {
+                    for (var p = 0; p < 8; p++) {
+                        var progress = ((time * current * 0.2 + p / 8) % 1);
+                        var totalPath = w - 180;
+                        var px = 80 + progress * totalPath;
+                        var py = cy;
+
+                        if (px < 150) py = cy - 25;
+                        else if (px > w - 100) py = cy + 25;
+
+                        if ((px < 145 || px > 235) && (px < 275 || px > 365)) {
+                            ctx.beginPath();
+                            ctx.arc(px, py, 3, 0, Math.PI * 2);
+                            ctx.fillStyle = '#fbbf24';
+                            ctx.fill();
+                        }
+                    }
+                }
+            } else {
+                // Parallel circuit
+                ctx.strokeStyle = '#3b4a5a';
+                ctx.lineWidth = 3;
+
+                // Top branch wire
+                ctx.beginPath();
+                ctx.moveTo(76, cy - 25);
+                ctx.lineTo(150, cy - 25);
+                ctx.lineTo(150, cy - 50);
+                ctx.lineTo(w - 100, cy - 50);
+                ctx.lineTo(w - 100, cy);
+                ctx.stroke();
+
+                // Bottom branch wire
+                ctx.beginPath();
+                ctx.moveTo(76, cy + 25);
+                ctx.lineTo(150, cy + 25);
+                ctx.lineTo(150, cy + 50);
+                ctx.lineTo(w - 100, cy + 50);
+                ctx.lineTo(w - 100, cy);
+                ctx.stroke();
+
+                // R1 (top branch)
+                drawResistor(ctx, 220, cy - 50, 70, r1, '#059669');
+
+                // R2 (bottom branch)
+                drawResistor(ctx, 220, cy + 50, 70, r2, '#0891b2');
+
+                // Current animation for parallel
+                if (current > 0) {
+                    var i1 = sourceVoltage / r1;
+                    var i2 = sourceVoltage / r2;
+
+                    // Top branch
+                    for (var p = 0; p < 5; p++) {
+                        var progress = ((time * i1 * 0.15 + p / 5) % 1);
+                        var px = 150 + progress * (w - 250);
+                        ctx.beginPath();
+                        ctx.arc(px, cy - 50, 3, 0, Math.PI * 2);
+                        ctx.fillStyle = '#fbbf24';
+                        ctx.fill();
+                    }
+
+                    // Bottom branch
+                    for (var p = 0; p < 5; p++) {
+                        var progress = ((time * i2 * 0.15 + p / 5) % 1);
+                        var px = 150 + progress * (w - 250);
+                        ctx.beginPath();
+                        ctx.arc(px, cy + 50, 3, 0, Math.PI * 2);
+                        ctx.fillStyle = '#fbbf24';
+                        ctx.fill();
+                    }
+                }
+            }
+
+            // Update displays
+            document.getElementById('vizResult').textContent = 'I total = ' + current.toFixed(2) + ' A';
+            document.getElementById('infoCurrent').textContent = current.toFixed(2) + ' A';
+            document.getElementById('infoPower').textContent = totalR.toFixed(1) + ' Ω';
+            document.getElementById('infoEnergy').textContent = (sourceVoltage * current).toFixed(1) + ' W';
+            document.getElementById('infoStatus').textContent = isSeries ? 'Seri' : 'Paralel';
+        }
+
+        function drawResistor(ctx, x, y, width, value, color) {
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(x - width/2, y);
+            var segments = 6;
+            for (var i = 0; i < segments; i++) {
+                var segX = x - width/2 + (i + 0.5) * width/segments;
+                var segY = y + (i % 2 === 0 ? -12 : 12);
+                ctx.lineTo(segX, segY);
+            }
+            ctx.lineTo(x + width/2, y);
+            ctx.stroke();
+
+            ctx.fillStyle = color;
+            ctx.font = 'bold 11px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText(value + 'Ω', x, y + 30);
+        }
+
+        function drawArrow(ctx, fromX, fromY, toX, toY, color, label) {
+            var headLen = 8;
+            var angle = Math.atan2(toY - fromY, toX - fromX);
+
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI/6), toY - headLen * Math.sin(angle - Math.PI/6));
+            ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI/6), toY - headLen * Math.sin(angle + Math.PI/6));
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.font = 'bold 11px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, (fromX + toX)/2, fromY - 8);
+        }
+
+        function updateInfoDisplay() {
+            // Info is updated within each draw function
+        }
+
+        // ========================================
+        // Quiz System
+        // ========================================
+        function initQuiz() {
+            var generateBtn = document.getElementById('generateBtn');
+            var retryBtn = document.getElementById('retryBtn');
+
+            if (generateBtn) generateBtn.addEventListener('click', generateQuiz);
+            if (retryBtn) retryBtn.addEventListener('click', generateQuiz);
+
+            generateQuiz();
+        }
+
+        function shuffleArray(array) {
+            var newArray = array.slice();
+            for (var i = newArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
+            return newArray;
+        }
+
+        function generateQuiz() {
+            currentQuestions = shuffleArray(questionBank).slice(0, 5);
+            userAnswers = new Array(5).fill(null);
+            score = 0;
+            quizSubmitted = false;
+
+            document.getElementById('scoreDisplay').textContent = '0/5';
+            document.getElementById('resultCard').classList.remove('show');
+
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            var container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+
+            currentQuestions.forEach(function(q, qIndex) {
+                var card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = 'question-' + qIndex;
+
+                var questionTitle = document.createElement('p');
+                questionTitle.className = 'question-text';
+                questionTitle.innerHTML = '<span class="question-number">' + (qIndex + 1) + '</span>' + q.question;
+                card.appendChild(questionTitle);
+
+                var optionsList = document.createElement('div');
+                optionsList.className = 'options-list';
+
+                var letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach(function(opt, oIndex) {
+                    var btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = '<span class="option-letter">' + letters[oIndex] + '</span><span class="option-text">' + opt + '</span>';
+                    btn.addEventListener('click', function() {
+                        selectOption(qIndex, oIndex);
+                    });
+                    optionsList.appendChild(btn);
+                });
+
+                card.appendChild(optionsList);
+
+                var feedback = document.createElement('div');
+                feedback.className = 'feedback-box';
+                feedback.id = 'feedback-' + qIndex;
+                card.appendChild(feedback);
+
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qIndex, oIndex) {
+            if (quizSubmitted) return;
+
+            userAnswers[qIndex] = oIndex;
+
+            var questionCard = document.getElementById('question-' + qIndex);
+            var options = questionCard.querySelectorAll('.option-btn');
+
+            options.forEach(function(opt, idx) {
+                opt.classList.remove('selected');
+                if (idx === oIndex) opt.classList.add('selected');
+            });
+
+            if (userAnswers.indexOf(null) === -1) {
+                submitQuiz();
+            }
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            score = 0;
+
+            currentQuestions.forEach(function(q, qIndex) {
+                var questionCard = document.getElementById('question-' + qIndex);
+                var options = questionCard.querySelectorAll('.option-btn');
+                var feedback = document.getElementById('feedback-' + qIndex);
+                var userAnswer = userAnswers[qIndex];
+                var correctAnswer = q.correct;
+
+                options.forEach(function(opt, idx) {
+                    opt.classList.add('disabled');
+                    opt.classList.remove('selected');
+
+                    if (idx === correctAnswer) opt.classList.add('correct');
+                    else if (idx === userAnswer && userAnswer !== correctAnswer) opt.classList.add('incorrect');
+                });
+
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    questionCard.classList.add('correct');
+                    feedback.className = 'feedback-box show correct';
+                    feedback.textContent = 'Benar! ' + q.explanation;
+                } else {
+                    questionCard.classList.add('incorrect');
+                    feedback.className = 'feedback-box show incorrect';
+                    feedback.textContent = 'Salah. ' + q.explanation;
+                }
+            });
+
+            document.getElementById('scoreDisplay').textContent = score + '/5';
+            document.getElementById('finalScore').textContent = score + '/5';
+
+            var resultMessage = document.getElementById('resultMessage');
+            if (score === 5) {
+                resultMessage.textContent = 'Sempurna! Anda menguasai materi dengan sangat baik!';
+            } else if (score >= 3) {
+                resultMessage.textContent = 'Bagus! Terus tingkatkan pemahaman Anda.';
+            } else {
+                resultMessage.textContent = 'Pelajari kembali materi dan coba lagi!';
+            }
+
+            document.getElementById('resultCard').classList.add('show');
+        }
+
+        // ========================================
+        // Animations
+        // ========================================
+        function initAnimations() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.module-card').forEach(function(card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>

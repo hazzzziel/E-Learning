@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkaian Arus Bolak-Balik (AC) - Fisika Kelas 12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f4f6f9;
+            --bg-secondary: #e8ecf1;
+            --bg-card: #ffffff;
+            --fg-primary: #0d1b2a;
+            --fg-secondary: #2c3e50;
+            --fg-muted: #5d7285;
+            --accent-primary: #00838f;
+            --accent-primary-light: #00acc1;
+            --accent-primary-dark: #005662;
+            --accent-glow: rgba(0, 131, 143, 0.2);
+            --accent-secondary: #d97706;
+            --accent-success: #059669;
+            --accent-error: #dc2626;
+            --shadow-soft: 0 2px 12px rgba(13, 27, 42, 0.05);
+            --shadow-medium: 0 8px 32px rgba(13, 27, 42, 0.08);
+            --shadow-hover: 0 12px 40px rgba(0, 131, 143, 0.12);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 22px;
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.65;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 10% 10%, rgba(0, 131, 143, 0.05) 0%, transparent 45%),
+                radial-gradient(ellipse at 90% 90%, rgba(217, 119, 6, 0.04) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Circuit pattern overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300838f' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 131, 143, 0.08);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-light));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-logo svg { width: 18px; height: 18px; color: white; }
+
+        .navbar-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+        }
+
+        .navbar-title span { color: var(--accent-primary); }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-nav:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .btn-nav svg { width: 14px; height: 14px; }
+
+        .hero {
+            padding: 36px 24px 28px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .breadcrumb svg { width: 12px; height: 12px; opacity: 0.4; }
+
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 800;
+            color: var(--fg-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 0.95rem;
+            color: var(--fg-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: rgba(0, 131, 143, 0.08);
+            border: 1px solid rgba(0, 131, 143, 0.15);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .hero-badge svg { width: 12px; height: 12px; }
+
+        .section-nav {
+            position: sticky;
+            top: 60px;
+            background: rgba(244, 246, 249, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 131, 143, 0.06);
+            z-index: 999;
+            padding: 0 24px;
+        }
+
+        .section-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 8px 0;
+            scrollbar-width: none;
+        }
+
+        .section-nav-container::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 8px 18px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+        }
+
+        .nav-tab:hover {
+            background: rgba(0, 131, 143, 0.06);
+            color: var(--accent-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 24px 70px;
+        }
+
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 131, 143, 0.04);
+            transition: var(--transition-medium);
+        }
+
+        .module-card:hover { box-shadow: var(--shadow-medium); }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .module-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, rgba(0, 131, 143, 0.1), rgba(217, 119, 6, 0.08));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .module-icon svg { width: 22px; height: 22px; color: var(--accent-primary); }
+
+        .module-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 2px;
+        }
+
+        .module-subtitle {
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+        }
+
+        .module-content h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin: 16px 0 8px;
+        }
+
+        .module-content h3:first-child { margin-top: 0; }
+
+        .module-content p {
+            color: var(--fg-secondary);
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 0.88rem;
+        }
+
+        .module-content ul, .module-content ol {
+            margin: 10px 0;
+            padding-left: 18px;
+        }
+
+        .module-content li {
+            color: var(--fg-secondary);
+            margin-bottom: 5px;
+            line-height: 1.6;
+            font-size: 0.85rem;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, rgba(0, 131, 143, 0.04), rgba(217, 119, 6, 0.02));
+            border: 1px solid rgba(0, 131, 143, 0.1);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin: 14px 0;
+            text-align: center;
+        }
+
+        .formula {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .formula-description {
+            font-size: 0.75rem;
+            color: var(--fg-muted);
+            margin-top: 8px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 0.8rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .info-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--fg-primary);
+            font-size: 0.75rem;
+        }
+
+        .info-table td { color: var(--fg-secondary); }
+
+        .example-box {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin: 14px 0;
+            border-left: 3px solid var(--accent-secondary);
+        }
+
+        .example-label {
+            font-weight: 700;
+            color: var(--accent-secondary);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .reference-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            background: rgba(0, 131, 143, 0.06);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            margin: 2px;
+            transition: var(--transition-fast);
+        }
+
+        .reference-link:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .reference-link svg { width: 10px; height: 10px; }
+
+        /* Visualization */
+        .viz-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .viz-controls {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 131, 143, 0.04);
+            height: fit-content;
+        }
+
+        .controls-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .controls-title svg { width: 16px; height: 16px; color: var(--accent-primary); }
+
+        .control-group { margin-bottom: 14px; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            margin-bottom: 6px;
+        }
+
+        .control-value {
+            font-family: 'Space Mono', monospace;
+            color: var(--accent-primary);
+            background: rgba(0, 131, 143, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 5px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--accent-glow);
+            transition: var(--transition-fast);
+        }
+
+        .slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
+
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .select-control:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .toggle-group { display: flex; gap: 5px; }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 7px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-top: 4px;
+        }
+
+        .btn-reset:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .viz-canvas-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 131, 143, 0.04);
+            overflow: hidden;
+        }
+
+        .viz-header {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .viz-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+        }
+
+        .viz-result {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            background: rgba(0, 131, 143, 0.08);
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+        }
+
+        .viz-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            background: linear-gradient(180deg, #fafbfc 0%, #f0f2f5 100%);
+        }
+
+        .viz-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .viz-info {
+            padding: 14px 18px;
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(0, 131, 143, 0.06);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .info-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 131, 143, 0.04);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .quiz-info h2 {
+            font-size: 1.1rem;
+            color: var(--fg-primary);
+            margin-bottom: 2px;
+        }
+
+        .quiz-info p {
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+        }
+
+        .quiz-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(0, 131, 143, 0.08), rgba(217, 119, 6, 0.06));
+            border-radius: var(--radius-md);
+        }
+
+        .score-label { font-size: 0.75rem; color: var(--fg-muted); }
+
+        .score-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .quiz-actions { display: flex; gap: 8px; }
+
+        .btn-quiz {
+            padding: 9px 16px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+        }
+
+        .btn-generate {
+            background: var(--accent-secondary);
+            color: white;
+        }
+
+        .btn-generate:hover {
+            background: #b45309;
+            transform: translateY(-2px);
+        }
+
+        .btn-retry {
+            background: var(--bg-secondary);
+            color: var(--fg-secondary);
+        }
+
+        .btn-retry:hover {
+            background: var(--fg-secondary);
+            color: white;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 131, 143, 0.04);
+            margin-bottom: 14px;
+            transition: var(--transition-medium);
+        }
+
+        .question-card.correct {
+            border-color: var(--accent-success);
+            background: rgba(5, 150, 105, 0.02);
+        }
+
+        .question-card.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(220, 38, 38, 0.02);
+        }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .question-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.selected):not(.disabled) {
+            border-color: var(--accent-primary);
+            background: rgba(0, 131, 143, 0.04);
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent-primary);
+            background: rgba(0, 131, 143, 0.08);
+        }
+
+        .option-btn.correct {
+            border-color: var(--accent-success);
+            background: rgba(5, 150, 105, 0.1);
+        }
+
+        .option-btn.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(220, 38, 38, 0.1);
+        }
+
+        .option-btn.disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .option-letter {
+            width: 26px;
+            height: 26px;
+            background: white;
+            border: 2px solid var(--fg-muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .option-btn.selected .option-letter {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--accent-success);
+            border-color: var(--accent-success);
+            color: white;
+        }
+
+        .option-btn.incorrect .option-letter {
+            background: var(--accent-error);
+            border-color: var(--accent-error);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 0.85rem;
+            color: var(--fg-secondary);
+            line-height: 1.4;
+        }
+
+        .feedback-box {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .feedback-box.show { display: block; }
+
+        .feedback-box.correct {
+            background: rgba(5, 150, 105, 0.1);
+            color: #047857;
+            border-left: 3px solid var(--accent-success);
+        }
+
+        .feedback-box.incorrect {
+            background: rgba(220, 38, 38, 0.1);
+            color: #b91c1c;
+            border-left: 3px solid var(--accent-error);
+        }
+
+        .quiz-result-card {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-dark));
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            color: white;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .quiz-result-card.show { display: block; }
+
+        .result-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .result-icon svg { width: 32px; height: 32px; }
+
+        .result-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .result-score {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 12px 0;
+        }
+
+        .result-message {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 900px) {
+            .viz-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 16px; }
+            .navbar-title { font-size: 0.85rem; }
+            .btn-nav span { display: none; }
+            .hero { padding: 24px 16px 18px; }
+            .hero-title { font-size: 1.4rem; }
+            .section-nav { top: 60px; padding: 0 16px; }
+            .nav-tab { padding: 7px 12px; font-size: 0.75rem; }
+            .main-content { padding: 14px 16px 50px; }
+            .module-grid { grid-template-columns: 1fr; }
+            .module-card { padding: 18px; }
+            .module-header { flex-direction: column; gap: 10px; }
+            .viz-controls { padding: 14px; }
+            .viz-canvas-wrapper { height: 300px; }
+            .quiz-header { padding: 16px; flex-direction: column; text-align: center; }
+            .question-card { padding: 16px; }
+            .info-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.2rem; }
+            .formula { font-size: 1rem; }
+            .option-btn { padding: 10px 12px; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" role="navigation">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            <a href="http://owenitb.great-site.net/" target="_self" class="btn-nav">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="breadcrumb">
+            <a href="http://owenitb.great-site.net/" target="_self">Dashboard</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/fisika.html" target="_self">Fisika</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <span>Rangkaian AC</span>
+        </div>
+        <div class="hero-header">
+            <div>
+                <h1 class="hero-title">
+                    <span class="hero-title-accent">Rangkaian Arus Bolak-Balik (AC)</span>
+                </h1>
+                <p class="hero-description">
+                    Pelajari karakteristik rangkaian RLC, impedansi, resonansi, dan daya listrik AC melalui visualisasi interaktif dan kuis adaptif.
+                </p>
+            </div>
+            <span class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Listrik Dinamis
+            </span>
+        </div>
+    </section>
+
+    <div class="section-nav">
+        <div class="section-nav-container">
+            <button class="nav-tab active" data-section="module">Modul Materi</button>
+            <button class="nav-tab" data-section="visualization">Visualisasi Interaktif</button>
+            <button class="nav-tab" data-section="quiz">Kuis Interaktif</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <section class="content-section active" id="module">
+            <div class="module-grid">
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Karakteristik Rangkaian RLC</h2>
+                            <p class="module-subtitle">Resistor, Induktor, Kapasitor</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Komponen Dasar</h3>
+                        <p>Rangkaian RLC terdiri dari resistor (R), induktor (L), dan kapasitor (C) yang dihubungkan dengan sumber arus bolak-balik (AC).</p>
+
+                        <div class="formula-box">
+                            <div class="formula">X<sub>L</sub> = ωL &nbsp;&nbsp;|&nbsp;&nbsp; X<sub>C</sub> = 1/ωC</div>
+                            <p class="formula-description">ω = 2πf (frekuensi sudut)</p>
+                        </div>
+
+                        <h3>Rangkaian Seri RLC</h3>
+                        <ul>
+                            <li>Arus sama di semua komponen</li>
+                            <li>Impedansi: Z = √(R² + (X<sub>L</sub> - X<sub>C</sub>)²)</li>
+                            <li>Sudut fase: tan θ = (X<sub>L</sub> - X<sub>C</sub>)/R</li>
+                        </ul>
+
+                        <h3>Perbandingan Seri vs Paralel</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr><th>Aspek</th><th>Seri</th><th>Paralel</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Impedansi Resonansi</td><td>Minimum (Z=R)</td><td>Maksimum</td></tr>
+                                <tr><td>Arus Resonansi</td><td>Maksimum</td><td>Minimum</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="http://filosofiberselimutmatematika.blogspot.com/2020/01/latihan-soal-fisika-kelas-12-materi-rangkaian-seri-RLC.html" target="_self" class="reference-link">Blog Materi</a>
+                            <a href="https://www.ruangguru.com/blog/penjelasan-rangkaian-seri-rlc-pada-arus-bolak-balik" target="_self" class="reference-link">Ruangguru</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Impedansi</h2>
+                            <p class="module-subtitle">Hambatan Total pada AC</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian</h3>
+                        <p>Impedansi (Z) adalah rasio tegangan fasor terhadap arus fasor: Z = V/I, dengan satuan ohm (Ω). Berbeda dengan resistansi, impedansi bergantung pada frekuensi.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">|Z| = √(R² + X²)</div>
+                            <p class="formula-description">X = X<sub>L</sub> - X<sub>C</sub> (reaktansi total)</p>
+                        </div>
+
+                        <h3>Komponen Impedansi</h3>
+                        <ul>
+                            <li><strong>Resistansi (R):</strong> Bagian riil, menyebabkan disipasi energi</li>
+                            <li><strong>Reaktansi (X):</strong> Bagian imajiner, tidak disipasi</li>
+                        </ul>
+
+                        <h3>Rumus Berbagai Rangkaian</h3>
+                        <table class="info-table">
+                            <thead><tr><th>Rangkaian</th><th>Rumus Impedansi</th></tr></thead>
+                            <tbody>
+                                <tr><td>Seri RL</td><td>Z = √(R² + (ωL)²)</td></tr>
+                                <tr><td>Seri RC</td><td>Z = √(R² + (1/ωC)²)</td></tr>
+                                <tr><td>Seri RLC</td><td>Z = √(R² + (ωL - 1/ωC)²)</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://inbassetti.com/blog/impedansi-listrik-and-medan-magnet-1763142811414" target="_self" class="reference-link">InBassetti</a>
+                            <a href="https://www.spiderbeat.com/impedansi-dalam-elektronika/" target="_self" class="reference-link">Spiderbeat</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Resonansi RLC</h2>
+                            <p class="module-subtitle">Kondisi X<sub>L</sub> = X<sub>C</sub></p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian</h3>
+                        <p>Resonansi terjadi saat reaktansi induktif sama dengan reaktansi kapasitif (X<sub>L</sub> = X<sub>C</sub>), sehingga rangkaian berperilaku seperti resistor murni (φ = 0°).</p>
+
+                        <div class="formula-box">
+                            <div class="formula">f<sub>r</sub> = 1 / (2π√LC)</div>
+                            <p class="formula-description">Frekuensi resonansi</p>
+                        </div>
+
+                        <h3>Karakteristik Resonansi</h3>
+                        <ul>
+                            <li><strong>Seri:</strong> Impedansi minimum, arus maksimum</li>
+                            <li><strong>Paralel:</strong> Impedansi maksimum, arus minimum</li>
+                            <li><strong>Faktor Kualitas:</strong> Q = ω<sub>r</sub>L/R = 1/(ω<sub>r</sub>CR)</li>
+                        </ul>
+
+                        <div class="example-box">
+                            <div class="example-label">Contoh</div>
+                            <p>L = 0,2 H, C = 50 μF. Hitung f<sub>r</sub>!</p>
+                            <p><strong>Jawab:</strong> f<sub>r</sub> = 1/(2π√0,2×50×10⁻⁶) ≈ 50,3 Hz</p>
+                        </div>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.ruangguru.com/blog/penjelasan-rangkaian-seri-rlc-pada-arus-bolak-balik" target="_self" class="reference-link">Ruangguru</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Daya Listrik AC</h2>
+                            <p class="module-subtitle">Aktif, Reaktif, Semu</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Jenis-Jenis Daya</h3>
+                        <ul>
+                            <li><strong>Daya Aktif (P):</strong> P = V<sub>ef</sub>I<sub>ef</sub> cos φ (Watt)</li>
+                            <li><strong>Daya Reaktif (Q):</strong> Q = V<sub>ef</sub>I<sub>ef</sub> sin φ (VAR)</li>
+                            <li><strong>Daya Semu (S):</strong> S = V<sub>ef</sub>I<sub>ef</sub> (VA)</li>
+                        </ul>
+
+                        <div class="formula-box">
+                            <div class="formula">S² = P² + Q²</div>
+                            <p class="formula-description">Hubungan piramida daya</p>
+                        </div>
+
+                        <h3>Faktor Daya</h3>
+                        <p>Faktor daya cos φ = R/Z menunjukkan efisiensi konversi daya. Nilai rendah menyebabkan inefisiensi.</p>
+
+                        <div class="example-box">
+                            <div class="example-label">Contoh</div>
+                            <p>V = 220 V, I = 10 A, cos φ = 0,8. Hitung P!</p>
+                            <p><strong>Jawab:</strong> P = 220 × 10 × 0,8 = 1760 W</p>
+                        </div>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://informasains.com/edu/post/2020/10/listrik-bolak-balik-ac-rumus-jenis-rangkaian-dan-contoh-soal/" target="_self" class="reference-link">Informasains</a>
+                            <a href="https://www.gramedia.com/literasi/rumus-daya-listrik/" target="_self" class="reference-link">Gramedia</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-section" id="visualization">
+            <div class="viz-container">
+                <aside class="viz-controls">
+                    <h3 class="controls-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        Parameter Rangkaian
+                    </h3>
+
+                    <div class="control-group">
+                        <label class="control-label">Mode Tampilan</label>
+                        <select class="select-control" id="vizMode">
+                            <option value="phasor">Diagram Fasor</option>
+                            <option value="resonance">Kurva Resonansi</option>
+                            <option value="power">Segitiga Daya</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">
+                            Resistansi (R)
+                            <span class="control-value" id="rValue">100 Ω</span>
+                        </label>
+                        <input type="range" class="slider" id="rSlider" min="10" max="500" value="100" step="10">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">
+                            Induktansi (L)
+                            <span class="control-value" id="lValue">0.2 H</span>
+                        </label>
+                        <input type="range" class="slider" id="lSlider" min="1" max="10" value="2" step="1">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">
+                            Kapasitansi (C)
+                            <span class="control-value" id="cValue">50 μF</span>
+                        </label>
+                        <input type="range" class="slider" id="cSlider" min="1" max="20" value="5" step="1">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">
+                            Frekuensi (f)
+                            <span class="control-value" id="fValue">50 Hz</span>
+                        </label>
+                        <input type="range" class="slider" id="fSlider" min="10" max="200" value="50" step="5">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Tegangan (V)</label>
+                        <input type="range" class="slider" id="vSlider" min="50" max="250" value="220" step="10">
+                        <span class="control-value" id="vValue" style="margin-top: 6px;">220 V</span>
+                    </div>
+
+                    <button class="btn-reset" id="resetBtn">Reset Parameter</button>
+                </aside>
+
+                <div class="viz-canvas-container">
+                    <div class="viz-header">
+                        <span class="viz-title" id="vizTitle">Diagram Fasor Rangkaian RLC</span>
+                        <span class="viz-result" id="vizResult">Z = 157.2 Ω</span>
+                    </div>
+                    <div class="viz-canvas-wrapper">
+                        <canvas class="viz-canvas" id="simCanvas"></canvas>
+                    </div>
+                    <div class="viz-info">
+                        <div class="info-grid" id="infoGrid">
+                            <div class="info-item">
+                                <span class="info-label">X<sub>L</sub></span>
+                                <span class="info-value" id="infoXL">62.8 Ω</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">X<sub>C</sub></span>
+                                <span class="info-value" id="infoXC">63.7 Ω</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Impedansi</span>
+                                <span class="info-value" id="infoZ">100.0 Ω</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Fase (φ)</span>
+                                <span class="info-value" id="infoPhase">-0.5°</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="quiz">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h2>Kuis Rangkaian AC</h2>
+                        <p>Uji pemahaman Anda tentang rangkaian arus bolak-balik</p>
+                    </div>
+                    <div class="quiz-score">
+                        <span class="score-label">Skor:</span>
+                        <span class="score-value" id="scoreDisplay">0/5</span>
+                    </div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn-quiz btn-generate" id="generateBtn">Generate Soal Baru</button>
+                    <button class="btn-quiz btn-retry" id="retryBtn">Ulangi Kuis</button>
+                </div>
+
+                <div id="quizContainer"></div>
+
+                <div class="quiz-result-card" id="resultCard">
+                    <div class="result-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="result-title">Kuis Selesai</h3>
+                    <div class="result-score" id="finalScore">0/5</div>
+                    <p class="result-message" id="resultMessage">Terus berlatih untuk meningkatkan pemahaman!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // ========================================
+        // Question Bank - TAMBAHKAN SOAL DI SINI
+        // ========================================
+        var questionBank = [
+            // Konsep Dasar RLC
+            { question: "Rangkaian RLC terdiri dari...", options: ["Resistor, Lampu, Coil", "Resistor, Induktor, Kapasitor", "Relay, LED, Cermin", "Resistor, Transistor, Coil"], correct: 1, explanation: "RLC = Resistor, Induktor (L), Kapasitor (C)." },
+            { question: "Pada resistor murni, hubungan fase V dan I adalah...", options: ["V mendahului I 90°", "I mendahului V 90°", "V dan I sefase", "V dan I berlawanan 180°"], correct: 2, explanation: "Pada resistor, tegangan dan arus sefase (φ = 0°)." },
+            { question: "Reaktansi induktif dirumuskan...", options: ["XL = ωL", "XL = 1/ωL", "XL = ωC", "XL = L/ω"], correct: 0, explanation: "Reaktansi induktif XL = ωL = 2πfL." },
+            { question: "Reaktansi kapasitif dirumuskan...", options: ["XC = ωC", "XC = 1/ωC", "XC = C/ω", "XC = ω/C"], correct: 1, explanation: "Reaktansi kapasitif XC = 1/ωC = 1/(2πfC)." },
+            { question: "Jika frekuensi naik, XL akan...", options: ["Turun", "Tetap", "Naik", "Nol"], correct: 2, explanation: "XL = 2πfL, jadi jika f naik, XL naik." },
+            { question: "Jika frekuensi naik, XC akan...", options: ["Turun", "Tetap", "Naik", "Nol"], correct: 0, explanation: "XC = 1/(2πfC), jadi jika f naik, XC turun." },
+            { question: "Jika XL > XC maka rangkaian bersifat...", options: ["Resistif", "Kapasitif", "Induktif", "Netral"], correct: 2, explanation: "XL > XC berarti dominan induktif, V mendahului I." },
+            { question: "Jika XC > XL maka rangkaian bersifat...", options: ["Resistif", "Kapasitif", "Induktif", "Netral"], correct: 1, explanation: "XC > XL berarti dominan kapasitif, I mendahului V." },
+            { question: "Jika XL = XC maka rangkaian bersifat...", options: ["Resistif murni", "Induktif", "Kapasitif", "Tidak ada arus"], correct: 0, explanation: "XL = XC adalah kondisi resonansi, rangkaian resistif (φ = 0°)." },
+            { question: "Satuan impedansi adalah...", options: ["Henry", "Farad", "Ohm", "Siemens"], correct: 2, explanation: "Impedansi memiliki satuan Ohm (Ω)." },
+            // Hitungan
+            { question: "R=10Ω, L=0,1H, f=50Hz. Hitung XL!", options: ["5 Ω", "31,4 Ω", "314 Ω", "1 Ω"], correct: 1, explanation: "XL = 2πfL = 2π(50)(0,1) = 31,4 Ω" },
+            { question: "C=100μF, f=50Hz. Hitung XC!", options: ["3,18 Ω", "31,8 Ω", "318 Ω", "0,318 Ω"], correct: 1, explanation: "XC = 1/(2πfC) = 1/(2π×50×100×10⁻⁶) ≈ 31,8 Ω" },
+            { question: "R=20Ω, XL=40Ω, XC=10Ω. Hitung Z!", options: ["50 Ω", "36,1 Ω", "25 Ω", "70 Ω"], correct: 0, explanation: "Z = √(R² + (XL-XC)²) = √(20² + 30²) = √1300 ≈ 36,1 Ω" },
+            { question: "Jika Vef=220V dan Z=50Ω, hitung Ief!", options: ["2,2 A", "4,4 A", "110 A", "0,22 A"], correct: 1, explanation: "Ief = Vef/Z = 220/50 = 4,4 A" },
+            { question: "L=0,2H, C=50μF. Hitung fr!", options: ["25 Hz", "50 Hz", "100 Hz", "500 Hz"], correct: 1, explanation: "fr = 1/(2π√LC) = 1/(2π√0,2×50×10⁻⁶) ≈ 50 Hz" },
+            // Resonansi
+            { question: "Resonansi terjadi saat...", options: ["R = 0", "XL = XC", "R = XL", "XL = R"], correct: 1, explanation: "Resonansi terjadi saat XL = XC." },
+            { question: "Pada resonansi seri, impedansi bernilai...", options: ["Maksimum", "Minimum (= R)", "Nol", "Tak hingga"], correct: 1, explanation: "Pada resonansi seri, Z minimum = R." },
+            { question: "Pada resonansi paralel, impedansi bernilai...", options: ["Minimum", "Maksimum", "Nol", "Sama dengan R"], correct: 1, explanation: "Pada resonansi paralel, impedansi maksimum." },
+            { question: "Frekuensi resonansi dirumuskan...", options: ["fr = 2π√LC", "fr = 1/(2π√LC)", "fr = LC/2π", "fr = 2π/LC"], correct: 1, explanation: "Frekuensi resonansi fr = 1/(2π√LC)." },
+            // Daya
+            { question: "Rumus daya aktif adalah...", options: ["P = VI", "P = VI cos φ", "P = VI sin φ", "P = V²I"], correct: 1, explanation: "Daya aktif P = V I cos φ." },
+            { question: "Rumus daya reaktif adalah...", options: ["Q = VI", "Q = VI cos φ", "Q = VI sin φ", "Q = V²I"], correct: 2, explanation: "Daya reaktif Q = V I sin φ." },
+            { question: "Jika φ=0°, daya reaktif bernilai...", options: ["Maksimum", "Minimum", "Nol", "Sama dengan daya aktif"], correct: 2, explanation: "Jika φ=0°, sin 0° = 0, maka Q = 0." },
+            { question: "Faktor daya sama dengan...", options: ["sin φ", "cos φ", "tan φ", "1/Z"], correct: 1, explanation: "Faktor daya = cos φ = R/Z." },
+            { question: "Hubungan S, P, Q adalah...", options: ["S = P + Q", "S² = P² + Q²", "S = P - Q", "S = P×Q"], correct: 1, explanation: "Piramida daya: S² = P² + Q²." },
+            { question: "V=220V, I=10A, cosφ=0,8. Hitung P!", options: ["1760 W", "2200 W", "1408 W", "176 W"], correct: 0, explanation: "P = VI cos φ = 220×10×0,8 = 1760 W" },
+            { question: "Satuan daya semu adalah...", options: ["Watt", "VAR", "VA", "Joule"], correct: 2, explanation: "Daya semu S memiliki satuan VA (Volt-Ampere)." }
+        ];
+
+        // ========================================
+        // Global State
+        // ========================================
+        var currentQuestions = [];
+        var userAnswers = [];
+        var score = 0;
+        var quizSubmitted = false;
+
+        // Visualization State
+        var vizMode = 'phasor';
+        var resistanceR = 100;
+        var inductanceL = 0.2;
+        var capacitanceC = 50e-6;
+        var frequencyF = 50;
+        var voltageV = 220;
+        var canvas = null;
+        var ctx = null;
+        var animationFrame = null;
+        var time = 0;
+
+        // ========================================
+        // DOM Ready
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initVisualization();
+            initQuiz();
+            initAnimations();
+        });
+
+        // ========================================
+        // Navigation
+        // ========================================
+        function initNavigation() {
+            var navTabs = document.querySelectorAll('.nav-tab');
+            var sections = document.querySelectorAll('.content-section');
+
+            navTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var sectionId = this.getAttribute('data-section');
+                    navTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    sections.forEach(function(s) {
+                        s.classList.remove('active');
+                        if (s.id === sectionId) s.classList.add('active');
+                    });
+                    if (sectionId === 'visualization') {
+                        setTimeout(function() { resizeCanvas(); drawVisualization(); }, 100);
+                    }
+                });
+            });
+        }
+
+        // ========================================
+        // Visualization
+        // ========================================
+        function initVisualization() {
+            canvas = document.getElementById('simCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            setupVisualizationControls();
+            startAnimation();
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            var wrapper = canvas.parentElement;
+            if (!wrapper) return;
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+        }
+
+        function setupVisualizationControls() {
+            var vizModeSelect = document.getElementById('vizMode');
+            if (vizModeSelect) {
+                vizModeSelect.addEventListener('change', function() {
+                    vizMode = this.value;
+                    updateVizTitle();
+                    drawVisualization();
+                });
+            }
+
+            setupSlider('rSlider', 'rValue', function(v) { resistanceR = v; }, '{v} Ω');
+            setupSlider('lSlider', 'lValue', function(v) { inductanceL = v * 0.1; }, '{v} H', 0.1);
+            setupSlider('cSlider', 'cValue', function(v) { capacitanceC = v * 10e-6; }, '{v} μF', 10e-6);
+            setupSlider('fSlider', 'fValue', function(v) { frequencyF = v; }, '{v} Hz');
+            setupSlider('vSlider', 'vValue', function(v) { voltageV = v; }, '{v} V');
+
+            var resetBtn = document.getElementById('resetBtn');
+            if (resetBtn) resetBtn.addEventListener('click', resetVisualization);
+
+            window.addEventListener('resize', function() { resizeCanvas(); drawVisualization(); });
+        }
+
+        function setupSlider(sliderId, valueId, callback, format, multiplier) {
+            var slider = document.getElementById(sliderId);
+            if (!slider) return;
+            slider.addEventListener('input', function() {
+                var v = parseFloat(this.value);
+                callback(v);
+                var displayVal = multiplier ? (v * multiplier) : v;
+                var displayText = format.replace('{v}', (multiplier ? (v * multiplier) : v).toFixed(multiplier ? 1 : 0));
+                var valueEl = document.getElementById(valueId);
+                if (valueEl) valueEl.textContent = displayText;
+            });
+        }
+
+        function updateVizTitle() {
+            var vizTitle = document.getElementById('vizTitle');
+            if (!vizTitle) return;
+            if (vizMode === 'phasor') vizTitle.textContent = 'Diagram Fasor Rangkaian RLC';
+            else if (vizMode === 'resonance') vizTitle.textContent = 'Kurva Resonansi RLC';
+            else if (vizMode === 'power') vizTitle.textContent = 'Segitiga Daya Listrik';
+        }
+
+        function resetVisualization() {
+            resistanceR = 100; inductanceL = 0.2; capacitanceC = 50e-6; frequencyF = 50; voltageV = 220;
+            var sliders = {
+                'rSlider': 'rValue|{v} Ω', 'lSlider': 'lValue|{v} H', 'cSlider': 'cValue|{v} μF',
+                'fSlider': 'fValue|{v} Hz', 'vSlider': 'vValue|{v} V'
+            };
+            var defaults = { 'rSlider': 100, 'lSlider': 2, 'cSlider': 5, 'fSlider': 50, 'vSlider': 220 };
+            Object.keys(sliders).forEach(function(id) {
+                var slider = document.getElementById(id);
+                if (slider) slider.value = defaults[id];
+            });
+            document.getElementById('rValue').textContent = '100 Ω';
+            document.getElementById('lValue').textContent = '0.2 H';
+            document.getElementById('cValue').textContent = '50 μF';
+            document.getElementById('fValue').textContent = '50 Hz';
+            document.getElementById('vValue').textContent = '220 V';
+            drawVisualization();
+        }
+
+        function startAnimation() {
+            function animate() {
+                time += 0.03;
+                drawVisualization();
+                animationFrame = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function drawVisualization() {
+            if (!ctx || !canvas) return;
+            if (canvas.width === 0 || canvas.height === 0) resizeCanvas();
+
+            var w = canvas.width;
+            var h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            var bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+            bgGrad.addColorStop(0, '#fafbfc');
+            bgGrad.addColorStop(1, '#f0f2f5');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Grid
+            ctx.strokeStyle = 'rgba(0, 131, 143, 0.04)';
+            ctx.lineWidth = 1;
+            for (var x = 0; x < w; x += 25) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+            for (var y = 0; y < h; y += 25) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+            if (vizMode === 'phasor') drawPhasorDiagram(w, h);
+            else if (vizMode === 'resonance') drawResonanceCurve(w, h);
+            else if (vizMode === 'power') drawPowerTriangle(w, h);
+
+            updateInfoDisplay();
+        }
+
+        function drawPhasorDiagram(w, h) {
+            var omega = 2 * Math.PI * frequencyF;
+            var XL = omega * inductanceL;
+            var XC = 1 / (omega * capacitanceC);
+            var X = XL - XC;
+            var Z = Math.sqrt(resistanceR * resistanceR + X * X);
+            var phi = Math.atan2(X, resistanceR);
+            var Ief = voltageV / Z;
+
+            var cx = w / 2;
+            var cy = h / 2;
+            var scale = Math.min(w, h) / 5;
+
+            // Draw axes
+            ctx.strokeStyle = 'rgba(0, 131, 143, 0.2)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(cx - w/3, cy); ctx.lineTo(cx + w/3, cy);
+            ctx.moveTo(cx, cy - h/3); ctx.lineTo(cx, cy + h/3);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Labels
+            ctx.fillStyle = '#5d7285';
+            ctx.font = '11px DM Sans';
+            ctx.textAlign = 'center';
+            ctx.fillText('Real (R)', cx + w/3 - 30, cy - 10);
+            ctx.fillText('Imajiner (X)', cx + 30, cy - h/3 + 20);
+
+            // VR vector (horizontal)
+            var vrLen = (resistanceR / Z) * scale;
+            drawVector(ctx, cx, cy, cx + vrLen, cy, '#00838f', 'VR');
+
+            // VL vector (up from VR tip)
+            var vlLen = (XL / Z) * scale;
+            drawVector(ctx, cx + vrLen, cy, cx + vrLen, cy - vlLen, '#d97706', 'VL');
+
+            // VC vector (down from VR tip)
+            var vcLen = (XC / Z) * scale;
+            drawVector(ctx, cx + vrLen, cy, cx + vrLen, cy + vcLen, '#7c3aed', 'VC');
+
+            // V total vector
+            var vtX = cx + (resistanceR / Z) * scale;
+            var vtY = cy - (X / Z) * scale;
+            drawVector(ctx, cx, cy, vtX, vtY, '#dc2626', 'V');
+
+            // Phase angle arc
+            ctx.strokeStyle = '#5d7285';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            var arcRadius = 40;
+            ctx.arc(cx, cy, arcRadius, 0, -phi, phi > 0);
+            ctx.stroke();
+
+            // Phase label
+            ctx.fillStyle = '#5d7285';
+            ctx.font = 'bold 12px Space Mono';
+            var angleDeg = (phi * 180 / Math.PI).toFixed(1);
+            ctx.fillText('φ=' + angleDeg + '°', cx + arcRadius + 15, cy - 10);
+
+            // Update result
+            document.getElementById('vizResult').textContent = 'Z = ' + Z.toFixed(1) + ' Ω';
+            document.getElementById('infoXL').textContent = XL.toFixed(1) + ' Ω';
+            document.getElementById('infoXC').textContent = XC.toFixed(1) + ' Ω';
+            document.getElementById('infoZ').textContent = Z.toFixed(1) + ' Ω';
+            document.getElementById('infoPhase').textContent = angleDeg + '°';
+        }
+
+        function drawVector(ctx, x1, y1, x2, y2, color, label) {
+            var headLen = 10;
+            var angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - headLen * Math.cos(angle - Math.PI/6), y2 - headLen * Math.sin(angle - Math.PI/6));
+            ctx.lineTo(x2 - headLen * Math.cos(angle + Math.PI/6), y2 - headLen * Math.sin(angle + Math.PI/6));
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.fillStyle = color;
+            ctx.font = 'bold 12px DM Sans';
+            ctx.textAlign = 'center';
+            var labelX = x2 + 20 * Math.cos(angle);
+            var labelY = y2 + 20 * Math.sin(angle);
+            ctx.fillText(label, labelX, labelY);
+        }
+
+        function drawResonanceCurve(w, h) {
+            var fr = 1 / (2 * Math.PI * Math.sqrt(inductanceL * capacitanceC));
+            var omegaR = 2 * Math.PI * fr;
+            var Q = (omegaR * inductanceL) / resistanceR;
+            var fMax = fr * 3;
+            var fMin = 0;
+
+            var graphLeft = 50;
+            var graphRight = w - 30;
+            var graphTop = 40;
+            var graphBottom = h - 60;
+            var graphW = graphRight - graphLeft;
+            var graphH = graphBottom - graphTop;
+
+            // Axes
+            ctx.strokeStyle = '#2c3e50';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(graphLeft, graphBottom);
+            ctx.lineTo(graphRight, graphBottom);
+            ctx.moveTo(graphLeft, graphBottom);
+            ctx.lineTo(graphLeft, graphTop);
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#5d7285';
+            ctx.font = '11px DM Sans';
+            ctx.textAlign = 'center';
+            ctx.fillText('Frekuensi (Hz)', (graphLeft + graphRight)/2, h - 15);
+            ctx.save();
+            ctx.translate(15, (graphTop + graphBottom)/2);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText('Arus (A)', 0, 0);
+            ctx.restore();
+
+            // Frequency labels
+            ctx.textAlign = 'center';
+            for (var i = 0; i <= 5; i++) {
+                var fLabel = (fMin + (fMax - fMin) * i / 5);
+                var xPos = graphLeft + graphW * i / 5;
+                ctx.fillText(fLabel.toFixed(0), xPos, graphBottom + 15);
+            }
+
+            // Resonance frequency line
+            var frX = graphLeft + (fr / fMax) * graphW;
+            ctx.strokeStyle = 'rgba(217, 119, 6, 0.4)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(frX, graphTop);
+            ctx.lineTo(frX, graphBottom);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#d97706';
+            ctx.font = 'bold 11px DM Sans';
+            ctx.fillText('fr = ' + fr.toFixed(1) + ' Hz', frX, graphTop - 8);
+
+            // Draw resonance curve
+            ctx.strokeStyle = '#00838f';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+
+            var Imax = voltageV / resistanceR;
+            var prevY = graphBottom;
+
+            for (var px = graphLeft; px <= graphRight; px++) {
+                var f = ((px - graphLeft) / graphW) * fMax;
+                if (f < 1) f = 1;
+                var omega = 2 * Math.PI * f;
+                var XL = omega * inductanceL;
+                var XC = 1 / (omega * capacitanceC);
+                var Z = Math.sqrt(resistanceR * resistanceR + Math.pow(XL - XC, 2));
+                var I = voltageV / Z;
+                var normalizedI = I / Imax;
+                var y = graphBottom - normalizedI * (graphH - 20);
+
+                if (px === graphLeft) ctx.moveTo(px, y);
+                else ctx.lineTo(px, y);
+            }
+            ctx.stroke();
+
+            // Current point
+            var currentF = frequencyF;
+            var currentOmega = 2 * Math.PI * currentF;
+            var currentXL = currentOmega * inductanceL;
+            var currentXC = 1 / (currentOmega * capacitanceC);
+            var currentZ = Math.sqrt(resistanceR * resistanceR + Math.pow(currentXL - currentXC, 2));
+            var currentI = voltageV / currentZ;
+            var currentNormI = currentI / Imax;
+            var pointX = graphLeft + (currentF / fMax) * graphW;
+            var pointY = graphBottom - currentNormI * (graphH - 20);
+
+            ctx.fillStyle = '#dc2626';
+            ctx.beginPath();
+            ctx.arc(pointX, pointY, 6, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Update result
+            document.getElementById('vizResult').textContent = 'fr = ' + fr.toFixed(1) + ' Hz, Q = ' + Q.toFixed(1);
+            document.getElementById('infoXL').textContent = currentXL.toFixed(1) + ' Ω';
+            document.getElementById('infoXC').textContent = currentXC.toFixed(1) + ' Ω';
+            document.getElementById('infoZ').textContent = currentZ.toFixed(1) + ' Ω';
+            document.getElementById('infoPhase').textContent = 'Q = ' + Q.toFixed(1);
+        }
+
+        function drawPowerTriangle(w, h) {
+            var omega = 2 * Math.PI * frequencyF;
+            var XL = omega * inductanceL;
+            var XC = 1 / (omega * capacitanceC);
+            var X = XL - XC;
+            var Z = Math.sqrt(resistanceR * resistanceR + X * X);
+            var Ief = voltageV / Z;
+            var phi = Math.atan2(X, resistanceR);
+            var cosPhi = Math.cos(phi);
+            var sinPhi = Math.sin(phi);
+
+            var P = voltageV * Ief * cosPhi;
+            var Q = Math.abs(voltageV * Ief * sinPhi);
+            var S = voltageV * Ief;
+
+            var cx = w / 2 - 40;
+            var cy = h / 2 + 30;
+            var scale = Math.min(w, h) / 4;
+
+            // Normalize for display
+            var maxS = Math.max(S, 1);
+            var pNorm = (P / maxS) * scale;
+            var qNorm = (Q / maxS) * scale;
+            var sNorm = (S / maxS) * scale;
+
+            // Draw triangle
+            ctx.strokeStyle = '#2c3e50';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + pNorm, cy);
+            ctx.lineTo(cx + pNorm, cy - qNorm * Math.sign(X));
+            ctx.closePath();
+            ctx.stroke();
+
+            // Fill triangle
+            ctx.fillStyle = 'rgba(0, 131, 143, 0.08)';
+            ctx.fill();
+
+            // P vector
+            drawVector(ctx, cx, cy, cx + pNorm, cy, '#00838f', '');
+            ctx.fillStyle = '#00838f';
+            ctx.font = 'bold 13px Space Mono';
+            ctx.textAlign = 'center';
+            ctx.fillText('P = ' + P.toFixed(0) + ' W', cx + pNorm/2, cy + 25);
+
+            // Q vector
+            var qDir = X > 0 ? -1 : 1;
+            drawVector(ctx, cx + pNorm, cy, cx + pNorm, cy + qNorm * qDir, '#d97706', '');
+            ctx.fillStyle = '#d97706';
+            ctx.fillText('Q = ' + Q.toFixed(0) + ' VAR', cx + pNorm + 60, cy + qNorm * qDir / 2);
+
+            // S vector (hypotenuse)
+            drawVector(ctx, cx, cy, cx + pNorm, cy - qNorm * Math.sign(X), '#7c3aed', '');
+            
+            // S label
+            var sAngle = Math.atan2(-qNorm * Math.sign(X), pNorm);
+            ctx.fillStyle = '#7c3aed';
+            ctx.font = 'bold 13px Space Mono';
+            ctx.fillText('S = ' + S.toFixed(0) + ' VA', cx + sNorm/2 * Math.cos(sAngle) - 50, cy + sNorm/2 * Math.sin(sAngle) - 10);
+
+            // Angle arc
+            ctx.strokeStyle = '#5d7285';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 30, 0, -phi, phi > 0);
+            ctx.stroke();
+
+            ctx.fillStyle = '#5d7285';
+            ctx.font = 'bold 12px Space Mono';
+            ctx.fillText('φ', cx + 40, cy - 5);
+
+            // Power factor gauge
+            var gaugeX = w - 100;
+            var gaugeY = h / 2;
+            var gaugeH = 150;
+            var gaugeW = 30;
+
+            ctx.fillStyle = '#e8ecf1';
+            ctx.fillRect(gaugeX - gaugeW/2, gaugeY - gaugeH/2, gaugeW, gaugeH);
+
+            var fillH = cosPhi * gaugeH;
+            var fillColor = cosPhi > 0.8 ? '#059669' : (cosPhi > 0.5 ? '#d97706' : '#dc2626');
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(gaugeX - gaugeW/2, gaugeY + gaugeH/2 - fillH, gaugeW, fillH);
+
+            ctx.strokeStyle = '#2c3e50';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(gaugeX - gaugeW/2, gaugeY - gaugeH/2, gaugeW, gaugeH);
+
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = 'bold 14px Space Mono';
+            ctx.textAlign = 'center';
+            ctx.fillText(cosPhi.toFixed(2), gaugeX, gaugeY + gaugeH/2 + 25);
+            ctx.font = '11px DM Sans';
+            ctx.fillText('cos φ', gaugeX, gaugeY - gaugeH/2 - 10);
+
+            // Update result
+            document.getElementById('vizResult').textContent = 'P = ' + P.toFixed(0) + ' W, cos φ = ' + cosPhi.toFixed(2);
+            document.getElementById('infoXL').textContent = XL.toFixed(1) + ' Ω';
+            document.getElementById('infoXC').textContent = XC.toFixed(1) + ' Ω';
+            document.getElementById('infoZ').textContent = Z.toFixed(1) + ' Ω';
+            document.getElementById('infoPhase').textContent = (phi * 180 / Math.PI).toFixed(1) + '°';
+        }
+
+        function updateInfoDisplay() {}
+
+        // ========================================
+        // Quiz System
+        // ========================================
+        function initQuiz() {
+            var generateBtn = document.getElementById('generateBtn');
+            var retryBtn = document.getElementById('retryBtn');
+            if (generateBtn) generateBtn.addEventListener('click', generateQuiz);
+            if (retryBtn) retryBtn.addEventListener('click', generateQuiz);
+            generateQuiz();
+        }
+
+        function shuffleArray(array) {
+            var newArray = array.slice();
+            for (var i = newArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
+            return newArray;
+        }
+
+        function generateQuiz() {
+            currentQuestions = shuffleArray(questionBank).slice(0, 5);
+            userAnswers = new Array(5).fill(null);
+            score = 0;
+            quizSubmitted = false;
+            document.getElementById('scoreDisplay').textContent = '0/5';
+            document.getElementById('resultCard').classList.remove('show');
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            var container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            currentQuestions.forEach(function(q, qIndex) {
+                var card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = 'question-' + qIndex;
+                var questionTitle = document.createElement('p');
+                questionTitle.className = 'question-text';
+                questionTitle.innerHTML = '<span class="question-number">' + (qIndex + 1) + '</span>' + q.question;
+                card.appendChild(questionTitle);
+                var optionsList = document.createElement('div');
+                optionsList.className = 'options-list';
+                var letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach(function(opt, oIndex) {
+                    var btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = '<span class="option-letter">' + letters[oIndex] + '</span><span class="option-text">' + opt + '</span>';
+                    btn.addEventListener('click', function() { selectOption(qIndex, oIndex); });
+                    optionsList.appendChild(btn);
+                });
+                card.appendChild(optionsList);
+                var feedback = document.createElement('div');
+                feedback.className = 'feedback-box';
+                feedback.id = 'feedback-' + qIndex;
+                card.appendChild(feedback);
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qIndex, oIndex) {
+            if (quizSubmitted) return;
+            userAnswers[qIndex] = oIndex;
+            var questionCard = document.getElementById('question-' + qIndex);
+            var options = questionCard.querySelectorAll('.option-btn');
+            options.forEach(function(opt, idx) {
+                opt.classList.remove('selected');
+                if (idx === oIndex) opt.classList.add('selected');
+            });
+            if (userAnswers.indexOf(null) === -1) submitQuiz();
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            score = 0;
+            currentQuestions.forEach(function(q, qIndex) {
+                var questionCard = document.getElementById('question-' + qIndex);
+                var options = questionCard.querySelectorAll('.option-btn');
+                var feedback = document.getElementById('feedback-' + qIndex);
+                var userAnswer = userAnswers[qIndex];
+                var correctAnswer = q.correct;
+                options.forEach(function(opt, idx) {
+                    opt.classList.add('disabled');
+                    opt.classList.remove('selected');
+                    if (idx === correctAnswer) opt.classList.add('correct');
+                    else if (idx === userAnswer && userAnswer !== correctAnswer) opt.classList.add('incorrect');
+                });
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    questionCard.classList.add('correct');
+                    feedback.className = 'feedback-box show correct';
+                    feedback.textContent = 'Benar! ' + q.explanation;
+                } else {
+                    questionCard.classList.add('incorrect');
+                    feedback.className = 'feedback-box show incorrect';
+                    feedback.textContent = 'Salah. ' + q.explanation;
+                }
+            });
+            document.getElementById('scoreDisplay').textContent = score + '/5';
+            document.getElementById('finalScore').textContent = score + '/5';
+            var resultMessage = document.getElementById('resultMessage');
+            if (score === 5) resultMessage.textContent = 'Sempurna! Anda menguasai materi dengan sangat baik!';
+            else if (score >= 3) resultMessage.textContent = 'Bagus! Terus tingkatkan pemahaman Anda.';
+            else resultMessage.textContent = 'Pelajari kembali materi dan coba lagi!';
+            document.getElementById('resultCard').classList.add('show');
+        }
+
+        // ========================================
+        // Animations
+        // ========================================
+        function initAnimations() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.module-card').forEach(function(card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>

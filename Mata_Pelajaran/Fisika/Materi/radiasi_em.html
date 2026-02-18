@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiasi Elektromagnetik - Fisika Kelas 12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2235;
+            --bg-elevated: #242d42;
+            --fg-primary: #f1f5f9;
+            --fg-secondary: #94a3b8;
+            --fg-muted: #64748b;
+            --accent-primary: #06b6d4;
+            --accent-primary-light: #22d3ee;
+            --accent-secondary: #f59e0b;
+            --accent-success: #10b981;
+            --accent-error: #ef4444;
+            --accent-glow: rgba(6, 182, 212, 0.25);
+            --spectrum-radio: #7c3aed;
+            --spectrum-micro: #3b82f6;
+            --spectrum-infrared: #dc2626;
+            --spectrum-visible: #22c55e;
+            --spectrum-uv: #a855f7;
+            --spectrum-x: #ec4899;
+            --spectrum-gamma: #f97316;
+            --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 60px rgba(6, 182, 212, 0.15);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition-fast: 0.15s ease;
+            --transition-medium: 0.3s ease;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 182, 212, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 90% 100%, rgba(124, 58, 237, 0.1), transparent);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 14, 23, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .navbar-logo svg { width: 22px; height: 22px; color: white; }
+
+        .navbar-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        .navbar-title span { color: var(--accent-primary); }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-card);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-nav:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border-color: var(--accent-primary);
+            transform: translateX(-4px);
+        }
+
+        .btn-nav svg { width: 16px; height: 16px; }
+
+        .hero {
+            padding: 48px 24px 36px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .breadcrumb a:hover { color: var(--accent-primary-light); }
+
+        .breadcrumb svg { width: 14px; height: 14px; opacity: 0.5; }
+
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 12px;
+            line-height: 1.1;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1rem;
+            color: var(--fg-secondary);
+            max-width: 600px;
+            line-height: 1.75;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .hero-badge svg { width: 16px; height: 16px; }
+
+        .section-nav {
+            position: sticky;
+            top: 64px;
+            background: rgba(10, 14, 23, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.08);
+            z-index: 999;
+            padding: 0 24px;
+        }
+
+        .section-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 12px 0;
+            scrollbar-width: none;
+        }
+
+        .section-nav-container::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 10px 22px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+        }
+
+        .nav-tab:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 24px 80px;
+        }
+
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            border: 1px solid rgba(6, 182, 212, 0.08);
+            transition: var(--transition-medium);
+        }
+
+        .module-card:hover {
+            border-color: rgba(6, 182, 212, 0.2);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .module-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(245, 158, 11, 0.1));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .module-icon svg { width: 26px; height: 26px; color: var(--accent-primary); }
+
+        .module-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin-bottom: 4px;
+        }
+
+        .module-subtitle {
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+        }
+
+        .module-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin: 20px 0 10px;
+        }
+
+        .module-content h3:first-child { margin-top: 0; }
+
+        .module-content p {
+            color: var(--fg-secondary);
+            margin-bottom: 12px;
+            line-height: 1.75;
+            font-size: 0.9rem;
+        }
+
+        .module-content ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .module-content li {
+            color: var(--fg-secondary);
+            margin-bottom: 6px;
+            line-height: 1.65;
+            font-size: 0.88rem;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(245, 158, 11, 0.04));
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .formula {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .formula-description {
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+            margin-top: 10px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.82rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .info-table th {
+            background: var(--bg-elevated);
+            font-weight: 600;
+            color: var(--fg-primary);
+            font-size: 0.75rem;
+        }
+
+        .info-table td { color: var(--fg-secondary); }
+
+        .spectrum-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .reference-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 14px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: var(--radius-sm);
+            font-size: 0.78rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            margin: 3px;
+            transition: var(--transition-fast);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+        }
+
+        .reference-link:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .reference-link svg { width: 12px; height: 12px; }
+
+        /* Visualization */
+        .viz-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+        }
+
+        .viz-controls {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            border: 1px solid rgba(6, 182, 212, 0.08);
+            height: fit-content;
+        }
+
+        .controls-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .controls-title svg { width: 18px; height: 18px; color: var(--accent-primary); }
+
+        .control-group { margin-bottom: 18px; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            margin-bottom: 8px;
+        }
+
+        .control-value {
+            font-family: 'Space Grotesk', monospace;
+            color: var(--accent-primary);
+            background: rgba(6, 182, 212, 0.15);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-elevated);
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 12px var(--accent-glow);
+            transition: var(--transition-fast);
+        }
+
+        .slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 10px 14px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            color: var(--fg-secondary);
+            background: var(--bg-elevated);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .select-control:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .toggle-group { display: flex; gap: 6px; }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 8px;
+            font-family: inherit;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-elevated);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        .toggle-btn:hover:not(.active) {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-top: 4px;
+        }
+
+        .btn-reset:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        .viz-canvas-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(6, 182, 212, 0.08);
+            overflow: hidden;
+        }
+
+        .viz-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .viz-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        .viz-result {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.82rem;
+            color: var(--accent-primary);
+            background: rgba(6, 182, 212, 0.15);
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .viz-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 360px;
+            background: var(--bg-secondary);
+        }
+
+        .viz-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .viz-info {
+            padding: 16px 20px;
+            background: var(--bg-elevated);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .info-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            border: 1px solid rgba(6, 182, 212, 0.08);
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .quiz-info h2 {
+            font-size: 1.1rem;
+            color: var(--fg-primary);
+            margin-bottom: 4px;
+        }
+
+        .quiz-info p {
+            font-size: 0.82rem;
+            color: var(--fg-muted);
+        }
+
+        .quiz-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(245, 158, 11, 0.08));
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+        }
+
+        .score-label { font-size: 0.78rem; color: var(--fg-muted); }
+
+        .score-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .quiz-actions { display: flex; gap: 10px; }
+
+        .btn-quiz {
+            padding: 10px 18px;
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+        }
+
+        .btn-generate {
+            background: var(--accent-secondary);
+            color: var(--bg-primary);
+        }
+
+        .btn-generate:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        .btn-retry {
+            background: var(--bg-elevated);
+            color: var(--fg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-retry:hover {
+            background: var(--bg-card);
+            color: var(--fg-primary);
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            border: 1px solid rgba(6, 182, 212, 0.08);
+            margin-bottom: 14px;
+            transition: var(--transition-medium);
+        }
+
+        .question-card.correct { border-color: var(--accent-success); }
+        .question-card.incorrect { border-color: var(--accent-error); }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        .question-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--fg-primary);
+            margin-bottom: 16px;
+            line-height: 1.55;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-elevated);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.selected):not(.disabled) {
+            border-color: var(--accent-primary);
+            background: rgba(6, 182, 212, 0.08);
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent-primary);
+            background: rgba(6, 182, 212, 0.12);
+        }
+
+        .option-btn.correct {
+            border-color: var(--accent-success);
+            background: rgba(16, 185, 129, 0.12);
+        }
+
+        .option-btn.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(239, 68, 68, 0.12);
+        }
+
+        .option-btn.disabled { cursor: default; opacity: 0.7; }
+
+        .option-letter {
+            width: 28px;
+            height: 28px;
+            background: var(--bg-card);
+            border: 2px solid var(--fg-muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--fg-secondary);
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .option-btn.selected .option-letter {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--accent-success);
+            border-color: var(--accent-success);
+            color: white;
+        }
+
+        .option-btn.incorrect .option-letter {
+            background: var(--accent-error);
+            border-color: var(--accent-error);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 0.88rem;
+            color: var(--fg-secondary);
+            line-height: 1.45;
+        }
+
+        .feedback-box {
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            display: none;
+        }
+
+        .feedback-box.show { display: block; }
+        .feedback-box.correct { background: rgba(16, 185, 129, 0.12); color: #6ee7b7; border-left: 3px solid var(--accent-success); }
+        .feedback-box.incorrect { background: rgba(239, 68, 68, 0.12); color: #fca5a5; border-left: 3px solid var(--accent-error); }
+
+        .quiz-result-card {
+            background: linear-gradient(135deg, var(--accent-primary), #0891b2);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            text-align: center;
+            color: white;
+            margin-top: 18px;
+            display: none;
+        }
+
+        .quiz-result-card.show { display: block; }
+
+        .result-icon {
+            width: 68px;
+            height: 68px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .result-icon svg { width: 34px; height: 34px; }
+
+        .result-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+        .result-score { font-family: 'Space Grotesk', monospace; font-size: 2.6rem; font-weight: 700; margin: 14px 0; }
+        .result-message { font-size: 0.95rem; opacity: 0.9; }
+
+        @media (max-width: 900px) {
+            .viz-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 16px; }
+            .btn-nav span { display: none; }
+            .hero { padding: 28px 16px 22px; }
+            .hero-title { font-size: 1.7rem; }
+            .section-nav { top: 64px; padding: 0 16px; }
+            .nav-tab { padding: 8px 14px; font-size: 0.78rem; }
+            .main-content { padding: 16px 16px 50px; }
+            .module-grid { grid-template-columns: 1fr; }
+            .module-card { padding: 22px; }
+            .module-header { flex-direction: column; gap: 12px; }
+            .viz-controls { padding: 18px; }
+            .viz-canvas-wrapper { height: 300px; }
+            .quiz-header { padding: 18px; flex-direction: column; text-align: center; }
+            .question-card { padding: 18px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.45rem; }
+            .formula { font-size: 1.05rem; }
+            .option-btn { padding: 12px 14px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" role="navigation">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            <a href="http://owenitb.great-site.net/" target="_self" class="btn-nav">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="breadcrumb">
+            <a href="http://owenitb.great-site.net/" target="_self">Dashboard</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/fisika.html" target="_self">Fisika</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <span>Radiasi EM</span>
+        </div>
+        <div class="hero-header">
+            <div>
+                <h1 class="hero-title">
+                    <span class="hero-title-accent">Radiasi Elektromagnetik</span>
+                </h1>
+                <p class="hero-description">
+                    Pelajari spektrum gelombang elektromagnetik, teori Maxwell, dan pemanfaatan radiasi melalui visualisasi interaktif.
+                </p>
+            </div>
+            <span class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                Gelombang EM
+            </span>
+        </div>
+    </section>
+
+    <div class="section-nav">
+        <div class="section-nav-container">
+            <button class="nav-tab active" data-section="module">Modul Materi</button>
+            <button class="nav-tab" data-section="visualization">Visualisasi Interaktif</button>
+            <button class="nav-tab" data-section="quiz">Kuis Interaktif</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <section class="content-section active" id="module">
+            <div class="module-grid">
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Spektrum Gelombang EM</h2>
+                            <p class="module-subtitle">Jenis dan Karakteristik</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian Dasar</h3>
+                        <p>Gelombang elektromagnetik adalah gelombang transversal yang terbentuk dari osilasi medan listrik dan medan magnet yang saling tegak lurus, merambat dengan kecepatan cahaya di ruang hampa.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">c = f × λ</div>
+                            <p class="formula-description">c = 3 × 10⁸ m/s (kecepatan cahaya)</p>
+                        </div>
+
+                        <h3>Urutan Spektrum</h3>
+                        <p>Dari frekuensi terendah ke tertinggi:</p>
+                        <ul>
+                            <li><span class="spectrum-badge" style="background: #7c3aed;">Radio</span> - Komunikasi</li>
+                            <li><span class="spectrum-badge" style="background: #3b82f6;">Mikro</span> - Microwave, radar</li>
+                            <li><span class="spectrum-badge" style="background: #dc2626;">Inframerah</span> - Remote, termometer</li>
+                            <li><span class="spectrum-badge" style="background: #22c55e;">Cahaya Tampak</span> - Penglihatan</li>
+                            <li><span class="spectrum-badge" style="background: #a855f7;">UV</span> - Sterilisasi</li>
+                            <li><span class="spectrum-badge" style="background: #ec4899;">Sinar X</span> - Radiologi</li>
+                            <li><span class="spectrum-badge" style="background: #f97316;">Gamma</span> - Terapi kanker</li>
+                        </ul>
+
+                        <h3>Sifat-Sifat</h3>
+                        <ul>
+                            <li>Merambat tanpa medium</li>
+                            <li>Kecepatan 3 × 10⁸ m/s di vakum</li>
+                            <li>Energi E = hf (sebanding frekuensi)</li>
+                        </ul>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://mediabelajar.web.id/wp-content/uploads/2022/08/XII_Fisika_KD-3.6_Radiasi-Elektromagnetik.pdf" target="_self" class="reference-link">Media Belajar</a>
+                            <a href="https://www.quipper.com/id/blog/mapel/fisika/gelombang-elektromagnetik-fisika-kelas-12/" target="_self" class="reference-link">Quipper</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Teori Maxwell</h2>
+                            <p class="module-subtitle">Fondasi Elektromagnetisme</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Empat Persamaan Maxwell</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr><th>Hukum</th><th>Bunyi</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Gauss Listrik</td><td>Medan listrik dari muatan</td></tr>
+                                <tr><td>Gauss Magnet</td><td>Tidak ada monopel magnet</td></tr>
+                                <tr><td>Faraday</td><td>Perubahan B menginduksi E</td></tr>
+                                <tr><td>Ampere-Maxwell</td><td>Arus + perubahan E → B</td></tr>
+                            </tbody>
+                        </table>
+
+                        <div class="formula-box">
+                            <div class="formula">c = 1/√(μ₀ε₀)</div>
+                            <p class="formula-description">Kecepatan gelombang EM dari persamaan Maxwell</p>
+                        </div>
+
+                        <h3>Implikasi</h3>
+                        <p>Dari persamaan Maxwell terbukti bahwa cahaya adalah gelombang elektromagnetik. Hertz membuktikan teori ini tahun 1887.</p>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://id.scribd.com/doc/48261624/Teori-Maxwell-Berkaitan-Dengan-Elektromagnetik" target="_self" class="reference-link">Scribd</a>
+                            <a href="https://studyinca.ac.id/persamaan-maxwell-fondasi/" target="_self" class="reference-link">Study in CA</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Pemanfaatan</h2>
+                            <p class="module-subtitle">Aplikasi dan Bahaya</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Aplikasi per Jenis</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr><th>Jenis</th><th>Pemanfaatan</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Radio</td><td>Komunikasi, siaran TV</td></tr>
+                                <tr><td>Mikro</td><td>Microwave oven, radar</td></tr>
+                                <tr><td>Inframerah</td><td>Remote, termografi</td></tr>
+                                <tr><td>UV</td><td>Sterilisasi, vitamin D</td></tr>
+                                <tr><td>Sinar X</td><td>Radiologi medis</td></tr>
+                                <tr><td>Gamma</td><td>Terapi kanker</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Bahaya Radiasi</h3>
+                        <p>Radiasi ionisasi (UV, X, Gamma) berbahaya karena dapat merusak DNA, menyebabkan kanker, mutasi, atau katarak.</p>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://mamikos.com/info/materi-radiasi-elektromagnetik-kelas-12-pljr/" target="_self" class="reference-link">Mamikos</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-section" id="visualization">
+            <div class="viz-container">
+                <aside class="viz-controls">
+                    <h3 class="controls-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        Parameter Simulasi
+                    </h3>
+
+                    <div class="control-group">
+                        <label class="control-label">Mode Visualisasi</label>
+                        <select class="select-control" id="vizMode">
+                            <option value="spectrum">Spektrum EM</option>
+                            <option value="wave">Gelombang EM</option>
+                            <option value="energy">Energi vs Frekuensi</option>
+                        </select>
+                    </div>
+
+                    <div id="spectrumControls">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Frekuensi (log)
+                                <span class="control-value" id="freqValue">10¹² Hz</span>
+                            </label>
+                            <input type="range" class="slider" id="freqSlider" min="3" max="22" value="12" step="0.1">
+                        </div>
+                    </div>
+
+                    <div id="waveControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Frekuensi Gelombang
+                                <span class="control-value" id="waveFreqValue">5 Hz</span>
+                            </label>
+                            <input type="range" class="slider" id="waveFreqSlider" min="1" max="20" value="5" step="1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Amplitudo E
+                                <span class="control-value" id="ampValue">100 V/m</span>
+                            </label>
+                            <input type="range" class="slider" id="ampSlider" min="20" max="200" value="100" step="10">
+                        </div>
+                    </div>
+
+                    <div id="energyControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Frekuensi (Hz)
+                                <span class="control-value" id="eFreqValue">1×10¹⁵</span>
+                            </label>
+                            <input type="range" class="slider" id="eFreqSlider" min="12" max="22" value="15" step="0.5">
+                        </div>
+                    </div>
+
+                    <button class="btn-reset" id="resetBtn">Reset Simulasi</button>
+                </aside>
+
+                <div class="viz-canvas-container">
+                    <div class="viz-header">
+                        <span class="viz-title" id="vizTitle">Spektrum Gelombang Elektromagnetik</span>
+                        <span class="viz-result" id="vizResult">λ = 3.0×10⁻⁴ m</span>
+                    </div>
+                    <div class="viz-canvas-wrapper">
+                        <canvas class="viz-canvas" id="simCanvas"></canvas>
+                    </div>
+                    <div class="viz-info">
+                        <div class="info-grid" id="infoGrid">
+                            <div class="info-item">
+                                <span class="info-label">Jenis Gelombang</span>
+                                <span class="info-value" id="infoType">Inframerah</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Energi Foton</span>
+                                <span class="info-value" id="infoEnergy">4.1×10⁻²² J</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Panjang Gelombang</span>
+                                <span class="info-value" id="infoLambda">3.0×10⁻⁴ m</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Kategori</span>
+                                <span class="info-value" id="infoCategory">Non-ionisasi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="quiz">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h2>Kuis Radiasi Elektromagnetik</h2>
+                        <p>Uji pemahaman Anda tentang gelombang elektromagnetik</p>
+                    </div>
+                    <div class="quiz-score">
+                        <span class="score-label">Skor:</span>
+                        <span class="score-value" id="scoreDisplay">0/5</span>
+                    </div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn-quiz btn-generate" id="generateBtn">Generate Soal Baru</button>
+                    <button class="btn-quiz btn-retry" id="retryBtn">Ulangi Kuis</button>
+                </div>
+
+                <div id="quizContainer"></div>
+
+                <div class="quiz-result-card" id="resultCard">
+                    <div class="result-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="result-title">Kuis Selesai</h3>
+                    <div class="result-score" id="finalScore">0/5</div>
+                    <p class="result-message" id="resultMessage">Terus berlatih untuk meningkatkan pemahaman!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // ========================================
+        // Question Bank - TAMBAHKAN SOAL DI SINI
+        // ========================================
+        var questionBank = [
+            // Spektrum EM
+            { question: "Gelombang elektromagnetik dapat merambat tanpa medium karena...", options: ["Memiliki massa", "Bermuatan listrik", "Medan E dan B saling membangkitkan", "Memiliki energi kinetik"], correct: 2, explanation: "Medan listrik dan medan magnet saling membangkitkan sehingga tidak memerlukan medium." },
+            { question: "Hubungan frekuensi dan panjang gelombang adalah...", options: ["Berbanding lurus", "Berbanding terbalik", "Sama besar", "Tidak berhubungan"], correct: 1, explanation: "c = fλ, sehingga f dan λ berbanding terbalik." },
+            { question: "Urutan spektrum dari frekuensi rendah ke tinggi adalah...", options: ["Gamma-X-UV-Radio", "Radio-Mikro-IR-Tampak-UV-X-Gamma", "IR-Radio-Gamma", "UV-Tampak-Radio"], correct: 1, explanation: "Urutan: Radio, Mikro, Inframerah, Tampak, UV, Sinar X, Gamma." },
+            { question: "Kecepatan cahaya di vakum adalah...", options: ["3×10⁶ m/s", "3×10⁸ m/s", "3×10¹⁰ m/s", "3×10⁵ m/s"], correct: 1, explanation: "c = 3 × 10⁸ m/s di vakum." },
+            { question: "Energi foton dirumuskan dengan...", options: ["E = mc²", "E = hf", "E = fλ", "E = I/A"], correct: 1, explanation: "E = hf, dengan h = 6,626×10⁻³⁴ Js." },
+            { question: "Gelombang dengan panjang gelombang paling pendek adalah...", options: ["Radio", "UV", "X", "Gamma"], correct: 3, explanation: "Sinar gamma memiliki λ terpendek dan frekuensi tertinggi." },
+            { question: "Cahaya tampak memiliki panjang gelombang sekitar...", options: ["10⁻³ m", "10⁻⁶ m", "10⁻⁹ m", "10² m"], correct: 1, explanation: "Cahaya tampak: 400-700 nm = 4×10⁻⁷ - 7×10⁻⁷ m." },
+            { question: "Gelombang mikro digunakan pada...", options: ["Radiologi", "Microwave oven", "Sterilisasi", "Terapi kanker"], correct: 1, explanation: "Microwave oven menggunakan gelombang mikro." },
+            { question: "Sifat transversal berarti...", options: ["Getaran sejajar arah rambat", "Getaran tegak lurus arah rambat", "Tidak bergetar", "Getaran acak"], correct: 1, explanation: "Transversal: getaran tegak lurus arah rambat." },
+            { question: "Jika frekuensi naik maka energi...", options: ["Turun", "Tetap", "Naik", "Nol"], correct: 2, explanation: "E = hf, energi sebanding dengan frekuensi." },
+            // Teori Maxwell
+            { question: "Tokoh yang merumuskan teori EM adalah...", options: ["Faraday", "Maxwell", "Ampere", "Hertz"], correct: 1, explanation: "James Clerk Maxwell merumuskan teori elektromagnetik." },
+            { question: "Hukum Gauss untuk magnet menyatakan...", options: ["Ada monopel magnet", "Tidak ada monopel magnet", "Magnet memiliki muatan", "Magnet statis"], correct: 1, explanation: "∇·B = 0, tidak ada monopel magnet." },
+            { question: "Hukum Faraday menjelaskan...", options: ["Medan listrik konstan", "Perubahan medan magnet menghasilkan medan listrik", "Arus searah", "Medan gravitasi"], correct: 1, explanation: "Perubahan fluks magnetik menginduksi GGL." },
+            { question: "Tambahan Maxwell pada hukum Ampere adalah...", options: ["Arus searah", "Arus perpindahan", "Medan listrik tetap", "Hukum Coulomb"], correct: 1, explanation: "Maxwell menambahkan arus perpindahan pada hukum Ampere." },
+            { question: "Gelombang EM bersifat...", options: ["Longitudinal", "Transversal", "Kombinasi", "Statis"], correct: 1, explanation: "Gelombang EM adalah gelombang transversal." },
+            { question: "Eksperimen Hertz membuktikan...", options: ["Adanya elektron", "Teori Maxwell", "Hukum Ohm", "Kekekalan energi"], correct: 1, explanation: "Hertz membuktikan teori Maxwell tahun 1887." },
+            { question: "Medan E dan B pada gelombang EM...", options: ["Sejajar", "Tegak lurus", "Berlawanan", "Tidak ada hubungan"], correct: 1, explanation: "E tegak lurus B, dan keduanya tegak lurus arah rambat." },
+            // Pemanfaatan
+            { question: "Sinar X digunakan untuk...", options: ["Komunikasi", "Radiologi medis", "Sterilisasi", "Terapi kanker"], correct: 1, explanation: "Sinar X digunakan untuk foto rontgen/radiologi." },
+            { question: "UV dapat menyebabkan...", options: ["Kanker kulit", "Insomnia", "Gangguan pencernaan", "Sakit kepala"], correct: 0, explanation: "UV berlebih dapat menyebabkan kanker kulit." },
+            { question: "Gamma digunakan untuk...", options: ["Komunikasi", "Microwave", "Terapi kanker", "Remote control"], correct: 2, explanation: "Sinar gamma digunakan untuk terapi kanker." },
+            { question: "Radiasi ionisasi adalah...", options: ["Radio dan mikro", "UV, X, Gamma", "Hanya tampak", "Hanya inframerah"], correct: 1, explanation: "UV, X, Gamma adalah radiasi ionisasi yang berbahaya." },
+            { question: "Remote control menggunakan...", options: ["Radio", "Mikro", "Inframerah", "UV"], correct: 2, explanation: "Remote control menggunakan sinar inframerah." },
+            { question: "Microwave oven bekerja dengan...", options: ["Sinar X", "Gelombang mikro", "Radio", "Gamma"], correct: 1, explanation: "Microwave menggunakan gelombang mikro untuk memanaskan makanan." },
+            { question: "Komunikasi HP menggunakan...", options: ["Sinar X", "Gelombang radio", "UV", "Gamma"], correct: 1, explanation: "Komunikasi nirkabel menggunakan gelombang radio." },
+            { question: "Vitamin D diproduksi dengan bantuan...", options: ["Radio", "Inframerah", "UV", "Sinar X"], correct: 2, explanation: "Paparan UV membantu produksi vitamin D pada kulit." },
+            { question: "Radiasi yang paling berbahaya adalah...", options: ["Radio", "Mikro", "Gamma", "Inframerah"], correct: 2, explanation: "Sinar gamma memiliki energi tertinggi dan paling berbahaya." }
+        ];
+
+        // ========================================
+        // Global State
+        // ========================================
+        var currentQuestions = [];
+        var userAnswers = [];
+        var score = 0;
+        var quizSubmitted = false;
+
+        // Visualization State
+        var vizMode = 'spectrum';
+        var frequency = 12;
+        var waveFreq = 5;
+        var amplitude = 100;
+        var eFreq = 15;
+        var canvas = null;
+        var ctx = null;
+        var animationFrame = null;
+        var time = 0;
+
+        var PLANCK = 6.626e-34;
+        var C = 3e8;
+
+        var spectrumTypes = [
+            { name: 'Gelombang Radio', min: 3, max: 9, color: '#7c3aed', ionizing: false },
+            { name: 'Gelombang Mikro', min: 9, max: 12, color: '#3b82f6', ionizing: false },
+            { name: 'Inframerah', min: 12, max: 14.3, color: '#dc2626', ionizing: false },
+            { name: 'Cahaya Tampak', min: 14.3, max: 14.9, color: '#22c55e', ionizing: false },
+            { name: 'Ultraviolet', min: 14.9, max: 16.5, color: '#a855f7', ionizing: true },
+            { name: 'Sinar X', min: 16.5, max: 19, color: '#ec4899', ionizing: true },
+            { name: 'Sinar Gamma', min: 19, max: 22, color: '#f97316', ionizing: true }
+        ];
+
+        // ========================================
+        // DOM Ready
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initVisualization();
+            initQuiz();
+            initAnimations();
+        });
+
+        // ========================================
+        // Navigation
+        // ========================================
+        function initNavigation() {
+            var navTabs = document.querySelectorAll('.nav-tab');
+            var sections = document.querySelectorAll('.content-section');
+
+            navTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var sectionId = this.getAttribute('data-section');
+                    navTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    sections.forEach(function(s) {
+                        s.classList.remove('active');
+                        if (s.id === sectionId) s.classList.add('active');
+                    });
+                    if (sectionId === 'visualization') {
+                        setTimeout(function() { resizeCanvas(); drawVisualization(); }, 100);
+                    }
+                });
+            });
+        }
+
+        // ========================================
+        // Visualization
+        // ========================================
+        function initVisualization() {
+            canvas = document.getElementById('simCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            setupControls();
+            startAnimation();
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            var wrapper = canvas.parentElement;
+            if (!wrapper) return;
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+        }
+
+        function setupControls() {
+            var vizModeSelect = document.getElementById('vizMode');
+            if (vizModeSelect) {
+                vizModeSelect.addEventListener('change', function() {
+                    vizMode = this.value;
+                    updateControlVisibility();
+                    drawVisualization();
+                });
+            }
+
+            setupSlider('freqSlider', 'freqValue', function(v) { frequency = v; }, '10^{v} Hz');
+            setupSlider('waveFreqSlider', 'waveFreqValue', function(v) { waveFreq = v; }, '{v} Hz');
+            setupSlider('ampSlider', 'ampValue', function(v) { amplitude = v; }, '{v} V/m');
+            setupSlider('eFreqSlider', 'eFreqValue', function(v) { eFreq = v; }, '1×10^{v} Hz');
+
+            var resetBtn = document.getElementById('resetBtn');
+            if (resetBtn) resetBtn.addEventListener('click', resetVisualization);
+
+            window.addEventListener('resize', function() { resizeCanvas(); drawVisualization(); });
+        }
+
+        function setupSlider(sliderId, valueId, callback, format) {
+            var slider = document.getElementById(sliderId);
+            if (!slider) return;
+            slider.addEventListener('input', function() {
+                var v = parseFloat(this.value);
+                callback(v);
+                var displayText = format.replace('{v}', v.toFixed(1));
+                if (format.indexOf('10^{v}') !== -1) {
+                    displayText = '10^' + v.toFixed(1) + ' Hz';
+                }
+                var valueEl = document.getElementById(valueId);
+                if (valueEl) valueEl.textContent = displayText;
+            });
+        }
+
+        function updateControlVisibility() {
+            var spectrumControls = document.getElementById('spectrumControls');
+            var waveControls = document.getElementById('waveControls');
+            var energyControls = document.getElementById('energyControls');
+            var vizTitle = document.getElementById('vizTitle');
+
+            if (spectrumControls) spectrumControls.style.display = 'none';
+            if (waveControls) waveControls.style.display = 'none';
+            if (energyControls) energyControls.style.display = 'none';
+
+            if (vizMode === 'spectrum') {
+                if (spectrumControls) spectrumControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Spektrum Gelombang Elektromagnetik';
+            } else if (vizMode === 'wave') {
+                if (waveControls) waveControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Gelombang Elektromagnetik';
+            } else if (vizMode === 'energy') {
+                if (energyControls) energyControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Energi vs Frekuensi';
+            }
+        }
+
+        function resetVisualization() {
+            frequency = 12; waveFreq = 5; amplitude = 100; eFreq = 15;
+            var sliders = {
+                'freqSlider': 'freqValue|10^{v} Hz', 'waveFreqSlider': 'waveFreqValue|{v} Hz',
+                'ampSlider': 'ampValue|{v} V/m', 'eFreqSlider': 'eFreqValue|1×10^{v} Hz'
+            };
+            var defaults = { 'freqSlider': 12, 'waveFreqSlider': 5, 'ampSlider': 100, 'eFreqSlider': 15 };
+            Object.keys(sliders).forEach(function(id) {
+                var slider = document.getElementById(id);
+                if (slider) slider.value = defaults[id];
+            });
+            document.getElementById('freqValue').textContent = '10^12.0 Hz';
+            document.getElementById('waveFreqValue').textContent = '5.0 Hz';
+            document.getElementById('ampValue').textContent = '100 V/m';
+            document.getElementById('eFreqValue').textContent = '1×10^15.0 Hz';
+            drawVisualization();
+        }
+
+        function startAnimation() {
+            function animate() {
+                time += 0.025;
+                drawVisualization();
+                animationFrame = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function drawVisualization() {
+            if (!ctx || !canvas) return;
+            if (canvas.width === 0 || canvas.height === 0) resizeCanvas();
+
+            var w = canvas.width;
+            var h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            var bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+            bgGrad.addColorStop(0, '#111827');
+            bgGrad.addColorStop(1, '#0a0e17');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            if (vizMode === 'spectrum') drawSpectrum(w, h);
+            else if (vizMode === 'wave') drawWave(w, h);
+            else if (vizMode === 'energy') drawEnergy(w, h);
+        }
+
+        function drawSpectrum(w, h) {
+            var freq = frequency;
+            var freqHz = Math.pow(10, freq);
+            var lambda = C / freqHz;
+            var energy = PLANCK * freqHz;
+
+            var type = 'Tidak Diketahui';
+            var color = '#64748b';
+            var ionizing = false;
+
+            for (var i = 0; i < spectrumTypes.length; i++) {
+                var t = spectrumTypes[i];
+                if (freq >= t.min && freq < t.max) {
+                    type = t.name;
+                    color = t.color;
+                    ionizing = t.ionizing;
+                    break;
+                }
+            }
+
+            // Draw spectrum bar
+            var barY = h * 0.65;
+            var barH = 40;
+            var barX = 40;
+            var barW = w - 80;
+
+            var gradient = ctx.createLinearGradient(barX, 0, barX + barW, 0);
+            gradient.addColorStop(0, '#7c3aed');
+            gradient.addColorStop(0.15, '#3b82f6');
+            gradient.addColorStop(0.3, '#dc2626');
+            gradient.addColorStop(0.45, '#22c55e');
+            gradient.addColorStop(0.55, '#a855f7');
+            gradient.addColorStop(0.7, '#ec4899');
+            gradient.addColorStop(1, '#f97316');
+
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.roundRect(barX, barY, barW, barH, 8);
+            ctx.fill();
+
+            // Labels
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px DM Sans';
+            ctx.textAlign = 'center';
+            var labels = ['Radio', 'Mikro', 'IR', 'Tampak', 'UV', 'X', 'Gamma'];
+            labels.forEach(function(l, i) {
+                ctx.fillText(l, barX + (barW / 6) * i, barY + barH + 20);
+            });
+
+            // Indicator
+            var pos = (freq - 3) / 19;
+            var indX = barX + pos * barW;
+
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(indX, barY - 15);
+            ctx.lineTo(indX, barY + barH + 15);
+            ctx.stroke();
+
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(indX, barY - 25, 10, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Energy display
+            ctx.fillStyle = '#f1f5f9';
+            ctx.font = 'bold 24px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText(type, w / 2, h * 0.25);
+
+            ctx.font = '14px Space Mono';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('f = 10^' + freq.toFixed(1) + ' Hz', w / 2, h * 0.35);
+
+            // Update info
+            document.getElementById('vizResult').textContent = 'λ = ' + lambda.toExponential(1) + ' m';
+            document.getElementById('infoType').textContent = type;
+            document.getElementById('infoEnergy').textContent = energy.toExponential(1) + ' J';
+            document.getElementById('infoLambda').textContent = lambda.toExponential(1) + ' m';
+            document.getElementById('infoCategory').textContent = ionizing ? 'Ionisasi (Bahaya)' : 'Non-ionisasi';
+        }
+
+        function drawWave(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var scale = 60;
+            var period = 150;
+
+            // E wave (vertical)
+            ctx.strokeStyle = '#06b6d4';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            for (var x = 40; x < w - 40; x++) {
+                var phase = (x / period) * Math.PI * 2 - time * waveFreq;
+                var y = cy + Math.sin(phase) * scale * (amplitude / 100);
+                if (x === 40) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // B wave (horizontal offset)
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            for (var x = 40; x < w - 40; x++) {
+                var phase = (x / period) * Math.PI * 2 - time * waveFreq;
+                var y = cy + Math.cos(phase) * scale * 0.8;
+                if (x === 40) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#06b6d4';
+            ctx.font = 'bold 14px Space Grotesk';
+            ctx.fillText('E', 60, cy - scale - 20);
+
+            ctx.fillStyle = '#f59e0b';
+            ctx.fillText('B', 60, cy + scale + 30);
+
+            // Direction arrow
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '12px DM Sans';
+            ctx.textAlign = 'center';
+            ctx.fillText('Arah Rambat →', w / 2, h - 30);
+
+            // Update info
+            document.getElementById('vizResult').textContent = 'f = ' + waveFreq + ' Hz';
+            document.getElementById('infoType').textContent = 'Transversal';
+            document.getElementById('infoEnergy').textContent = 'E tegak lurus B';
+            document.getElementById('infoLambda').textContent = amplitude + ' V/m';
+            document.getElementById('infoCategory').textContent = 'E dan B sefase';
+        }
+
+        function drawEnergy(w, h) {
+            var freq = eFreq;
+            var freqHz = Math.pow(10, freq);
+            var energy = PLANCK * freqHz;
+            var energyEV = energy / 1.602e-19;
+
+            // Draw graph
+            var graphX = 60;
+            var graphY = 50;
+            var graphW = w - 100;
+            var graphH = h - 120;
+
+            // Axes
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(graphX, graphY);
+            ctx.lineTo(graphX, graphY + graphH);
+            ctx.lineTo(graphX + graphW, graphY + graphH);
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '12px DM Sans';
+            ctx.textAlign = 'center';
+            ctx.fillText('Frekuensi (10^x Hz)', graphX + graphW / 2, h - 20);
+
+            ctx.save();
+            ctx.translate(20, graphY + graphH / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('Energi (J)', 0, 0);
+            ctx.restore();
+
+            // Line E = hf
+            ctx.strokeStyle = '#06b6d4';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(graphX, graphY + graphH);
+
+            for (var f = 12; f <= 22; f += 0.5) {
+                var fHz = Math.pow(10, f);
+                var e = PLANCK * fHz;
+                var x = graphX + ((f - 12) / 10) * graphW;
+                var y = graphY + graphH - (e / (PLANCK * 1e22)) * graphH;
+                if (f === 12) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Point
+            var pointX = graphX + ((freq - 12) / 10) * graphW;
+            var pointY = graphY + graphH - (energy / (PLANCK * 1e22)) * graphH;
+
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(pointX, pointY, 8, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Display
+            ctx.fillStyle = '#f1f5f9';
+            ctx.font = 'bold 18px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText('E = hf', w / 2, graphY + 30);
+
+            ctx.font = '14px Space Mono';
+            ctx.fillText('E = ' + energy.toExponential(2) + ' J', w / 2, graphY + 55);
+            ctx.fillText('(' + energyEV.toFixed(1) + ' eV)', w / 2, graphY + 75);
+
+            // Update info
+            document.getElementById('vizResult').textContent = 'E = ' + energy.toExponential(2) + ' J';
+            document.getElementById('infoType').textContent = 'Linear';
+            document.getElementById('infoEnergy').textContent = energy.toExponential(2) + ' J';
+            document.getElementById('infoLambda').textContent = energyEV.toFixed(2) + ' eV';
+            document.getElementById('infoCategory').textContent = 'f ∝ E';
+        }
+
+        // ========================================
+        // Quiz System
+        // ========================================
+        function initQuiz() {
+            document.getElementById('generateBtn').addEventListener('click', generateQuiz);
+            document.getElementById('retryBtn').addEventListener('click', generateQuiz);
+            generateQuiz();
+        }
+
+        function shuffleArray(array) {
+            var newArray = array.slice();
+            for (var i = newArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
+            return newArray;
+        }
+
+        function generateQuiz() {
+            currentQuestions = shuffleArray(questionBank).slice(0, 5);
+            userAnswers = new Array(5).fill(null);
+            score = 0;
+            quizSubmitted = false;
+            document.getElementById('scoreDisplay').textContent = '0/5';
+            document.getElementById('resultCard').classList.remove('show');
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            var container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            currentQuestions.forEach(function(q, qIndex) {
+                var card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = 'question-' + qIndex;
+                var questionTitle = document.createElement('p');
+                questionTitle.className = 'question-text';
+                questionTitle.innerHTML = '<span class="question-number">' + (qIndex + 1) + '</span>' + q.question;
+                card.appendChild(questionTitle);
+                var optionsList = document.createElement('div');
+                optionsList.className = 'options-list';
+                var letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach(function(opt, oIndex) {
+                    var btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = '<span class="option-letter">' + letters[oIndex] + '</span><span class="option-text">' + opt + '</span>';
+                    btn.addEventListener('click', function() { selectOption(qIndex, oIndex); });
+                    optionsList.appendChild(btn);
+                });
+                card.appendChild(optionsList);
+                var feedback = document.createElement('div');
+                feedback.className = 'feedback-box';
+                feedback.id = 'feedback-' + qIndex;
+                card.appendChild(feedback);
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qIndex, oIndex) {
+            if (quizSubmitted) return;
+            userAnswers[qIndex] = oIndex;
+            var questionCard = document.getElementById('question-' + qIndex);
+            var options = questionCard.querySelectorAll('.option-btn');
+            options.forEach(function(opt, idx) {
+                opt.classList.remove('selected');
+                if (idx === oIndex) opt.classList.add('selected');
+            });
+            if (userAnswers.indexOf(null) === -1) submitQuiz();
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            score = 0;
+            currentQuestions.forEach(function(q, qIndex) {
+                var questionCard = document.getElementById('question-' + qIndex);
+                var options = questionCard.querySelectorAll('.option-btn');
+                var feedback = document.getElementById('feedback-' + qIndex);
+                var userAnswer = userAnswers[qIndex];
+                var correctAnswer = q.correct;
+                options.forEach(function(opt, idx) {
+                    opt.classList.add('disabled');
+                    opt.classList.remove('selected');
+                    if (idx === correctAnswer) opt.classList.add('correct');
+                    else if (idx === userAnswer && userAnswer !== correctAnswer) opt.classList.add('incorrect');
+                });
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    questionCard.classList.add('correct');
+                    feedback.className = 'feedback-box show correct';
+                    feedback.textContent = 'Benar! ' + q.explanation;
+                } else {
+                    questionCard.classList.add('incorrect');
+                    feedback.className = 'feedback-box show incorrect';
+                    feedback.textContent = 'Salah. ' + q.explanation;
+                }
+            });
+            document.getElementById('scoreDisplay').textContent = score + '/5';
+            document.getElementById('finalScore').textContent = score + '/5';
+            var resultMessage = document.getElementById('resultMessage');
+            if (score === 5) resultMessage.textContent = 'Sempurna! Pemahaman sangat baik!';
+            else if (score >= 3) resultMessage.textContent = 'Bagus! Terus tingkatkan pemahaman Anda.';
+            else resultMessage.textContent = 'Pelajari kembali materi dan coba lagi!';
+            document.getElementById('resultCard').classList.add('show');
+        }
+
+        // ========================================
+        // Animations
+        // ========================================
+        function initAnimations() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.module-card').forEach(function(card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>

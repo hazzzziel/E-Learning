@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistika Data Kelompok - Matematika Kelas 12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #faf9f6;
+            --bg-secondary: #f0ede6;
+            --bg-card: #ffffff;
+            --fg-primary: #1c1917;
+            --fg-secondary: #44403c;
+            --fg-muted: #78716c;
+            --accent-primary: #c2410c;
+            --accent-primary-light: #ea580c;
+            --accent-secondary: #0d9488;
+            --accent-success: #059669;
+            --accent-error: #dc2626;
+            --accent-info: #0284c7;
+            --accent-glow: rgba(194, 65, 12, 0.12);
+            --shadow-soft: 0 2px 12px rgba(28, 25, 23, 0.04);
+            --shadow-medium: 0 8px 32px rgba(28, 25, 23, 0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition-fast: 0.15s ease;
+            --transition-medium: 0.3s ease;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 0%, rgba(194, 65, 12, 0.04), transparent 50%),
+                        radial-gradient(ellipse at 100% 100%, rgba(13, 148, 136, 0.03), transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3 { font-family: 'DM Sans', sans-serif; font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(194, 65, 12, 0.08);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .navbar-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+        .navbar-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-logo svg { width: 18px; height: 18px; color: white; }
+        .navbar-title { font-size: 0.95rem; font-weight: 700; color: var(--fg-primary); }
+        .navbar-title span { color: var(--accent-primary); }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-nav:hover { background: var(--accent-primary); color: white; transform: translateX(-3px); }
+        .btn-nav svg { width: 14px; height: 14px; }
+
+        .hero {
+            padding: 36px 24px 28px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a { color: var(--accent-primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb svg { width: 12px; height: 12px; opacity: 0.4; }
+
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 0.95rem;
+            color: var(--fg-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: rgba(194, 65, 12, 0.08);
+            border: 1px solid rgba(194, 65, 12, 0.15);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .section-nav {
+            position: sticky;
+            top: 60px;
+            background: rgba(250, 249, 246, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(194, 65, 12, 0.06);
+            z-index: 999;
+            padding: 0 24px;
+        }
+
+        .section-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 8px 0;
+            scrollbar-width: none;
+        }
+
+        .section-nav-container::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 8px 18px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+        }
+
+        .nav-tab:hover { background: rgba(194, 65, 12, 0.06); color: var(--accent-primary); }
+        .nav-tab.active { background: var(--accent-primary); color: white; }
+
+        .main-content { max-width: 1400px; margin: 0 auto; padding: 24px 24px 70px; }
+
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .content-section.active { display: block; opacity: 1; transform: translateY(0); }
+
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            transition: var(--transition-medium);
+        }
+
+        .module-card:hover { box-shadow: var(--shadow-medium); }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .module-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, rgba(194, 65, 12, 0.1), rgba(13, 148, 136, 0.08));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .module-icon svg { width: 22px; height: 22px; color: var(--accent-primary); }
+        .module-title { font-size: 1.1rem; font-weight: 600; color: var(--fg-primary); margin-bottom: 2px; }
+        .module-subtitle { font-size: 0.8rem; color: var(--fg-muted); }
+
+        .module-content h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin: 16px 0 8px;
+        }
+
+        .module-content h3:first-child { margin-top: 0; }
+
+        .module-content p {
+            color: var(--fg-secondary);
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 0.88rem;
+        }
+
+        .module-content ul, .module-content ol { margin: 10px 0; padding-left: 18px; }
+        .module-content li { color: var(--fg-secondary); margin-bottom: 5px; line-height: 1.6; font-size: 0.85rem; }
+
+        .formula-box {
+            background: linear-gradient(135deg, rgba(194, 65, 12, 0.04), rgba(13, 148, 136, 0.02));
+            border: 1px solid rgba(194, 65, 12, 0.1);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin: 14px 0;
+            text-align: center;
+        }
+
+        .formula { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--accent-primary); }
+        .formula-description { font-size: 0.75rem; color: var(--fg-muted); margin-top: 8px; }
+
+        .info-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.8rem; }
+        .info-table th, .info-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--bg-secondary); }
+        .info-table th { background: var(--bg-secondary); font-weight: 600; color: var(--fg-primary); font-size: 0.75rem; }
+        .info-table td { color: var(--fg-secondary); }
+
+        .example-box {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin: 14px 0;
+            border-left: 3px solid var(--accent-secondary);
+        }
+
+        .example-label {
+            font-weight: 600;
+            color: var(--accent-secondary);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .reference-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            background: rgba(194, 65, 12, 0.06);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            margin: 2px;
+            transition: var(--transition-fast);
+        }
+
+        .reference-link:hover { background: var(--accent-primary); color: white; }
+
+        /* Visualization */
+        .viz-container { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+
+        .viz-controls {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            height: fit-content;
+        }
+
+        .controls-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .controls-title svg { width: 16px; height: 16px; color: var(--accent-primary); }
+
+        .control-group { margin-bottom: 14px; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            margin-bottom: 6px;
+        }
+
+        .control-value {
+            font-family: 'Space Mono', monospace;
+            color: var(--accent-primary);
+            background: rgba(194, 65, 12, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 5px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--accent-glow);
+            transition: var(--transition-fast);
+        }
+
+        .slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+        .select-control {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .select-control:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px var(--accent-glow); }
+
+        .toggle-group { display: flex; gap: 5px; flex-wrap: wrap; }
+
+        .toggle-btn {
+            flex: 1;
+            min-width: 60px;
+            padding: 7px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .toggle-btn.active { background: var(--accent-primary); color: white; }
+        .toggle-btn:hover:not(.active) { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+        .btn-reset {
+            width: 100%;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-top: 4px;
+        }
+
+        .btn-reset:hover { background: var(--accent-primary); color: white; }
+
+        .viz-canvas-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            overflow: hidden;
+        }
+
+        .viz-header {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .viz-title { font-size: 0.9rem; font-weight: 600; color: var(--fg-primary); }
+
+        .viz-result {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            background: rgba(194, 65, 12, 0.08);
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+        }
+
+        .viz-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 360px;
+            background: var(--bg-secondary);
+        }
+
+        .viz-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .viz-info {
+            padding: 14px 18px;
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(194, 65, 12, 0.06);
+        }
+
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
+        .info-item { display: flex; flex-direction: column; gap: 2px; }
+        .info-label { font-size: 0.65rem; font-weight: 600; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .info-value { font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 600; color: var(--fg-primary); }
+
+        /* Quiz */
+        .quiz-container { max-width: 700px; margin: 0 auto; }
+
+        .quiz-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .quiz-info h2 { font-size: 1.1rem; color: var(--fg-primary); margin-bottom: 2px; }
+        .quiz-info p { font-size: 0.8rem; color: var(--fg-muted); }
+
+        .quiz-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(194, 65, 12, 0.08), rgba(13, 148, 136, 0.06));
+            border-radius: var(--radius-md);
+        }
+
+        .score-label { font-size: 0.75rem; color: var(--fg-muted); }
+
+        .score-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .quiz-actions { display: flex; gap: 8px; }
+
+        .btn-quiz {
+            padding: 9px 16px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+        }
+
+        .btn-generate { background: var(--accent-secondary); color: white; }
+        .btn-generate:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        .btn-retry { background: var(--bg-secondary); color: var(--fg-secondary); }
+        .btn-retry:hover { background: var(--fg-secondary); color: white; }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            margin-bottom: 14px;
+            transition: var(--transition-medium);
+        }
+
+        .question-card.correct { border-color: var(--accent-success); }
+        .question-card.incorrect { border-color: var(--accent-error); }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .question-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .options-list { display: flex; flex-direction: column; gap: 8px; }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.selected):not(.disabled) { border-color: var(--accent-primary); background: rgba(194, 65, 12, 0.04); }
+        .option-btn.selected { border-color: var(--accent-primary); background: rgba(194, 65, 12, 0.08); }
+        .option-btn.correct { border-color: var(--accent-success); background: rgba(5, 150, 105, 0.1); }
+        .option-btn.incorrect { border-color: var(--accent-error); background: rgba(220, 38, 38, 0.1); }
+        .option-btn.disabled { cursor: default; opacity: 0.7; }
+
+        .option-letter {
+            width: 26px;
+            height: 26px;
+            background: white;
+            border: 2px solid var(--fg-muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .option-btn.selected .option-letter { background: var(--accent-primary); border-color: var(--accent-primary); color: white; }
+        .option-btn.correct .option-letter { background: var(--accent-success); border-color: var(--accent-success); color: white; }
+        .option-btn.incorrect .option-letter { background: var(--accent-error); border-color: var(--accent-error); color: white; }
+
+        .option-text { font-size: 0.85rem; color: var(--fg-secondary); line-height: 1.4; }
+
+        .feedback-box {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .feedback-box.show { display: block; }
+        .feedback-box.correct { background: rgba(5, 150, 105, 0.1); color: #047857; border-left: 3px solid var(--accent-success); }
+        .feedback-box.incorrect { background: rgba(220, 38, 38, 0.1); color: #b91c1c; border-left: 3px solid var(--accent-error); }
+
+        .quiz-result-card {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            color: white;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .quiz-result-card.show { display: block; }
+
+        .result-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .result-icon svg { width: 32px; height: 32px; }
+        .result-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+        .result-score { font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; margin: 12px 0; }
+        .result-message { font-size: 0.9rem; opacity: 0.9; }
+
+        @media (max-width: 900px) { .viz-container { grid-template-columns: 1fr; } }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 16px; }
+            .btn-nav span { display: none; }
+            .hero { padding: 24px 16px 18px; }
+            .hero-title { font-size: 1.4rem; }
+            .section-nav { top: 60px; padding: 0 16px; }
+            .nav-tab { padding: 7px 12px; font-size: 0.75rem; }
+            .main-content { padding: 14px 16px 50px; }
+            .module-grid { grid-template-columns: 1fr; }
+            .module-card { padding: 18px; }
+            .module-header { flex-direction: column; gap: 10px; }
+            .viz-controls { padding: 14px; }
+            .viz-canvas-wrapper { height: 300px; }
+            .quiz-header { padding: 16px; flex-direction: column; text-align: center; }
+            .question-card { padding: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.2rem; }
+            .formula { font-size: 1rem; }
+            .option-btn { padding: 10px 12px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            <a href="http://owenitb.great-site.net/" target="_self" class="btn-nav">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="breadcrumb">
+            <a href="http://owenitb.great-site.net/" target="_self">Dashboard</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="http://owenitb.great-site.net/Mata_Pelajaran/Matematika/matematika.html" target="_self">Matematika</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <span>Statistika</span>
+        </div>
+        <div class="hero-header">
+            <div>
+                <h1 class="hero-title"><span class="hero-title-accent">Statistika Data Kelompok</span></h1>
+                <p class="hero-description">
+                    Pelajari penyajian data, ukuran pemusatan, dan ukuran penyebaran untuk data kelompok melalui visualisasi interaktif.
+                </p>
+            </div>
+            <span class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Statistika
+            </span>
+        </div>
+    </section>
+
+    <div class="section-nav">
+        <div class="section-nav-container">
+            <button class="nav-tab active" data-section="module">Modul Materi</button>
+            <button class="nav-tab" data-section="visualization">Visualisasi Interaktif</button>
+            <button class="nav-tab" data-section="quiz">Kuis Interaktif</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <section class="content-section active" id="module">
+            <div class="module-grid">
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Penyajian Data Kelompok</h2>
+                            <p class="module-subtitle">Histogram, Poligon, Ogive</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Data Kelompok</h3>
+                        <p>Data kelompok adalah data tunggal yang telah dikelompokkan ke dalam interval kelas untuk memudahkan analisis.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">k = 1 + 3,322 log n</div>
+                            <p class="formula-description">Rumus Sturges untuk jumlah kelas</p>
+                        </div>
+
+                        <h3>Tabel Distribusi Frekuensi</h3>
+                        <ul>
+                            <li>Interval kelas dengan tepi bawah (Tb) dan tepi atas (Ta)</li>
+                            <li>Frekuensi (f), frekuensi relatif, frekuensi kumulatif</li>
+                        </ul>
+
+                        <h3>Grafik</h3>
+                        <table class="info-table">
+                            <thead><tr><th>Grafik</th><th>Fungsi</th></tr></thead>
+                            <tbody>
+                                <tr><td>Histogram</td><td>Distribusi frekuensi</td></tr>
+                                <tr><td>Poligon</td><td>Tren frekuensi</td></tr>
+                                <tr><td>Ogive</td><td>Kumulatif, median</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.catatanmatematika.com/2021/10/histogram-poligon-dan-ogive-penyajian-data-berkelompok.html" target="_self" class="reference-link">Catatan Matematika</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Ukuran Pemusatan</h2>
+                            <p class="module-subtitle">Mean, Median, Modus</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Mean (Rata-rata)</h3>
+                        <div class="formula-box">
+                            <div class="formula">x̄ = Σ(f × xi) / n</div>
+                            <p class="formula-description">xi = titik tengah kelas</p>
+                        </div>
+
+                        <h3>Median</h3>
+                        <div class="formula-box">
+                            <div class="formula">Me = Tb + ((N/2 - Fk-1) / fm) × c</div>
+                            <p class="formula-description">Kelas median: Fk melewati N/2</p>
+                        </div>
+
+                        <h3>Modus</h3>
+                        <div class="formula-box">
+                            <div class="formula">Mo = Tb + (D1 / (D1 + D2)) × c</div>
+                            <p class="formula-description">D1 = f - f sebelum, D2 = f - f sesudah</p>
+                        </div>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.youtube.com/watch?v=IKI5D3bAyLA" target="_self" class="reference-link">YouTube</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Ukuran Penyebaran</h2>
+                            <p class="module-subtitle">Range, Kuartil, Varians</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Jangkauan (Range)</h3>
+                        <div class="formula-box">
+                            <div class="formula">R = Tamax - Tbmin</div>
+                        </div>
+
+                        <h3>Kuartil</h3>
+                        <p>Q1 = 25%, Q2 = Median, Q3 = 75% data.</p>
+
+                        <h3>Varians & Simpangan Baku</h3>
+                        <div class="formula-box">
+                            <div class="formula">S² = Σf(xi - x̄)² / n</div>
+                            <p class="formula-description">S = √S²</p>
+                        </div>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://iseng-project.id/materi-matematika/sma/statistika/" target="_self" class="reference-link">Iseng Project</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-section" id="visualization">
+            <div class="viz-container">
+                <aside class="viz-controls">
+                    <h3 class="controls-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        Kontrol Statistik
+                    </h3>
+
+                    <div class="control-group">
+                        <label class="control-label">Mode Tampilan</label>
+                        <select class="select-control" id="vizMode">
+                            <option value="histogram">Histogram & Poligon</option>
+                            <option value="ogive">Ogive</option>
+                            <option value="central">Ukuran Pemusatan</option>
+                            <option value="spread">Ukuran Penyebaran</option>
+                        </select>
+                    </div>
+
+                    <div id="histogramControls">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Jumlah Kelas (k)
+                                <span class="control-value" id="classCount">6</span>
+                            </label>
+                            <input type="range" class="slider" id="classSlider" min="3" max="10" value="6">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Tampilkan</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="showHist">Histogram</button>
+                                <button class="toggle-btn" id="showPoly">Poligon</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="ogiveControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">Jenis Ogive</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="ogiveLess">Kurang dari</button>
+                                <button class="toggle-btn" id="ogiveMore">Lebih dari</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="centralControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">Tandai pada Grafik</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn" id="markMean">Mean</button>
+                                <button class="toggle-btn" id="markMedian">Median</button>
+                            </div>
+                            <div class="toggle-group" style="margin-top: 5px;">
+                                <button class="toggle-btn" id="markMode">Modus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="spreadControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Persentil
+                                <span class="control-value" id="percentileVal">50</span>
+                            </label>
+                            <input type="range" class="slider" id="percentileSlider" min="1" max="99" value="50">
+                        </div>
+                    </div>
+
+                    <button class="btn-reset" id="resetBtn">Reset</button>
+                </aside>
+
+                <div class="viz-canvas-container">
+                    <div class="viz-header">
+                        <span class="viz-title" id="vizTitle">Histogram Data Kelompok</span>
+                        <span class="viz-result" id="vizResult">n = 40 data</span>
+                    </div>
+                    <div class="viz-canvas-wrapper">
+                        <canvas class="viz-canvas" id="simCanvas"></canvas>
+                    </div>
+                    <div class="viz-info">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Mean</span>
+                                <span class="info-value" id="infoMean">69.25</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Median</span>
+                                <span class="info-value" id="infoMedian">70.00</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Modus</span>
+                                <span class="info-value" id="infoMode">71.67</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Simpangan Baku</span>
+                                <span class="info-value" id="infoSD">10.82</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="quiz">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h2>Kuis Statistika</h2>
+                        <p>Uji pemahaman Anda tentang statistika data kelompok</p>
+                    </div>
+                    <div class="quiz-score">
+                        <span class="score-label">Skor:</span>
+                        <span class="score-value" id="scoreDisplay">0/5</span>
+                    </div>
+                </div>
+                <div class="quiz-actions">
+                    <button class="btn-quiz btn-generate" id="generateBtn">Generate Soal Baru</button>
+                    <button class="btn-quiz btn-retry" id="retryBtn">Ulangi</button>
+                </div>
+                <div id="quizContainer"></div>
+                <div class="quiz-result-card" id="resultCard">
+                    <div class="result-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="result-title">Kuis Selesai</h3>
+                    <div class="result-score" id="finalScore">0/5</div>
+                    <p class="result-message" id="resultMessage">Terus berlatih!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // ========================================
+        // Question Bank
+        // ========================================
+        var questionBank = [
+            // Penyajian Data
+            { question: "Apa yang dimaksud dengan data kelompok?", options: ["Data tunggal", "Data yang dikelompokkan ke interval kelas", "Data numerik", "Data kualitatif"], correct: 1, explanation: "Data kelompok adalah data tunggal yang telah dikelompokkan ke dalam interval kelas." },
+            { question: "Rumus Sturges untuk jumlah kelas adalah...", options: ["k = 1 + 3,322 log n", "k = n / 5", "k = √n", "k = 1 + 2 log n"], correct: 0, explanation: "Rumus Sturges: k = 1 + 3,322 log n." },
+            { question: "Jika n = 100, maka k menurut Sturges adalah...", options: ["5", "7", "10", "8"], correct: 3, explanation: "k = 1 + 3,322 log 100 ≈ 1 + 6,644 = 7,644 ≈ 8 kelas." },
+            { question: "Histogram adalah grafik berbentuk...", options: ["Garis", "Batang tanpa jarak", "Lingkaran", "Titik-titik"], correct: 1, explanation: "Histogram adalah diagram batang di mana batang-batang digabung tanpa jarak." },
+            { question: "Pada histogram, sumbu horizontal menunjukkan...", options: ["Frekuensi", "Interval kelas", "Titik tengah", "Kumulatif"], correct: 1, explanation: "Sumbu horizontal histogram menunjukkan interval kelas." },
+            { question: "Poligon frekuensi dibuat dengan menempatkan titik pada...", options: ["Tepi kelas dan frekuensi", "Titik tengah dan frekuensi", "Kumulatif dan kelas", "Mean dan median"], correct: 1, explanation: "Titik ditempatkan pada titik tengah kelas (absis) dan frekuensi (ordinat)." },
+            { question: "Ogive adalah grafik...", options: ["Batang", "Kumulatif", "Sebaran", "Persentase"], correct: 1, explanation: "Ogive adalah grafik garis kumulatif dari tabel distribusi frekuensi." },
+            { question: "Ogive positif menggunakan...", options: ["Fk lebih dari", "Fk kurang dari", "Frekuensi relatif", "Titik tengah"], correct: 1, explanation: "Ogive positif menggunakan frekuensi kumulatif kurang dari." },
+            { question: "Fungsi ogive adalah...", options: ["Mencari mean", "Mencari median dan persentil", "Mencari modus", "Mencari varians"], correct: 1, explanation: "Ogive digunakan untuk mencari median atau persentil." },
+            { question: "Jika distribusi miring kanan, maka...", options: ["Mean = Median", "Mean > Median", "Mean < Median", "Modus terbesar"], correct: 1, explanation: "Pada distribusi miring kanan, mean lebih besar dari median." },
+            // Ukuran Pemusatan
+            { question: "Rumus mean data kelompok adalah...", options: ["x̄ = Σx / n", "x̄ = Σf×xi / n", "x̄ = Σf / n", "x̄ = median"], correct: 1, explanation: "Mean = Σ(f × xi) / n, dengan xi titik tengah kelas." },
+            { question: "Titik tengah kelas 40-49 adalah...", options: ["40", "49", "44.5", "89"], correct: 2, explanation: "xi = (Tb + Ta) / 2 = (40 + 49) / 2 = 44.5" },
+            { question: "Median adalah nilai tengah data ke-", options: ["n", "n/2", "2n", "n²"], correct: 1, explanation: "Median adalah nilai tengah data ke-(N/2)." },
+            { question: "Dalam rumus median, Fk-1 adalah...", options: ["Frekuensi kelas median", "Frekuensi kumulatif sebelum kelas median", "Frekuensi total", "Frekuensi relatif"], correct: 1, explanation: "Fk-1 adalah frekuensi kumulatif sebelum kelas median." },
+            { question: "Modus adalah nilai yang...", options: ["Tengah", "Paling sering muncul", "Rata-rata", "Terkecil"], correct: 1, explanation: "Modus adalah nilai yang paling sering muncul." },
+            { question: "Dalam rumus modus, D1 adalah...", options: ["f modus - f sebelumnya", "f modus - f sesudahnya", "f total", "f kumulatif"], correct: 0, explanation: "D1 = f modus - f kelas sebelumnya." },
+            { question: "Jika mean < median, distribusi...", options: ["Simetris", "Miring kanan", "Miring kiri", "Normal"], correct: 2, explanation: "Jika mean < median, distribusi miring kiri (negatif)." },
+            // Ukuran Penyebaran
+            { question: "Jangkauan adalah selisih antara...", options: ["Mean dan median", "Nilai max dan min", "Q1 dan Q3", "Varians dan SD"], correct: 1, explanation: "Range = Ta max - Tb min." },
+            { question: "Kuartil membagi data menjadi...", options: ["2 bagian", "4 bagian", "10 bagian", "100 bagian"], correct: 1, explanation: "Kuartil membagi data menjadi 4 bagian sama besar." },
+            { question: "Posisi Q1 adalah data ke-", options: ["n/2", "n/4", "3n/4", "n/10"], correct: 1, explanation: "Q1 berada di posisi N/4." },
+            { question: "IQR (Interquartile Range) adalah...", options: ["Q3 - Q1", "Q3 + Q1", "Q3 / Q1", "Max - Min"], correct: 0, explanation: "IQR = Q3 - Q1." },
+            { question: "Desil membagi data menjadi...", options: ["4 bagian", "10 bagian", "100 bagian", "5 bagian"], correct: 1, explanation: "Desil membagi data menjadi 10 bagian." },
+            { question: "Persentil membagi data menjadi...", options: ["10 bagian", "50 bagian", "100 bagian", "4 bagian"], correct: 2, explanation: "Persentil membagi data menjadi 100 bagian." },
+            { question: "Simpangan rata-rata menggunakan nilai...", options: ["Kuadrat", "Absolut", "Kubik", "Logaritma"], correct: 1, explanation: "Simpangan rata-rata menggunakan nilai absolut |xi - mean|." },
+            { question: "Rumus varians populasi adalah...", options: ["S² = Σ(xi-x̄)²/n", "S² = Σ(xi-x̄)²/(n-1)", "S = √varians", "S² = range/2"], correct: 0, explanation: "Varians populasi: S² = Σf(xi-x̄)² / n" },
+            { question: "Simpangan baku adalah...", options: ["Varians", "Akar varians", "Range", "Mean"], correct: 1, explanation: "Simpangan baku S = √S²." },
+            { question: "Hubungan Q3 dan P75 adalah...", options: ["Sama", "Q3 > P75", "Q3 < P75", "Tidak berhubungan"], correct: 0, explanation: "Q3 sama dengan P75 (keduanya 75% data)." },
+            { question: "Jika simpangan baku besar, maka data...", options: ["Homogen", "Heterogen/tersebar", "Normal", "Simetris"], correct: 1, explanation: "Simpangan baku besar menunjukkan data tersebar (heterogen)." },
+            { question: "Rumus varians sampel pembagiannya adalah...", options: ["n", "n-1", "n+1", "2n"], correct: 1, explanation: "Varians sampel: s² = Σf(xi-x̄)²/(n-1)." }
+        ];
+
+        // ========================================
+        // Global State
+        // ========================================
+        var currentQuestions = [];
+        var userAnswers = [];
+        var score = 0;
+        var quizSubmitted = false;
+
+        // Visualization State
+        var vizMode = 'histogram';
+        var numClasses = 6;
+        var showHistogram = true;
+        var showPolygon = false;
+        var ogiveType = 'less';
+        var showMean = false;
+        var showMedian = false;
+        var showMode = false;
+        var percentile = 50;
+        var canvas = null;
+        var ctx = null;
+        var animationFrame = null;
+        var tooltip = null;
+
+        // Sample Data
+        var sampleData = generateSampleData();
+
+        // ========================================
+        // DOM Ready
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initVisualization();
+            initQuiz();
+            initAnimations();
+        });
+
+        // ========================================
+        // Navigation
+        // ========================================
+        function initNavigation() {
+            var navTabs = document.querySelectorAll('.nav-tab');
+            var sections = document.querySelectorAll('.content-section');
+
+            navTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var sectionId = this.getAttribute('data-section');
+                    navTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    sections.forEach(function(s) {
+                        s.classList.remove('active');
+                        if (s.id === sectionId) s.classList.add('active');
+                    });
+                    if (sectionId === 'visualization') {
+                        setTimeout(function() { resizeCanvas(); drawVisualization(); }, 100);
+                    }
+                });
+            });
+        }
+
+        // ========================================
+        // Visualization
+        // ========================================
+        function initVisualization() {
+            canvas = document.getElementById('simCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            setupControls();
+            startAnimation();
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            var wrapper = canvas.parentElement;
+            if (!wrapper) return;
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+        }
+
+        function generateSampleData() {
+            // Generate 40 random data points between 40-100
+            var data = [];
+            for (var i = 0; i < 40; i++) {
+                data.push(40 + Math.floor(Math.random() * 60));
+            }
+            return data;
+        }
+
+        function setupControls() {
+            var vizModeSelect = document.getElementById('vizMode');
+            if (vizModeSelect) {
+                vizModeSelect.addEventListener('change', function() {
+                    vizMode = this.value;
+                    updateControlVisibility();
+                    drawVisualization();
+                });
+            }
+
+            var classSlider = document.getElementById('classSlider');
+            if (classSlider) {
+                classSlider.addEventListener('input', function() {
+                    numClasses = parseInt(this.value);
+                    document.getElementById('classCount').textContent = numClasses;
+                    drawVisualization();
+                });
+            }
+
+            setupToggle('showHist', function(v) { showHistogram = v; });
+            setupToggle('showPoly', function(v) { showPolygon = v; });
+
+            var ogiveLess = document.getElementById('ogiveLess');
+            var ogiveMore = document.getElementById('ogiveMore');
+
+            if (ogiveLess) {
+                ogiveLess.addEventListener('click', function() {
+                    ogiveType = 'less';
+                    this.classList.add('active');
+                    if (ogiveMore) ogiveMore.classList.remove('active');
+                    drawVisualization();
+                });
+            }
+
+            if (ogiveMore) {
+                ogiveMore.addEventListener('click', function() {
+                    ogiveType = 'more';
+                    this.classList.add('active');
+                    if (ogiveLess) ogiveLess.classList.remove('active');
+                    drawVisualization();
+                });
+            }
+
+            setupToggle('markMean', function(v) { showMean = v; });
+            setupToggle('markMedian', function(v) { showMedian = v; });
+            setupToggle('markMode', function(v) { showMode = v; });
+
+            var percentileSlider = document.getElementById('percentileSlider');
+            if (percentileSlider) {
+                percentileSlider.addEventListener('input', function() {
+                    percentile = parseInt(this.value);
+                    document.getElementById('percentileVal').textContent = percentile;
+                    drawVisualization();
+                });
+            }
+
+            var resetBtn = document.getElementById('resetBtn');
+            if (resetBtn) resetBtn.addEventListener('click', resetVisualization);
+
+            window.addEventListener('resize', function() { resizeCanvas(); drawVisualization(); });
+        }
+
+        function setupToggle(id, callback) {
+            var btn = document.getElementById(id);
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                var isActive = this.classList.toggle('active');
+                callback(isActive);
+                drawVisualization();
+            });
+        }
+
+        function updateControlVisibility() {
+            var histogramControls = document.getElementById('histogramControls');
+            var ogiveControls = document.getElementById('ogiveControls');
+            var centralControls = document.getElementById('centralControls');
+            var spreadControls = document.getElementById('spreadControls');
+            var vizTitle = document.getElementById('vizTitle');
+
+            if (histogramControls) histogramControls.style.display = 'none';
+            if (ogiveControls) ogiveControls.style.display = 'none';
+            if (centralControls) centralControls.style.display = 'none';
+            if (spreadControls) spreadControls.style.display = 'none';
+
+            if (vizMode === 'histogram') {
+                if (histogramControls) histogramControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Histogram & Poligon Frekuensi';
+            } else if (vizMode === 'ogive') {
+                if (ogiveControls) ogiveControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Grafik Ogive';
+            } else if (vizMode === 'central') {
+                if (centralControls) centralControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Ukuran Pemusatan Data';
+            } else if (vizMode === 'spread') {
+                if (spreadControls) spreadControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Ukuran Penyebaran Data';
+            }
+        }
+
+        function resetVisualization() {
+            numClasses = 6;
+            showHistogram = true;
+            showPolygon = false;
+            ogiveType = 'less';
+            showMean = false;
+            showMedian = false;
+            showMode = false;
+            percentile = 50;
+
+            document.getElementById('classSlider').value = 6;
+            document.getElementById('classCount').textContent = '6';
+            document.getElementById('percentileSlider').value = 50;
+            document.getElementById('percentileVal').textContent = '50';
+
+            document.querySelectorAll('.toggle-btn').forEach(function(b) {
+                b.classList.remove('active');
+            });
+            document.getElementById('showHist').classList.add('active');
+            document.getElementById('ogiveLess').classList.add('active');
+
+            sampleData = generateSampleData();
+            drawVisualization();
+        }
+
+        function startAnimation() {
+            function animate() {
+                drawVisualization();
+                animationFrame = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function calculateStats() {
+            var data = sampleData.slice().sort(function(a, b) { return a - b; });
+            var n = data.length;
+
+            // Create frequency distribution
+            var min = data[0];
+            var max = data[n - 1];
+            var range = max - min;
+            var classWidth = Math.ceil(range / numClasses);
+
+            var frequencyTable = [];
+            var lowerBound = Math.floor(min / classWidth) * classWidth;
+
+            for (var i = 0; i < numClasses; i++) {
+                var lb = lowerBound + i * classWidth;
+                var ub = lb + classWidth - 1;
+                var midpoint = (lb + ub) / 2;
+                var freq = 0;
+
+                data.forEach(function(d) {
+                    if (d >= lb && d <= ub) freq++;
+                });
+
+                frequencyTable.push({
+                    lower: lb,
+                    upper: ub,
+                    midpoint: midpoint,
+                    frequency: freq,
+                    cumulative: 0
+                });
+            }
+
+            // Calculate cumulative
+            var cumSum = 0;
+            frequencyTable.forEach(function(row) {
+                cumSum += row.frequency;
+                row.cumulative = cumSum;
+            });
+
+            // Calculate mean
+            var sumFX = 0;
+            var totalF = 0;
+            frequencyTable.forEach(function(row) {
+                sumFX += row.frequency * row.midpoint;
+                totalF += row.frequency;
+            });
+            var mean = sumFX / totalF;
+
+            // Calculate median
+            var medianPos = n / 2;
+            var medianClass = null;
+            var prevCum = 0;
+
+            for (var i = 0; i < frequencyTable.length; i++) {
+                if (frequencyTable[i].cumulative >= medianPos) {
+                    medianClass = frequencyTable[i];
+                    if (i > 0) prevCum = frequencyTable[i - 1].cumulative;
+                    break;
+                }
+            }
+
+            var median = 0;
+            if (medianClass) {
+                var Tb = medianClass.lower - 0.5;
+                var fm = medianClass.frequency;
+                var c = classWidth;
+                median = Tb + ((medianPos - prevCum) / fm) * c;
+            }
+
+            // Calculate mode
+            var maxFreq = Math.max.apply(null, frequencyTable.map(function(r) { return r.frequency; }));
+            var modalClass = frequencyTable.find(function(r) { return r.frequency === maxFreq; });
+            var modalIdx = frequencyTable.indexOf(modalClass);
+
+            var D1 = modalIdx > 0 ? maxFreq - frequencyTable[modalIdx - 1].frequency : maxFreq;
+            var D2 = modalIdx < frequencyTable.length - 1 ? maxFreq - frequencyTable[modalIdx + 1].frequency : maxFreq;
+
+            var mode = 0;
+            if (modalClass) {
+                var Tb = modalClass.lower - 0.5;
+                mode = Tb + (D1 / (D1 + D2)) * classWidth;
+            }
+
+            // Calculate variance and SD
+            var sumSq = 0;
+            frequencyTable.forEach(function(row) {
+                var diff = row.midpoint - mean;
+                sumSq += row.frequency * diff * diff;
+            });
+            var variance = sumSq / n;
+            var sd = Math.sqrt(variance);
+
+            return {
+                data: data,
+                n: n,
+                mean: mean,
+                median: median,
+                mode: mode,
+                variance: variance,
+                sd: sd,
+                table: frequencyTable,
+                classWidth: classWidth,
+                min: min,
+                max: max
+            };
+        }
+
+        function drawVisualization() {
+            if (!ctx || !canvas) return;
+            if (canvas.width === 0 || canvas.height === 0) resizeCanvas();
+
+            var w = canvas.width;
+            var h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+            ctx.fillStyle = '#f0ede6';
+            ctx.fillRect(0, 0, w, h);
+
+            var stats = calculateStats();
+
+            if (vizMode === 'histogram') drawHistogram(stats, w, h);
+            else if (vizMode === 'ogive') drawOgive(stats, w, h);
+            else if (vizMode === 'central') drawCentral(stats, w, h);
+            else if (vizMode === 'spread') drawSpread(stats, w, h);
+
+            updateStatsDisplay(stats);
+        }
+
+        function drawHistogram(stats, w, h) {
+            var padding = { top: 40, right: 40, bottom: 60, left: 60 };
+            var chartW = w - padding.left - padding.right;
+            var chartH = h - padding.top - padding.bottom;
+
+            var maxFreq = Math.max.apply(null, stats.table.map(function(r) { return r.frequency; }));
+            var barWidth = chartW / stats.table.length;
+
+            // Draw axes
+            ctx.strokeStyle = '#78716c';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, padding.top);
+            ctx.lineTo(padding.left, h - padding.bottom);
+            ctx.lineTo(w - padding.right, h - padding.bottom);
+            ctx.stroke();
+
+            // Draw histogram bars
+            stats.table.forEach(function(row, i) {
+                var x = padding.left + i * barWidth;
+                var barH = (row.frequency / maxFreq) * chartH;
+                var y = h - padding.bottom - barH;
+
+                // Bar
+                var gradient = ctx.createLinearGradient(x, y, x, h - padding.bottom);
+                gradient.addColorStop(0, '#ea580c');
+                gradient.addColorStop(1, '#c2410c');
+                ctx.fillStyle = gradient;
+
+                ctx.fillRect(x + 2, y, barWidth - 4, barH);
+
+                // Class label
+                ctx.fillStyle = '#44403c';
+                ctx.font = '10px DM Sans';
+                ctx.textAlign = 'center';
+                ctx.fillText(row.lower + '-' + row.upper, x + barWidth / 2, h - padding.bottom + 15);
+
+                // Frequency label
+                ctx.fillStyle = '#1c1917';
+                ctx.font = 'bold 11px Space Mono';
+                ctx.fillText(row.frequency, x + barWidth / 2, y - 8);
+            });
+
+            // Y-axis label
+            ctx.fillStyle = '#44403c';
+            ctx.font = 'bold 12px DM Sans';
+            ctx.save();
+            ctx.translate(20, h / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('Frekuensi', 0, 0);
+            ctx.restore();
+
+            // X-axis label
+            ctx.fillText('Kelas Interval', w / 2, h - 15);
+
+            // Draw polygon
+            if (showPolygon) {
+                ctx.strokeStyle = '#0d9488';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                // Start point
+                var firstX = padding.left + barWidth / 2 - barWidth;
+                ctx.moveTo(firstX, h - padding.bottom);
+
+                stats.table.forEach(function(row, i) {
+                    var x = padding.left + i * barWidth + barWidth / 2;
+                    var y = h - padding.bottom - (row.frequency / maxFreq) * chartH;
+                    ctx.lineTo(x, y);
+                });
+
+                // End point
+                var lastX = padding.left + stats.table.length * barWidth + barWidth / 2;
+                ctx.lineTo(lastX, h - padding.bottom);
+                ctx.stroke();
+            }
+        }
+
+        function drawOgive(stats, w, h) {
+            var padding = { top: 40, right: 40, bottom: 60, left: 60 };
+            var chartW = w - padding.left - padding.right;
+            var chartH = h - padding.top - padding.bottom;
+
+            var maxCum = stats.n;
+
+            // Draw axes
+            ctx.strokeStyle = '#78716c';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, padding.top);
+            ctx.lineTo(padding.left, h - padding.bottom);
+            ctx.lineTo(w - padding.right, h - padding.bottom);
+            ctx.stroke();
+
+            // Draw ogive curve
+            ctx.strokeStyle = ogiveType === 'less' ? '#c2410c' : '#0d9488';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+
+            if (ogiveType === 'less') {
+                // Start from 0
+                ctx.moveTo(padding.left, h - padding.bottom);
+
+                stats.table.forEach(function(row, i) {
+                    var x = padding.left + (row.upper + 0.5 - stats.min) / (stats.max - stats.min) * chartW;
+                    var y = h - padding.bottom - (row.cumulative / maxCum) * chartH;
+                    ctx.lineTo(x, y);
+
+                    // Point
+                    ctx.fillStyle = '#c2410c';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            } else {
+                // More than
+                ctx.moveTo(padding.left, padding.top);
+
+                var cumMore = stats.n;
+                stats.table.forEach(function(row, i) {
+                    var x = padding.left + (row.lower - 0.5 - stats.min) / (stats.max - stats.min) * chartW;
+                    var y = h - padding.bottom - (cumMore / maxCum) * chartH;
+                    ctx.lineTo(x, y);
+
+                    cumMore -= row.frequency;
+                });
+            }
+
+            ctx.stroke();
+
+            // Draw percentile line
+            var percentileY = h - padding.bottom - (percentile / 100) * chartH;
+            ctx.strokeStyle = '#dc2626';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, percentileY);
+            ctx.lineTo(w - padding.right, percentileY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#dc2626';
+            ctx.font = 'bold 11px DM Sans';
+            ctx.fillText('P' + percentile + '%', padding.left + 5, percentileY - 5);
+
+            // Labels
+            ctx.fillStyle = '#44403c';
+            ctx.font = 'bold 12px DM Sans';
+            ctx.fillText('Frekuensi Kumulatif', 20, h / 2);
+            ctx.fillText('Nilai', w / 2, h - 15);
+        }
+
+        function drawCentral(stats, w, h) {
+            var padding = { top: 40, right: 40, bottom: 60, left: 60 };
+            var chartW = w - padding.left - padding.right;
+            var chartH = h - padding.top - padding.bottom;
+
+            var maxFreq = Math.max.apply(null, stats.table.map(function(r) { return r.frequency; }));
+            var barWidth = chartW / stats.table.length;
+
+            // Draw histogram background
+            stats.table.forEach(function(row, i) {
+                var x = padding.left + i * barWidth;
+                var barH = (row.frequency / maxFreq) * chartH;
+                var y = h - padding.bottom - barH;
+
+                ctx.fillStyle = 'rgba(194, 65, 12, 0.15)';
+                ctx.fillRect(x + 2, y, barWidth - 4, barH);
+            });
+
+            // Draw mean line
+            if (showMean) {
+                var meanX = padding.left + ((stats.mean - stats.min) / (stats.max - stats.min)) * chartW;
+                ctx.strokeStyle = '#dc2626';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(meanX, padding.top);
+                ctx.lineTo(meanX, h - padding.bottom);
+                ctx.stroke();
+
+                ctx.fillStyle = '#dc2626';
+                ctx.font = 'bold 12px Space Mono';
+                ctx.fillText('Mean: ' + stats.mean.toFixed(2), meanX + 5, padding.top + 20);
+            }
+
+            // Draw median line
+            if (showMedian) {
+                var medianX = padding.left + ((stats.median - stats.min) / (stats.max - stats.min)) * chartW;
+                ctx.strokeStyle = '#0d9488';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(medianX, padding.top);
+                ctx.lineTo(medianX, h - padding.bottom);
+                ctx.stroke();
+
+                ctx.fillStyle = '#0d9488';
+                ctx.font = 'bold 12px Space Mono';
+                ctx.fillText('Median: ' + stats.median.toFixed(2), medianX + 5, padding.top + 35);
+            }
+
+            // Draw mode line
+            if (showMode) {
+                var modeX = padding.left + ((stats.mode - stats.min) / (stats.max - stats.min)) * chartW;
+                ctx.strokeStyle = '#7c3aed';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(modeX, padding.top);
+                ctx.lineTo(modeX, h - padding.bottom);
+                ctx.stroke();
+
+                ctx.fillStyle = '#7c3aed';
+                ctx.font = 'bold 12px Space Mono';
+                ctx.fillText('Modus: ' + stats.mode.toFixed(2), modeX + 5, padding.top + 50);
+            }
+
+            // Axes
+            ctx.strokeStyle = '#78716c';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, h - padding.bottom);
+            ctx.lineTo(w - padding.right, h - padding.bottom);
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#44403c';
+            ctx.font = 'bold 12px DM Sans';
+            ctx.fillText('Nilai', w / 2, h - 15);
+        }
+
+        function drawSpread(stats, w, h) {
+            var padding = { top: 40, right: 40, bottom: 60, left: 60 };
+            var chartW = w - padding.left - padding.right;
+            var chartH = h - padding.top - padding.bottom;
+
+            // Draw box plot
+            var q1 = stats.data[Math.floor(stats.n * 0.25)];
+            var q3 = stats.data[Math.floor(stats.n * 0.75)];
+            var iqr = q3 - q1;
+
+            var scale = function(val) {
+                return padding.left + ((val - stats.min) / (stats.max - stats.min)) * chartW;
+            };
+
+            var centerY = h / 2;
+
+            // Box
+            ctx.fillStyle = 'rgba(194, 65, 12, 0.2)';
+            ctx.fillRect(scale(q1), centerY - 30, scale(q3) - scale(q1), 60);
+
+            ctx.strokeStyle = '#c2410c';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(scale(q1), centerY - 30, scale(q3) - scale(q1), 60);
+
+            // Median line
+            ctx.beginPath();
+            ctx.moveTo(scale(stats.median), centerY - 30);
+            ctx.lineTo(scale(stats.median), centerY + 30);
+            ctx.stroke();
+
+            // Whiskers
+            ctx.beginPath();
+            ctx.moveTo(scale(stats.min), centerY);
+            ctx.lineTo(scale(q1), centerY);
+            ctx.moveTo(scale(q3), centerY);
+            ctx.lineTo(scale(stats.max), centerY);
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#1c1917';
+            ctx.font = 'bold 11px Space Mono';
+            ctx.textAlign = 'center';
+
+            ctx.fillText('Min: ' + stats.min, scale(stats.min), centerY + 50);
+            ctx.fillText('Q1: ' + q1, scale(q1), centerY + 50);
+            ctx.fillText('Med: ' + stats.median.toFixed(0), scale(stats.median), centerY - 40);
+            ctx.fillText('Q3: ' + q3, scale(q3), centerY + 50);
+            ctx.fillText('Max: ' + stats.max, scale(stats.max), centerY + 50);
+
+            // Percentile marker
+            var pVal = stats.data[Math.floor(stats.n * percentile / 100)];
+            var pX = scale(pVal);
+            ctx.fillStyle = '#dc2626';
+            ctx.beginPath();
+            ctx.arc(pX, centerY, 6, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#dc2626';
+            ctx.fillText('P' + percentile + ': ' + pVal, pX, centerY - 50);
+
+            // Stats box
+            ctx.fillStyle = '#44403c';
+            ctx.font = '12px DM Sans';
+            ctx.textAlign = 'left';
+            ctx.fillText('Range: ' + (stats.max - stats.min), 20, 30);
+            ctx.fillText('IQR: ' + iqr, 20, 50);
+            ctx.fillText('SD: ' + stats.sd.toFixed(2), 20, 70);
+        }
+
+        function updateStatsDisplay(stats) {
+            document.getElementById('vizResult').textContent = 'n = ' + stats.n + ' data';
+            document.getElementById('infoMean').textContent = stats.mean.toFixed(2);
+            document.getElementById('infoMedian').textContent = stats.median.toFixed(2);
+            document.getElementById('infoMode').textContent = stats.mode.toFixed(2);
+            document.getElementById('infoSD').textContent = stats.sd.toFixed(2);
+        }
+
+        // ========================================
+        // Quiz System
+        // ========================================
+        function initQuiz() {
+            document.getElementById('generateBtn').addEventListener('click', generateQuiz);
+            document.getElementById('retryBtn').addEventListener('click', generateQuiz);
+            generateQuiz();
+        }
+
+        function shuffleArray(array) {
+            var newArray = array.slice();
+            for (var i = newArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
+            return newArray;
+        }
+
+        function generateQuiz() {
+            currentQuestions = shuffleArray(questionBank).slice(0, 5);
+            userAnswers = new Array(5).fill(null);
+            score = 0;
+            quizSubmitted = false;
+            document.getElementById('scoreDisplay').textContent = '0/5';
+            document.getElementById('resultCard').classList.remove('show');
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            var container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            currentQuestions.forEach(function(q, qIndex) {
+                var card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = 'question-' + qIndex;
+                var questionTitle = document.createElement('p');
+                questionTitle.className = 'question-text';
+                questionTitle.innerHTML = '<span class="question-number">' + (qIndex + 1) + '</span>' + q.question;
+                card.appendChild(questionTitle);
+                var optionsList = document.createElement('div');
+                optionsList.className = 'options-list';
+                var letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach(function(opt, oIndex) {
+                    var btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = '<span class="option-letter">' + letters[oIndex] + '</span><span class="option-text">' + opt + '</span>';
+                    btn.addEventListener('click', function() { selectOption(qIndex, oIndex); });
+                    optionsList.appendChild(btn);
+                });
+                card.appendChild(optionsList);
+                var feedback = document.createElement('div');
+                feedback.className = 'feedback-box';
+                feedback.id = 'feedback-' + qIndex;
+                card.appendChild(feedback);
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qIndex, oIndex) {
+            if (quizSubmitted) return;
+            userAnswers[qIndex] = oIndex;
+            var questionCard = document.getElementById('question-' + qIndex);
+            var options = questionCard.querySelectorAll('.option-btn');
+            options.forEach(function(opt, idx) {
+                opt.classList.remove('selected');
+                if (idx === oIndex) opt.classList.add('selected');
+            });
+            if (userAnswers.indexOf(null) === -1) submitQuiz();
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            score = 0;
+            currentQuestions.forEach(function(q, qIndex) {
+                var questionCard = document.getElementById('question-' + qIndex);
+                var options = questionCard.querySelectorAll('.option-btn');
+                var feedback = document.getElementById('feedback-' + qIndex);
+                var userAnswer = userAnswers[qIndex];
+                var correctAnswer = q.correct;
+                options.forEach(function(opt, idx) {
+                    opt.classList.add('disabled');
+                    opt.classList.remove('selected');
+                    if (idx === correctAnswer) opt.classList.add('correct');
+                    else if (idx === userAnswer && userAnswer !== correctAnswer) opt.classList.add('incorrect');
+                });
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    questionCard.classList.add('correct');
+                    feedback.className = 'feedback-box show correct';
+                    feedback.textContent = 'Benar! ' + q.explanation;
+                } else {
+                    questionCard.classList.add('incorrect');
+                    feedback.className = 'feedback-box show incorrect';
+                    feedback.textContent = 'Salah. ' + q.explanation;
+                }
+            });
+            document.getElementById('scoreDisplay').textContent = score + '/5';
+            document.getElementById('finalScore').textContent = score + '/5';
+            var resultMessage = document.getElementById('resultMessage');
+            if (score === 5) resultMessage.textContent = 'Sempurna!';
+            else if (score >= 3) resultMessage.textContent = 'Bagus! Terus berlatih.';
+            else resultMessage.textContent = 'Pelajari kembali materi.';
+            document.getElementById('resultCard').classList.add('show');
+        }
+
+        // ========================================
+        // Animations
+        // ========================================
+        function initAnimations() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.module-card').forEach(function(card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>

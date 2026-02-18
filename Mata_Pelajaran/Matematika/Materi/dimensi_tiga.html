@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimensi Tiga - Matematika Kelas 12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8f7f4;
+            --bg-secondary: #efeee9;
+            --bg-card: #ffffff;
+            --fg-primary: #1a1814;
+            --fg-secondary: #4a4540;
+            --fg-muted: #7a756d;
+            --accent-primary: #b45309;
+            --accent-primary-light: #d97706;
+            --accent-secondary: #059669;
+            --accent-info: #0891b2;
+            --accent-glow: rgba(180, 83, 9, 0.12);
+            --shadow-soft: 0 2px 12px rgba(26, 24, 20, 0.04);
+            --shadow-medium: 0 8px 32px rgba(26, 24, 20, 0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(180, 83, 9, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(5, 150, 105, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(180, 83, 9, 0.08);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-logo svg { width: 18px; height: 18px; color: white; }
+
+        .navbar-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        .navbar-title span { color: var(--accent-primary); }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-nav:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .btn-nav svg { width: 14px; height: 14px; }
+
+        .hero {
+            padding: 36px 24px 28px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .breadcrumb svg { width: 12px; height: 12px; opacity: 0.4; }
+
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 0.95rem;
+            color: var(--fg-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: rgba(180, 83, 9, 0.08);
+            border: 1px solid rgba(180, 83, 9, 0.15);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .hero-badge svg { width: 12px; height: 12px; }
+
+        .section-nav {
+            position: sticky;
+            top: 60px;
+            background: rgba(248, 247, 244, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(180, 83, 9, 0.06);
+            z-index: 999;
+            padding: 0 24px;
+        }
+
+        .section-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 8px 0;
+            scrollbar-width: none;
+        }
+
+        .section-nav-container::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 8px 18px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+        }
+
+        .nav-tab:hover {
+            background: rgba(180, 83, 9, 0.06);
+            color: var(--accent-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 24px 70px;
+        }
+
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            transition: var(--transition-medium);
+        }
+
+        .module-card:hover { box-shadow: var(--shadow-medium); }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .module-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, rgba(180, 83, 9, 0.1), rgba(5, 150, 105, 0.08));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .module-icon svg { width: 22px; height: 22px; color: var(--accent-primary); }
+
+        .module-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin-bottom: 2px;
+        }
+
+        .module-subtitle { font-size: 0.8rem; color: var(--fg-muted); }
+
+        .module-content h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin: 16px 0 8px;
+        }
+
+        .module-content h3:first-child { margin-top: 0; }
+
+        .module-content p {
+            color: var(--fg-secondary);
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 0.88rem;
+        }
+
+        .module-content ul, .module-content ol {
+            margin: 10px 0;
+            padding-left: 18px;
+        }
+
+        .module-content li {
+            color: var(--fg-secondary);
+            margin-bottom: 5px;
+            line-height: 1.6;
+            font-size: 0.85rem;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, rgba(180, 83, 9, 0.04), rgba(5, 150, 105, 0.02));
+            border: 1px solid rgba(180, 83, 9, 0.1);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin: 14px 0;
+            text-align: center;
+        }
+
+        .formula {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .formula-description {
+            font-size: 0.75rem;
+            color: var(--fg-muted);
+            margin-top: 8px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 0.8rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .info-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--fg-primary);
+            font-size: 0.75rem;
+        }
+
+        .info-table td { color: var(--fg-secondary); }
+
+        .example-box {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin: 14px 0;
+            border-left: 3px solid var(--accent-secondary);
+        }
+
+        .example-label {
+            font-weight: 600;
+            color: var(--accent-secondary);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .reference-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            background: rgba(180, 83, 9, 0.06);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            margin: 2px;
+            transition: var(--transition-fast);
+        }
+
+        .reference-link:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .reference-link svg { width: 10px; height: 10px; }
+
+        /* Visualization */
+        .viz-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+        }
+
+        .viz-controls {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            height: fit-content;
+        }
+
+        .controls-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .controls-title svg { width: 16px; height: 16px; color: var(--accent-primary); }
+
+        .control-group { margin-bottom: 14px; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            margin-bottom: 6px;
+        }
+
+        .control-value {
+            font-family: 'Space Grotesk', monospace;
+            color: var(--accent-primary);
+            background: rgba(180, 83, 9, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 5px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--accent-glow);
+            transition: var(--transition-fast);
+        }
+
+        .slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .select-control:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .toggle-group { display: flex; gap: 5px; }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 7px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-top: 4px;
+        }
+
+        .btn-reset:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .viz-canvas-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            overflow: hidden;
+        }
+
+        .viz-header {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .viz-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        .viz-result {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            background: rgba(180, 83, 9, 0.08);
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+        }
+
+        .viz-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 360px;
+            background: var(--bg-secondary);
+        }
+
+        .viz-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .viz-info {
+            padding: 14px 18px;
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(180, 83, 9, 0.06);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .info-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .quiz-info h2 {
+            font-size: 1.1rem;
+            color: var(--fg-primary);
+            margin-bottom: 2px;
+        }
+
+        .quiz-info p {
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+        }
+
+        .quiz-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(180, 83, 9, 0.08), rgba(5, 150, 105, 0.06));
+            border-radius: var(--radius-md);
+        }
+
+        .score-label { font-size: 0.75rem; color: var(--fg-muted); }
+
+        .score-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .quiz-actions { display: flex; gap: 8px; }
+
+        .btn-quiz {
+            padding: 9px 16px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+        }
+
+        .btn-generate {
+            background: var(--accent-secondary);
+            color: white;
+        }
+
+        .btn-generate:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        .btn-retry {
+            background: var(--bg-secondary);
+            color: var(--fg-secondary);
+        }
+
+        .btn-retry:hover {
+            background: var(--fg-secondary);
+            color: white;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            margin-bottom: 14px;
+            transition: var(--transition-medium);
+        }
+
+        .question-card.correct { border-color: var(--accent-secondary); }
+        .question-card.incorrect { border-color: #dc2626; }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .question-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.selected):not(.disabled) {
+            border-color: var(--accent-primary);
+            background: rgba(180, 83, 9, 0.04);
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent-primary);
+            background: rgba(180, 83, 9, 0.08);
+        }
+
+        .option-btn.correct {
+            border-color: var(--accent-secondary);
+            background: rgba(5, 150, 105, 0.1);
+        }
+
+        .option-btn.incorrect {
+            border-color: #dc2626;
+            background: rgba(220, 38, 38, 0.1);
+        }
+
+        .option-btn.disabled { cursor: default; opacity: 0.7; }
+
+        .option-letter {
+            width: 26px;
+            height: 26px;
+            background: white;
+            border: 2px solid var(--fg-muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .option-btn.selected .option-letter {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            color: white;
+        }
+
+        .option-btn.incorrect .option-letter {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: white;
+        }
+
+        .option-text {
+            font-size: 0.85rem;
+            color: var(--fg-secondary);
+            line-height: 1.4;
+        }
+
+        .feedback-box {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .feedback-box.show { display: block; }
+        .feedback-box.correct { background: rgba(5, 150, 105, 0.1); color: #047857; border-left: 3px solid var(--accent-secondary); }
+        .feedback-box.incorrect { background: rgba(220, 38, 38, 0.1); color: #b91c1c; border-left: 3px solid #dc2626; }
+
+        .quiz-result-card {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            color: white;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .quiz-result-card.show { display: block; }
+
+        .result-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .result-icon svg { width: 32px; height: 32px; }
+
+        .result-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+        .result-score { font-family: 'Space Grotesk', monospace; font-size: 2.5rem; font-weight: 700; margin: 12px 0; }
+        .result-message { font-size: 0.9rem; opacity: 0.9; }
+
+        @media (max-width: 900px) {
+            .viz-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 16px; }
+            .btn-nav span { display: none; }
+            .hero { padding: 24px 16px 18px; }
+            .hero-title { font-size: 1.4rem; }
+            .section-nav { top: 60px; padding: 0 16px; }
+            .nav-tab { padding: 7px 12px; font-size: 0.75rem; }
+            .main-content { padding: 14px 16px 50px; }
+            .module-grid { grid-template-columns: 1fr; }
+            .module-card { padding: 18px; }
+            .module-header { flex-direction: column; gap: 10px; }
+            .viz-controls { padding: 14px; }
+            .viz-canvas-wrapper { height: 300px; }
+            .quiz-header { padding: 16px; flex-direction: column; text-align: center; }
+            .question-card { padding: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.2rem; }
+            .formula { font-size: 1rem; }
+            .option-btn { padding: 10px 12px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" role="navigation">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            <a href="http://owenitb.great-site.net/" target="_self" class="btn-nav">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="breadcrumb">
+            <a href="http://owenitb.great-site.net/" target="_self">Dashboard</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="http://owenitb.great-site.net/Mata_Pelajaran/Matematika/matematika.html" target="_self">Matematika</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <span>Dimensi Tiga</span>
+        </div>
+        <div class="hero-header">
+            <div>
+                <h1 class="hero-title">
+                    <span class="hero-title-accent">Dimensi Tiga</span>
+                </h1>
+                <p class="hero-description">
+                    Pelajari kedudukan titik, garis, bidang; jarak dalam ruang; serta sudut dalam ruang melalui visualisasi interaktif.
+                </p>
+            </div>
+            <span class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                </svg>
+                Geometri Ruang
+            </span>
+        </div>
+    </section>
+
+    <div class="section-nav">
+        <div class="section-nav-container">
+            <button class="nav-tab active" data-section="module">Modul Materi</button>
+            <button class="nav-tab" data-section="visualization">Visualisasi Interaktif</button>
+            <button class="nav-tab" data-section="quiz">Kuis Interaktif</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <section class="content-section active" id="module">
+            <div class="module-grid">
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Kedudukan Titik, Garis, Bidang</h2>
+                            <p class="module-subtitle">Posisi Relatif dalam Ruang 3D</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian Dasar</h3>
+                        <p>Bangun ruang tiga dimensi terbentuk dari titik (tanpa ukuran), garis (panjang), dan bidang (luas). Kedudukan menggambarkan hubungan posisi relatif antar elemen tersebut.</p>
+
+                        <h3>Titik terhadap Garis</h3>
+                        <ul>
+                            <li><strong>Terletak pada:</strong> Garis melalui titik tersebut (A pada garis AB)</li>
+                            <li><strong>Di luar:</strong> Garis tidak melalui titik (Q di luar AB)</li>
+                        </ul>
+
+                        <h3>Titik terhadap Bidang</h3>
+                        <ul>
+                            <li><strong>Terletak pada:</strong> Bidang melalui titik</li>
+                            <li><strong>Di luar:</strong> Bidang tidak melalui titik</li>
+                        </ul>
+
+                        <h3>Garis terhadap Bidang</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr><th>Kedudukan</th><th>Syarat</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Terletak pada</td><td>Min 2 titik garis di bidang</td></tr>
+                                <tr><td>Sejajar</td><td>Tidak berpotongan, sejajar garis di bidang</td></tr>
+                                <tr><td>Menembus</td><td>1 titik persekutuan</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.youtube.com/watch?v=aNcJC5AW7L4" target="_self" class="reference-link">YouTube</a>
+                            <a href="https://www.quipper.com/id/blog/mapel/matematika/dimensi-tiga-matematika-kelas-12/" target="_self" class="reference-link">Quipper</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Jarak dalam Ruang</h2>
+                            <p class="module-subtitle">Titik, Garis, Bidang</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Jarak Antar Dua Titik</h3>
+                        <div class="formula-box">
+                            <div class="formula">d = √[(x₂-x₁)² + (y₂-y₁)² + (z₂-z₁)²]</div>
+                            <p class="formula-description">Rumus jarak di ruang kartesian</p>
+                        </div>
+
+                        <h3>Jarak Titik ke Garis</h3>
+                        <p>Gunakan rumus luas segitiga atau Pythagoras pada segitiga tegak lurus.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">d = |AB × AC| / |AB|</div>
+                            <p class="formula-description">dengan cross product vektor</p>
+                        </div>
+
+                        <h3>Jarak Titik ke Bidang</h3>
+                        <p>Gunakan volume tetrahedron atau rumus luas alas × tinggi.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">d = 3V / Luas Alas</div>
+                            <p class="formula-description">tinggi = jarak yang dicari</p>
+                        </div>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.konsep-matematika.com/2016/04/konsep-jarak-pada-dimensi-tiga-atau-bangun-ruang.html" target="_self" class="reference-link">Konsep Matematika</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Sudut dalam Ruang</h2>
+                            <p class="module-subtitle">Garis dan Bidang</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Sudut Dua Garis</h3>
+                        <div class="formula-box">
+                            <div class="formula">cos θ = |u · v| / (|u| × |v|)</div>
+                            <p class="formula-description">Dot product vektor arah</p>
+                        </div>
+
+                        <h3>Sudut Garis dan Bidang</h3>
+                        <p>Sudut antara garis dengan proyeksinya pada bidang.</p>
+                        <div class="formula-box">
+                            <div class="formula">sin φ = |d · n| / (|d| × |n|)</div>
+                            <p class="formula-description">d = vektor garis, n = normal bidang</p>
+                        </div>
+
+                        <h3>Sudut Dua Bidang</h3>
+                        <p>Sudut antara normal kedua bidang.</p>
+
+                        <div class="example-box">
+                            <div class="example-label">Contoh</div>
+                            <p>Kubus sisi a: sudut diagonal ruang dengan rusuk adalah cos⁻¹(1/√3)</p>
+                        </div>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.omahbse.com/blog/bagaimana-cara-menghitung-sudut-antara-dua-vektor-dalam-ruang-3d/" target="_self" class="reference-link">Omah BSE</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-section" id="visualization">
+            <div class="viz-container">
+                <aside class="viz-controls">
+                    <h3 class="controls-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        Kontrol Simulasi
+                    </h3>
+
+                    <div class="control-group">
+                        <label class="control-label">Mode Tampilan</label>
+                        <select class="select-control" id="vizMode">
+                            <option value="position">Kedudukan</option>
+                            <option value="distance">Jarak</option>
+                            <option value="angle">Sudut</option>
+                        </select>
+                    </div>
+
+                    <div id="positionControls">
+                        <div class="control-group">
+                            <label class="control-label">Tampilkan Elemen</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="showPoint">Titik</button>
+                                <button class="toggle-btn active" id="showLine">Garis</button>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="showPlane">Bidang</button>
+                                <button class="toggle-btn" id="showProj">Proyeksi</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="distanceControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Sisi Kubus (s)
+                                <span class="control-value" id="sideValue">6 cm</span>
+                            </label>
+                            <input type="range" class="slider" id="sideSlider" min="2" max="12" value="6" step="1">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Hitung Jarak</label>
+                            <select class="select-control" id="distanceType">
+                                <option value="diagonal">Diagonal Ruang</option>
+                                <option value="diagFace">Diagonal Bidang</option>
+                                <option value="pointLine">Titik ke Garis</option>
+                                <option value="pointPlane">Titik ke Bidang</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="angleControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">Jenis Sudut</label>
+                            <select class="select-control" id="angleType">
+                                <option value="lineLine">Garis - Garis</option>
+                                <option value="linePlane">Garis - Bidang</option>
+                                <option value="planePlane">Bidang - Bidang</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-reset" id="resetBtn">Reset Simulasi</button>
+                </aside>
+
+                <div class="viz-canvas-container">
+                    <div class="viz-header">
+                        <span class="viz-title" id="vizTitle">Kedudukan Titik, Garis, Bidang</span>
+                        <span class="viz-result" id="vizResult">Kubus ABCD.EFGH</span>
+                    </div>
+                    <div class="viz-canvas-wrapper">
+                        <canvas class="viz-canvas" id="simCanvas"></canvas>
+                    </div>
+                    <div class="viz-info">
+                        <div class="info-grid" id="infoGrid">
+                            <div class="info-item">
+                                <span class="info-label">Status</span>
+                                <span class="info-value" id="infoStatus">Aktif</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Keterangan</span>
+                                <span class="info-value" id="infoDesc">Interaktif</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="quiz">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h2>Kuis Dimensi Tiga</h2>
+                        <p>Uji pemahaman Anda tentang geometri ruang</p>
+                    </div>
+                    <div class="quiz-score">
+                        <span class="score-label">Skor:</span>
+                        <span class="score-value" id="scoreDisplay">0/5</span>
+                    </div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn-quiz btn-generate" id="generateBtn">Generate Soal Baru</button>
+                    <button class="btn-quiz btn-retry" id="retryBtn">Ulangi Kuis</button>
+                </div>
+
+                <div id="quizContainer"></div>
+
+                <div class="quiz-result-card" id="resultCard">
+                    <div class="result-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="result-title">Kuis Selesai</h3>
+                    <div class="result-score" id="finalScore">0/5</div>
+                    <p class="result-message" id="resultMessage">Terus berlatih untuk meningkatkan pemahaman!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // ========================================
+        // Question Bank - TAMBAHKAN SOAL DI SINI
+        // ========================================
+        var questionBank = [
+            // Kedudukan
+            { question: "Titik dikatakan terletak pada garis jika...", options: ["Garis memotong titik", "Garis melalui titik tersebut", "Titik dekat garis", "Titik sejajar garis"], correct: 1, explanation: "Titik terletak pada garis jika garis tersebut melalui titik." },
+            { question: "Garis menembus bidang jika...", options: ["Tidak memiliki titik persekutuan", "Memiliki tepat satu titik persekutuan", "Seluruhnya pada bidang", "Sejajar bidang"], correct: 1, explanation: "Garis menembus bidang memiliki tepat satu titik persekutuan." },
+            { question: "Garis sejajar bidang jika...", options: ["Tidak berpotongan dan tidak terletak pada bidang", "Memiliki dua titik potong", "Terletak pada bidang", "Tegak lurus bidang"], correct: 0, explanation: "Garis sejajar bidang tidak berpotongan dan tidak terletak pada bidang." },
+            { question: "Pada kubus ABCD.EFGH, titik C terhadap garis AB adalah...", options: ["Terletak pada", "Di luar garis", "Sejajar", "Menembus"], correct: 1, explanation: "Titik C tidak dilalui garis AB, sehingga di luar garis." },
+            // Jarak
+            { question: "Jarak dua titik A(1,2,3) dan B(4,6,3) adalah...", options: ["3 satuan", "4 satuan", "5 satuan", "7 satuan"], correct: 2, explanation: "d = √[(4-1)² + (6-2)² + (3-3)²] = √(9+16+0) = √25 = 5" },
+            { question: "Kubus sisi 6 cm, jarak A ke G (diagonal ruang) adalah...", options: ["6 cm", "6√2 cm", "6√3 cm", "12 cm"], correct: 2, explanation: "Diagonal ruang kubus = s√3 = 6√3 cm" },
+            { question: "Kubus sisi 8 cm, diagonal bidangnya adalah...", options: ["8 cm", "8√2 cm", "8√3 cm", "16 cm"], correct: 1, explanation: "Diagonal bidang = s√2 = 8√2 cm" },
+            { question: "Rumus jarak titik ke garis menggunakan...", options: ["Pythagoras atau luas segitiga", "Hanya determinan", "Hanya cosinus", "Integral"], correct: 0, explanation: "Jarak titik ke garis dapat dihitung dengan Pythagoras atau luas segitiga." },
+            { question: "Volume tetrahedron digunakan untuk menghitung...", options: ["Sudut antar garis", "Jarak titik ke bidang", "Panjang garis", "Luas bidang"], correct: 1, explanation: "Volume tetrahedron = 1/3 × alas × tinggi, tinggi = jarak titik ke bidang." },
+            // Sudut
+            { question: "Sudut antara dua garis dihitung dengan rumus...", options: ["cos θ = |u+v|/|u||v|", "cos θ = |u·v|/|u||v|", "sin θ = |u·v|/|u||v|", "tan θ = |u·v|/|u||v|"], correct: 1, explanation: "cos θ = |u·v|/(|u||v|) dengan dot product." },
+            { question: "Sudut garis dengan bidang adalah sudut antara garis dengan...", options: ["Normal bidang", "Proyeksi garis pada bidang", "Garis lain di bidang", "Semua benar"], correct: 1, explanation: "Sudut garis-bidang adalah sudut garis dengan proyeksinya pada bidang." },
+            { question: "Sudut dua bidang sama dengan sudut antara...", options: ["Dua garis di bidang", "Normal kedua bidang", "Titik di bidang", "Garis potong"], correct: 1, explanation: "Sudut dua bidang = sudut antara normal kedua bidang." },
+            { question: "Pada kubus sisi a, sudut diagonal ruang dengan rusuk adalah...", options: ["cos⁻¹(1/√2)", "cos⁻¹(1/√3)", "sin⁻¹(1/√3)", "tan⁻¹(√2)"], correct: 1, explanation: "cos θ = (a·a)/(a√3 × a) = 1/√3, θ = cos⁻¹(1/√3)" },
+            { question: "Untuk menghitung sudut garis-bidang digunakan...", options: ["sin φ = |d·n|/(|d||n|)", "cos φ = |d·n|/(|d||n|)", "tan φ = |d·n|/(|d||n|)", "cot φ = |d·n|/(|d||n|)"], correct: 0, explanation: "sin φ = |d·n|/(|d||n|), dengan d vektor garis dan n normal bidang." },
+            { question: "Kubus sisi 6 cm. Jarak E ke bidang ABCD adalah...", options: ["3 cm", "6 cm", "6√2 cm", "6√3 cm"], correct: 1, explanation: "Titik E terletak tepat di atas bidang ABCD dengan jarak sama dengan rusuk = 6 cm." },
+            { question: "Balok 3×4×12 cm. Diagonal ruangnya adalah...", options: ["12 cm", "13 cm", "14 cm", "15 cm"], correct: 1, explanation: "d = √(3²+4²+12²) = √(9+16+144) = √169 = 13 cm" },
+            { question: "Limas segiempat sisi alas 6 cm, tinggi 9 cm. Jarak puncak ke alas adalah...", options: ["6 cm", "9 cm", "10.5 cm", "12 cm"], correct: 1, explanation: "Jarak puncak ke alas = tinggi limas = 9 cm." }
+        ];
+
+        // ========================================
+        // Global State
+        // ========================================
+        var currentQuestions = [];
+        var userAnswers = [];
+        var score = 0;
+        var quizSubmitted = false;
+
+        // Visualization State
+        var vizMode = 'position';
+        var showPoint = true;
+        var showLine = true;
+        var showPlane = true;
+        var showProj = false;
+        var sideLength = 6;
+        var distanceType = 'diagonal';
+        var angleType = 'lineLine';
+        var canvas = null;
+        var ctx = null;
+        var rotationX = -0.5;
+        var rotationY = 0.5;
+        var isDragging = false;
+        var lastMouseX = 0;
+        var lastMouseY = 0;
+        var animationFrame = null;
+        var time = 0;
+
+        // ========================================
+        // DOM Ready
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initVisualization();
+            initQuiz();
+            initAnimations();
+        });
+
+        // ========================================
+        // Navigation
+        // ========================================
+        function initNavigation() {
+            var navTabs = document.querySelectorAll('.nav-tab');
+            var sections = document.querySelectorAll('.content-section');
+
+            navTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var sectionId = this.getAttribute('data-section');
+                    navTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    sections.forEach(function(s) {
+                        s.classList.remove('active');
+                        if (s.id === sectionId) s.classList.add('active');
+                    });
+                    if (sectionId === 'visualization') {
+                        setTimeout(function() { resizeCanvas(); drawVisualization(); }, 100);
+                    }
+                });
+            });
+        }
+
+        // ========================================
+        // Visualization
+        // ========================================
+        function initVisualization() {
+            canvas = document.getElementById('simCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            setupControls();
+            setupInteraction();
+            startAnimation();
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            var wrapper = canvas.parentElement;
+            if (!wrapper) return;
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+        }
+
+        function setupControls() {
+            var vizModeSelect = document.getElementById('vizMode');
+            if (vizModeSelect) {
+                vizModeSelect.addEventListener('change', function() {
+                    vizMode = this.value;
+                    updateControlVisibility();
+                    drawVisualization();
+                });
+            }
+
+            // Position controls
+            setupToggle('showPoint', function(v) { showPoint = v; });
+            setupToggle('showLine', function(v) { showLine = v; });
+            setupToggle('showPlane', function(v) { showPlane = v; });
+            setupToggle('showProj', function(v) { showProj = v; });
+
+            // Distance controls
+            var sideSlider = document.getElementById('sideSlider');
+            if (sideSlider) {
+                sideSlider.addEventListener('input', function() {
+                    sideLength = parseFloat(this.value);
+                    document.getElementById('sideValue').textContent = sideLength + ' cm';
+                    drawVisualization();
+                });
+            }
+
+            var distanceTypeSelect = document.getElementById('distanceType');
+            if (distanceTypeSelect) {
+                distanceTypeSelect.addEventListener('change', function() {
+                    distanceType = this.value;
+                    drawVisualization();
+                });
+            }
+
+            // Angle controls
+            var angleTypeSelect = document.getElementById('angleType');
+            if (angleTypeSelect) {
+                angleTypeSelect.addEventListener('change', function() {
+                    angleType = this.value;
+                    drawVisualization();
+                });
+            }
+
+            var resetBtn = document.getElementById('resetBtn');
+            if (resetBtn) resetBtn.addEventListener('click', resetVisualization);
+
+            window.addEventListener('resize', function() { resizeCanvas(); drawVisualization(); });
+        }
+
+        function setupToggle(id, callback) {
+            var btn = document.getElementById(id);
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                var isActive = this.classList.toggle('active');
+                callback(isActive);
+                drawVisualization();
+            });
+        }
+
+        function setupInteraction() {
+            canvas.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+            });
+
+            canvas.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var dx = e.clientX - lastMouseX;
+                var dy = e.clientY - lastMouseY;
+                rotationY += dx * 0.01;
+                rotationX += dy * 0.01;
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+            });
+
+            canvas.addEventListener('mouseup', function() { isDragging = false; });
+            canvas.addEventListener('mouseleave', function() { isDragging = false; });
+
+            canvas.addEventListener('touchstart', function(e) {
+                isDragging = true;
+                lastMouseX = e.touches[0].clientX;
+                lastMouseY = e.touches[0].clientY;
+            });
+
+            canvas.addEventListener('touchmove', function(e) {
+                if (!isDragging) return;
+                var dx = e.touches[0].clientX - lastMouseX;
+                var dy = e.touches[0].clientY - lastMouseY;
+                rotationY += dx * 0.01;
+                rotationX += dy * 0.01;
+                lastMouseX = e.touches[0].clientX;
+                lastMouseY = e.touches[0].clientY;
+            });
+
+            canvas.addEventListener('touchend', function() { isDragging = false; });
+        }
+
+        function updateControlVisibility() {
+            var positionControls = document.getElementById('positionControls');
+            var distanceControls = document.getElementById('distanceControls');
+            var angleControls = document.getElementById('angleControls');
+            var vizTitle = document.getElementById('vizTitle');
+
+            if (positionControls) positionControls.style.display = 'none';
+            if (distanceControls) distanceControls.style.display = 'none';
+            if (angleControls) angleControls.style.display = 'none';
+
+            if (vizMode === 'position') {
+                if (positionControls) positionControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Kedudukan Titik, Garis, Bidang';
+            } else if (vizMode === 'distance') {
+                if (distanceControls) distanceControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Jarak dalam Ruang';
+            } else if (vizMode === 'angle') {
+                if (angleControls) angleControls.style.display = 'block';
+                if (vizTitle) vizTitle.textContent = 'Sudut dalam Ruang';
+            }
+        }
+
+        function resetVisualization() {
+            rotationX = -0.5;
+            rotationY = 0.5;
+            showPoint = true;
+            showLine = true;
+            showPlane = true;
+            showProj = false;
+            sideLength = 6;
+            document.getElementById('sideSlider').value = 6;
+            document.getElementById('sideValue').textContent = '6 cm';
+            document.querySelectorAll('.toggle-btn').forEach(function(b) { b.classList.add('active'); });
+            document.getElementById('showProj').classList.remove('active');
+            drawVisualization();
+        }
+
+        function startAnimation() {
+            function animate() {
+                time += 0.02;
+                if (!isDragging) {
+                    rotationY += 0.003;
+                }
+                drawVisualization();
+                animationFrame = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function drawVisualization() {
+            if (!ctx || !canvas) return;
+            if (canvas.width === 0 || canvas.height === 0) resizeCanvas();
+
+            var w = canvas.width;
+            var h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Background
+            ctx.fillStyle = '#efeee9';
+            ctx.fillRect(0, 0, w, h);
+
+            if (vizMode === 'position') drawPositionMode(w, h);
+            else if (vizMode === 'distance') drawDistanceMode(w, h);
+            else if (vizMode === 'angle') drawAngleMode(w, h);
+        }
+
+        function drawPositionMode(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var s = Math.min(w, h) * 0.25;
+
+            var vertices = getCubeVertices(s);
+            var projected = vertices.map(function(v) { return project3D(v, cx, cy); });
+
+            // Draw cube
+            ctx.strokeStyle = '#b45309';
+            ctx.lineWidth = 2;
+
+            // Back edges
+            ctx.globalAlpha = 0.3;
+            drawCubeEdges(projected, true);
+            ctx.globalAlpha = 1;
+
+            // Front edges
+            ctx.strokeStyle = '#b45309';
+            drawCubeEdges(projected, false);
+
+            // Fill front face if plane shown
+            if (showPlane) {
+                ctx.fillStyle = 'rgba(180, 83, 9, 0.1)';
+                ctx.beginPath();
+                ctx.moveTo(projected[4].x, projected[4].y);
+                ctx.lineTo(projected[5].x, projected[5].y);
+                ctx.lineTo(projected[6].x, projected[6].y);
+                ctx.lineTo(projected[7].x, projected[7].y);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            // Draw points
+            if (showPoint) {
+                var labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+                projected.forEach(function(p, i) {
+                    ctx.fillStyle = '#059669';
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#1a1814';
+                    ctx.font = 'bold 12px Space Grotesk';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(labels[i], p.x, p.y - 12);
+                });
+            }
+
+            // Projection line example
+            if (showProj) {
+                var a = projected[0];
+                var g = projected[6];
+                var midX = (a.x + g.x) / 2;
+                var midY = (a.y + g.y) / 2;
+
+                ctx.strokeStyle = '#0891b2';
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(midX, midY);
+                ctx.lineTo(midX, cy + s * 0.5);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#0891b2';
+                ctx.beginPath();
+                ctx.arc(midX, cy + s * 0.5, 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.font = '11px DM Sans';
+                ctx.fillText('Proyeksi', midX, cy + s * 0.5 + 18);
+            }
+
+            // Update info
+            document.getElementById('vizResult').textContent = 'Kubus ABCD.EFGH';
+            document.getElementById('infoStatus').textContent = '3D Interaktif';
+            document.getElementById('infoDesc').textContent = 'Drag untuk rotasi';
+        }
+
+        function drawDistanceMode(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var s = sideLength * 10;
+
+            var vertices = getCubeVertices(s);
+            var projected = vertices.map(function(v) { return project3D(v, cx, cy); });
+
+            // Draw cube
+            ctx.strokeStyle = '#b45309';
+            ctx.lineWidth = 2;
+            ctx.globalAlpha = 0.3;
+            drawCubeEdges(projected, true);
+            ctx.globalAlpha = 1;
+            drawCubeEdges(projected, false);
+
+            // Highlight based on distance type
+            ctx.lineWidth = 3;
+
+            if (distanceType === 'diagonal') {
+                ctx.strokeStyle = '#059669';
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[6].x, projected[6].y);
+                ctx.stroke();
+
+                var dist = sideLength * Math.sqrt(3);
+                drawDistanceLabel(projected[0], projected[6], dist.toFixed(2) + ' cm');
+            } else if (distanceType === 'diagFace') {
+                ctx.strokeStyle = '#0891b2';
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[2].x, projected[2].y);
+                ctx.stroke();
+
+                var dist = sideLength * Math.sqrt(2);
+                drawDistanceLabel(projected[0], projected[2], dist.toFixed(2) + ' cm');
+            } else if (distanceType === 'pointLine') {
+                // E to AG
+                ctx.strokeStyle = '#0891b2';
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[6].x, projected[6].y);
+                ctx.stroke();
+
+                ctx.strokeStyle = '#dc2626';
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(projected[4].x, projected[4].y);
+                ctx.lineTo((projected[0].x + projected[6].x) / 2, (projected[0].y + projected[6].y) / 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                var diagR = sideLength * Math.sqrt(3);
+                var dist = (sideLength * Math.sqrt(6)) / 3;
+                drawDistanceLabel(projected[4], {x: cx, y: cy}, dist.toFixed(2) + ' cm');
+            } else if (distanceType === 'pointPlane') {
+                // E to ABCD
+                ctx.fillStyle = 'rgba(5, 150, 105, 0.15)';
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[1].x, projected[1].y);
+                ctx.lineTo(projected[2].x, projected[2].y);
+                ctx.lineTo(projected[3].x, projected[3].y);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = '#dc2626';
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(projected[4].x, projected[4].y);
+                ctx.lineTo(cx, cy + s * 0.5);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                drawDistanceLabel(projected[4], {x: cx, y: cy + s * 0.5}, sideLength + ' cm');
+            }
+
+            // Points
+            var labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            projected.forEach(function(p, i) {
+                ctx.fillStyle = '#059669';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#1a1814';
+                ctx.font = 'bold 11px Space Grotesk';
+                ctx.textAlign = 'center';
+                ctx.fillText(labels[i], p.x, p.y - 10);
+            });
+
+            // Update info
+            var diagR = (sideLength * Math.sqrt(3)).toFixed(2);
+            var diagF = (sideLength * Math.sqrt(2)).toFixed(2);
+            document.getElementById('vizResult').textContent = 's = ' + sideLength + ' cm';
+            document.getElementById('infoStatus').textContent = 'Diagonal R: ' + diagR + ' cm';
+            document.getElementById('infoDesc').textContent = 'Diagonal B: ' + diagF + ' cm';
+        }
+
+        function drawAngleMode(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var s = 80;
+
+            var vertices = getCubeVertices(s);
+            var projected = vertices.map(function(v) { return project3D(v, cx, cy); });
+
+            // Draw cube
+            ctx.strokeStyle = '#b45309';
+            ctx.lineWidth = 2;
+            ctx.globalAlpha = 0.3;
+            drawCubeEdges(projected, true);
+            ctx.globalAlpha = 1;
+            drawCubeEdges(projected, false);
+
+            ctx.lineWidth = 3;
+
+            if (angleType === 'lineLine') {
+                // AG and AB angle
+                ctx.strokeStyle = '#059669';
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[6].x, projected[6].y);
+                ctx.stroke();
+
+                ctx.strokeStyle = '#0891b2';
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[1].x, projected[1].y);
+                ctx.stroke();
+
+                // Angle arc
+                var angle = Math.acos(1 / Math.sqrt(3));
+                var angleDeg = (angle * 180 / Math.PI).toFixed(1);
+                ctx.strokeStyle = '#d97706';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(projected[0].x, projected[0].y, 20, 0, angle);
+                ctx.stroke();
+
+                ctx.fillStyle = '#1a1814';
+                ctx.font = 'bold 14px Space Grotesk';
+                ctx.fillText('θ = ' + angleDeg + '°', projected[0].x + 40, projected[0].y - 20);
+            } else if (angleType === 'linePlane') {
+                // AG with ABCD
+                ctx.fillStyle = 'rgba(5, 150, 105, 0.1)';
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[1].x, projected[1].y);
+                ctx.lineTo(projected[2].x, projected[2].y);
+                ctx.lineTo(projected[3].x, projected[3].y);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = '#059669';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[6].x, projected[6].y);
+                ctx.stroke();
+
+                var phi = Math.asin(Math.sqrt(2) / Math.sqrt(3));
+                var phiDeg = (phi * 180 / Math.PI).toFixed(1);
+                ctx.fillStyle = '#1a1814';
+                ctx.font = 'bold 14px Space Grotesk';
+                ctx.fillText('φ = ' + phiDeg + '°', cx + 60, cy - 60);
+            } else if (angleType === 'planePlane') {
+                // ABCD and ABFE
+                ctx.fillStyle = 'rgba(5, 150, 105, 0.1)';
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[1].x, projected[1].y);
+                ctx.lineTo(projected[2].x, projected[2].y);
+                ctx.lineTo(projected[3].x, projected[3].y);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.fillStyle = 'rgba(8, 145, 178, 0.1)';
+                ctx.beginPath();
+                ctx.moveTo(projected[0].x, projected[0].y);
+                ctx.lineTo(projected[1].x, projected[1].y);
+                ctx.lineTo(projected[5].x, projected[5].y);
+                ctx.lineTo(projected[4].x, projected[4].y);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.fillStyle = '#1a1814';
+                ctx.font = 'bold 14px Space Grotesk';
+                ctx.fillText('θ = 90°', cx + 20, cy);
+            }
+
+            // Points
+            var labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            projected.forEach(function(p, i) {
+                ctx.fillStyle = '#059669';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#1a1814';
+                ctx.font = 'bold 11px Space Grotesk';
+                ctx.textAlign = 'center';
+                ctx.fillText(labels[i], p.x, p.y - 10);
+            });
+
+            document.getElementById('vizResult').textContent = 'Sudut dalam Ruang';
+            document.getElementById('infoStatus').textContent = 'Interaktif';
+            document.getElementById('infoDesc').textContent = 'Lihat sudut';
+        }
+
+        function getCubeVertices(s) {
+            var hs = s / 2;
+            return [
+                {x: -hs, y: -hs, z: -hs}, // A
+                {x: hs, y: -hs, z: -hs},  // B
+                {x: hs, y: hs, z: -hs},   // C
+                {x: -hs, y: hs, z: -hs},  // D
+                {x: -hs, y: -hs, z: hs},  // E
+                {x: hs, y: -hs, z: hs},   // F
+                {x: hs, y: hs, z: hs},    // G
+                {x: -hs, y: hs, z: hs}    // H
+            ];
+        }
+
+        function project3D(v, cx, cy) {
+            var cosX = Math.cos(rotationX);
+            var sinX = Math.sin(rotationX);
+            var cosY = Math.cos(rotationY);
+            var sinY = Math.sin(rotationY);
+
+            var y1 = v.y * cosX - v.z * sinX;
+            var z1 = v.y * sinX + v.z * cosX;
+
+            var x2 = v.x * cosY + z1 * sinY;
+            var z2 = -v.x * sinY + z1 * cosY;
+
+            var scale = 300 / (300 + z2);
+            return {
+                x: cx + x2 * scale,
+                y: cy + y1 * scale
+            };
+        }
+
+        function drawCubeEdges(projected, back) {
+            var backEdges = [[0,1], [1,2], [2,3], [3,0], [0,4], [1,5], [2,6], [3,7], [4,5], [5,6], [6,7], [7,4]];
+            
+            backEdges.forEach(function(e, idx) {
+                var isBack = idx < 4;
+                if (back === isBack) {
+                    ctx.beginPath();
+                    ctx.moveTo(projected[e[0]].x, projected[e[0]].y);
+                    ctx.lineTo(projected[e[1]].x, projected[e[1]].y);
+                    ctx.stroke();
+                }
+            });
+        }
+
+        function drawDistanceLabel(p1, p2, text) {
+            var midX = (p1.x + p2.x) / 2;
+            var midY = (p1.y + p2.y) / 2;
+
+            ctx.fillStyle = '#dc2626';
+            ctx.font = 'bold 13px Space Mono';
+            ctx.textAlign = 'center';
+            ctx.fillText(text, midX, midY - 10);
+        }
+
+        // ========================================
+        // Quiz System
+        // ========================================
+        function initQuiz() {
+            document.getElementById('generateBtn').addEventListener('click', generateQuiz);
+            document.getElementById('retryBtn').addEventListener('click', generateQuiz);
+            generateQuiz();
+        }
+
+        function shuffleArray(array) {
+            var newArray = array.slice();
+            for (var i = newArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
+            return newArray;
+        }
+
+        function generateQuiz() {
+            currentQuestions = shuffleArray(questionBank).slice(0, 5);
+            userAnswers = new Array(5).fill(null);
+            score = 0;
+            quizSubmitted = false;
+            document.getElementById('scoreDisplay').textContent = '0/5';
+            document.getElementById('resultCard').classList.remove('show');
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            var container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            currentQuestions.forEach(function(q, qIndex) {
+                var card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = 'question-' + qIndex;
+                var questionTitle = document.createElement('p');
+                questionTitle.className = 'question-text';
+                questionTitle.innerHTML = '<span class="question-number">' + (qIndex + 1) + '</span>' + q.question;
+                card.appendChild(questionTitle);
+                var optionsList = document.createElement('div');
+                optionsList.className = 'options-list';
+                var letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach(function(opt, oIndex) {
+                    var btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = '<span class="option-letter">' + letters[oIndex] + '</span><span class="option-text">' + opt + '</span>';
+                    btn.addEventListener('click', function() { selectOption(qIndex, oIndex); });
+                    optionsList.appendChild(btn);
+                });
+                card.appendChild(optionsList);
+                var feedback = document.createElement('div');
+                feedback.className = 'feedback-box';
+                feedback.id = 'feedback-' + qIndex;
+                card.appendChild(feedback);
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qIndex, oIndex) {
+            if (quizSubmitted) return;
+            userAnswers[qIndex] = oIndex;
+            var questionCard = document.getElementById('question-' + qIndex);
+            var options = questionCard.querySelectorAll('.option-btn');
+            options.forEach(function(opt, idx) {
+                opt.classList.remove('selected');
+                if (idx === oIndex) opt.classList.add('selected');
+            });
+            if (userAnswers.indexOf(null) === -1) submitQuiz();
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            score = 0;
+            currentQuestions.forEach(function(q, qIndex) {
+                var questionCard = document.getElementById('question-' + qIndex);
+                var options = questionCard.querySelectorAll('.option-btn');
+                var feedback = document.getElementById('feedback-' + qIndex);
+                var userAnswer = userAnswers[qIndex];
+                var correctAnswer = q.correct;
+                options.forEach(function(opt, idx) {
+                    opt.classList.add('disabled');
+                    opt.classList.remove('selected');
+                    if (idx === correctAnswer) opt.classList.add('correct');
+                    else if (idx === userAnswer && userAnswer !== correctAnswer) opt.classList.add('incorrect');
+                });
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    questionCard.classList.add('correct');
+                    feedback.className = 'feedback-box show correct';
+                    feedback.textContent = 'Benar! ' + q.explanation;
+                } else {
+                    questionCard.classList.add('incorrect');
+                    feedback.className = 'feedback-box show incorrect';
+                    feedback.textContent = 'Salah. ' + q.explanation;
+                }
+            });
+            document.getElementById('scoreDisplay').textContent = score + '/5';
+            document.getElementById('finalScore').textContent = score + '/5';
+            var resultMessage = document.getElementById('resultMessage');
+            if (score === 5) resultMessage.textContent = 'Sempurna! Pemahaman sangat baik!';
+            else if (score >= 3) resultMessage.textContent = 'Bagus! Terus tingkatkan pemahaman Anda.';
+            else resultMessage.textContent = 'Pelajari kembali materi dan coba lagi!';
+            document.getElementById('resultCard').classList.add('show');
+        }
+
+        // ========================================
+        // Animations
+        // ========================================
+        function initAnimations() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.module-card').forEach(function(card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fisika Kelas 12 Semester 1 - E-Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           CSS Variables - Color System
+        ======================================== */
+        :root {
+            --bg-primary: #f0f5fa;
+            --bg-secondary: #e4ecf4;
+            --bg-card: #ffffff;
+            --fg-primary: #0d2137;
+            --fg-secondary: #3a4f63;
+            --fg-muted: #6b8299;
+            --accent-primary: #0066cc;
+            --accent-primary-light: #3399ff;
+            --accent-primary-dark: #004d99;
+            --accent-glow: rgba(0, 102, 204, 0.25);
+            --accent-secondary: #00a896;
+            --accent-tertiary: #5c6bc0;
+            --shadow-soft: 0 4px 24px rgba(0, 102, 204, 0.06);
+            --shadow-medium: 0 8px 40px rgba(0, 102, 204, 0.1);
+            --shadow-hover: 0 16px 56px rgba(0, 102, 204, 0.15);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ========================================
+           Reset & Base Styles
+        ======================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background with Grid Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(0, 102, 204, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(0, 168, 150, 0.06) 0%, transparent 50%),
+                linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        /* Grid Pattern Overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 102, 204, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 102, 204, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Floating Orb */
+        .floating-orb {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 102, 204, 0.12) 0%, transparent 70%);
+            top: -150px;
+            right: -100px;
+            pointer-events: none;
+            z-index: -1;
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+
+        .floating-orb.orb-2 {
+            width: 300px;
+            height: 300px;
+            top: auto;
+            bottom: 10%;
+            left: -100px;
+            right: auto;
+            background: radial-gradient(circle, rgba(0, 168, 150, 0.1) 0%, transparent 70%);
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, 20px) scale(1.05); }
+            66% { transform: translate(-20px, 30px) scale(0.95); }
+        }
+
+        /* ========================================
+           Navbar Styles
+        ======================================== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 102, 204, 0.08);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-light));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .navbar-logo svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .navbar-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .navbar-title span {
+            color: var(--accent-primary);
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid rgba(0, 102, 204, 0.1);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-back:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+            transform: translateX(-4px);
+        }
+
+        .btn-back svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ========================================
+           Hero Section
+        ======================================== */
+        .hero {
+            padding: 64px 24px 48px;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .hero-breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .hero-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .hero-breadcrumb svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0.5;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease 0.1s forwards;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(0, 102, 204, 0.08);
+            border: 1px solid rgba(0, 102, 204, 0.15);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent-primary);
+        }
+
+        .hero-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .hero-badge.badge-green {
+            background: rgba(0, 168, 150, 0.08);
+            border-color: rgba(0, 168, 150, 0.15);
+            color: var(--accent-secondary);
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--fg-primary);
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease 0.15s forwards;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--fg-secondary);
+            max-width: 700px;
+            line-height: 1.75;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease 0.2s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========================================
+           Materials Section
+        ======================================== */
+        .materials {
+            padding: 32px 24px 80px;
+        }
+
+        .materials-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .section-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .section-count strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        /* Materials Grid */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        /* Material Card */
+        .material-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 102, 204, 0.04);
+            transition: var(--transition-medium);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .material-card.animate {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .material-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-primary), var(--accent-primary-light));
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.4s ease;
+        }
+
+        .material-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background: linear-gradient(180deg, transparent, rgba(0, 102, 204, 0.03));
+            transition: height 0.4s ease;
+        }
+
+        .material-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(0, 102, 204, 0.1);
+        }
+
+        .material-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .material-card:hover::after {
+            height: 100px;
+        }
+
+        .material-number {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            transition: var(--transition-fast);
+        }
+
+        .material-card:hover .material-number {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .material-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .material-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .material-card:nth-child(1) .material-icon {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.12), rgba(0, 102, 204, 0.04));
+            color: var(--accent-primary);
+        }
+
+        .material-card:nth-child(2) .material-icon {
+            background: linear-gradient(135deg, rgba(0, 168, 150, 0.12), rgba(0, 168, 150, 0.04));
+            color: var(--accent-secondary);
+        }
+
+        .material-card:nth-child(3) .material-icon {
+            background: linear-gradient(135deg, rgba(92, 107, 192, 0.12), rgba(92, 107, 192, 0.04));
+            color: var(--accent-tertiary);
+        }
+
+        .material-card:nth-child(4) .material-icon {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.12), rgba(255, 152, 0, 0.04));
+            color: #ff9800;
+        }
+
+        .material-card:nth-child(5) .material-icon {
+            background: linear-gradient(135deg, rgba(233, 30, 99, 0.12), rgba(233, 30, 99, 0.04));
+            color: #e91e63;
+        }
+
+        .material-card:nth-child(6) .material-icon {
+            background: linear-gradient(135deg, rgba(156, 39, 176, 0.12), rgba(156, 39, 176, 0.04));
+            color: #9c27b0;
+        }
+
+        .material-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .material-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+            line-height: 1.35;
+        }
+
+        .material-subtitle {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+
+        .material-description {
+            font-size: 0.9rem;
+            color: var(--fg-secondary);
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+
+        .material-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px solid var(--bg-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .material-meta {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+        }
+
+        .material-meta svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .btn-material {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            background: rgba(0, 102, 204, 0.08);
+            border: none;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-material:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .btn-material svg {
+            width: 16px;
+            height: 16px;
+            transition: transform var(--transition-fast);
+        }
+
+        .btn-material:hover svg {
+            transform: translateX(2px);
+        }
+
+        /* ========================================
+           Footer
+        ======================================== */
+        .footer {
+            background: var(--bg-card);
+            border-top: 1px solid rgba(0, 102, 204, 0.08);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+        }
+
+        /* ========================================
+           Responsive Styles
+        ======================================== */
+        @media (max-width: 1024px) {
+            .materials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 16px;
+            }
+
+            .navbar-title {
+                font-size: 0.95rem;
+            }
+
+            .btn-back span {
+                display: none;
+            }
+
+            .btn-back {
+                padding: 10px 12px;
+            }
+
+            .hero {
+                padding: 48px 16px 32px;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .materials {
+                padding: 24px 16px 60px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .materials-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .material-card {
+                padding: 24px;
+            }
+
+            .material-footer {
+                flex-direction: column;
+                gap: 14px;
+                align-items: stretch;
+            }
+
+            .btn-material {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-container {
+                height: 64px;
+            }
+
+            .navbar-logo {
+                width: 38px;
+                height: 38px;
+            }
+
+            .hero-badges {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* ========================================
+           Reduced Motion
+        ======================================== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus Visible for Accessibility */
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Orbs -->
+    <div class="floating-orb" aria-hidden="true"></div>
+    <div class="floating-orb orb-2" aria-hidden="true"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand" aria-label="E-Learning Home">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            
+            <a href="http://owenitb.great-site.net/" target="_self" class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Kembali ke Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-breadcrumb">
+                <a href="http://owenitb.great-site.net/" target="_self">Dashboard</a>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+                <span>Fisika</span>
+            </div>
+            
+            <div class="hero-badges">
+                <span class="hero-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    Total Materi: 6
+                </span>
+                <span class="hero-badge badge-green">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Semester 1
+                </span>
+            </div>
+
+            <h1 class="hero-title">
+                <span class="hero-title-accent">Fisika</span> Kelas 12 Semester 1
+            </h1>
+            <p class="hero-description">
+                Pelajari konsep kelistrikan dan elektromagnetisme secara mendalam melalui visualisasi interaktif, simulasi, dan evaluasi adaptif.
+            </p>
+        </div>
+    </section>
+
+    <!-- Materials Section -->
+    <section class="materials" aria-label="Daftar Materi">
+        <div class="materials-container">
+            <div class="section-header">
+                <h2 class="section-title">Daftar Materi</h2>
+                <div class="section-count">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <strong>6</strong> Materi Tersedia
+                </div>
+            </div>
+
+            <div class="materials-grid">
+                <!-- Material 1: Listrik Statis -->
+                <article class="material-card" data-animate>
+                    <span class="material-number">1</span>
+                    <div class="material-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <div class="material-content">
+                        <h3 class="material-title">Listrik Statis</h3>
+                        <p class="material-subtitle">Gaya Coulomb dan Kapasitor</p>
+                        <p class="material-description">Gaya listrik, medan listrik, potensial listrik, serta kapasitor dan rangkaiannya.</p>
+                    </div>
+                    <div class="material-footer">
+                        <span class="material-meta">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            4 Sub-bab
+                        </span>
+                        <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/Materi/listrik_statis.html" target="_self" class="btn-material">
+                            Masuk Materi
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Material 2: Listrik Arus Searah -->
+                <article class="material-card" data-animate>
+                    <span class="material-number">2</span>
+                    <div class="material-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                        </svg>
+                    </div>
+                    <div class="material-content">
+                        <h3 class="material-title">Listrik Arus Searah (DC)</h3>
+                        <p class="material-subtitle">Hukum Ohm dan Kirchhoff</p>
+                        <p class="material-description">Hukum Ohm, hukum Kirchhoff, rangkaian seri-paralel, dan hambatan listrik.</p>
+                    </div>
+                    <div class="material-footer">
+                        <span class="material-meta">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            4 Sub-bab
+                        </span>
+                        <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/Materi/listrik_dc.html" target="_self" class="btn-material">
+                            Masuk Materi
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Material 3: Medan Magnetik -->
+                <article class="material-card" data-animate>
+                    <span class="material-number">3</span>
+                    <div class="material-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </div>
+                    <div class="material-content">
+                        <h3 class="material-title">Medan Magnetik di Sekitar Arus Listrik</h3>
+                        <p class="material-subtitle">Biot-Savart dan Gaya Lorentz</p>
+                        <p class="material-description">Hukum Biot-Savart, gaya Lorentz, dan aplikasi medan magnet.</p>
+                    </div>
+                    <div class="material-footer">
+                        <span class="material-meta">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            3 Sub-bab
+                        </span>
+                        <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/Materi/medan_magnetik.html" target="_self" class="btn-material">
+                            Masuk Materi
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Material 4: Induksi Elektromagnetik -->
+                <article class="material-card" data-animate>
+                    <span class="material-number">4</span>
+                    <div class="material-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                    </div>
+                    <div class="material-content">
+                        <h3 class="material-title">Induksi Elektromagnetik</h3>
+                        <p class="material-subtitle">Hukum Faraday dan Lenz</p>
+                        <p class="material-description">Hukum Faraday, Hukum Lenz, GGL induksi, generator, dan transformator.</p>
+                    </div>
+                    <div class="material-footer">
+                        <span class="material-meta">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            5 Sub-bab
+                        </span>
+                        <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/Materi/induksi_elektromagnetik.html" target="_self" class="btn-material">
+                            Masuk Materi
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Material 5: Rangkaian AC -->
+                <article class="material-card" data-animate>
+                    <span class="material-number">5</span>
+                    <div class="material-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                        </svg>
+                    </div>
+                    <div class="material-content">
+                        <h3 class="material-title">Rangkaian Arus Bolak-Balik (AC)</h3>
+                        <p class="material-subtitle">RLC, Impedansi, dan Resonansi</p>
+                        <p class="material-description">Rangkaian RLC, impedansi, resonansi, dan daya listrik AC.</p>
+                    </div>
+                    <div class="material-footer">
+                        <span class="material-meta">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            4 Sub-bab
+                        </span>
+                        <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/Materi/rangkaian_ac.html" target="_self" class="btn-material">
+                            Masuk Materi
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Material 6: Radiasi Elektromagnetik -->
+                <article class="material-card" data-animate>
+                    <span class="material-number">6</span>
+                    <div class="material-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z" />
+                        </svg>
+                    </div>
+                    <div class="material-content">
+                        <h3 class="material-title">Radiasi Elektromagnetik</h3>
+                        <p class="material-subtitle">Spektrum dan Teori Maxwell</p>
+                        <p class="material-description">Spektrum gelombang elektromagnetik, teori Maxwell, dan pemanfaatannya.</p>
+                    </div>
+                    <div class="material-footer">
+                        <span class="material-meta">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            3 Sub-bab
+                        </span>
+                        <a href="http://owenitb.great-site.net/Mata_Pelajaran/Fisika/Materi/radiasi_em.html" target="_self" class="btn-material">
+                            Masuk Materi
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">Fisika Kelas 12 Semester 1 - E-Learning Platform</p>
+    </footer>
+
+    <script>
+        // ========================================
+        // Initialize after DOM loaded
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initScrollAnimations();
+        });
+
+        // ========================================
+        // Scroll Animations with IntersectionObserver
+        // ========================================
+        function initScrollAnimations() {
+            var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            
+            if (prefersReducedMotion) {
+                document.querySelectorAll('[data-animate]').forEach(function(el) {
+                    el.classList.add('animate');
+                });
+                return;
+            }
+
+            var observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -50px 0px',
+                threshold: 0.15
+            };
+
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var cards = entry.target.parentElement.querySelectorAll('.material-card');
+                        var index = Array.from(cards).indexOf(entry.target);
+                        var delay = index * 80;
+                        
+                        setTimeout(function() {
+                            entry.target.classList.add('animate');
+                        }, delay);
+                        
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('[data-animate]').forEach(function(el) {
+                observer.observe(el);
+            });
+        }
+    </script>
+</body>
+</html>

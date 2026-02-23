@@ -1,1 +1,1985 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limit Fungsi - Matematika Tingkat Lanjut</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8f6f1;
+            --bg-secondary: #edeae3;
+            --bg-card: #ffffff;
+            --fg-primary: #1c1917;
+            --fg-secondary: #44403c;
+            --fg-muted: #78716c;
+            --accent-primary: #b45309;
+            --accent-primary-light: #d97706;
+            --accent-secondary: #059669;
+            --accent-info: #0d9488;
+            --accent-danger: #dc2626;
+            --accent-glow: rgba(180, 83, 9, 0.12);
+            --shadow-soft: 0 2px 12px rgba(28, 25, 23, 0.04);
+            --shadow-medium: 0 8px 32px rgba(28, 25, 23, 0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(180, 83, 9, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(5, 150, 105, 0.04) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(180, 83, 9, 0.08);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-logo svg { width: 18px; height: 18px; color: white; }
+
+        .navbar-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        .navbar-title span { color: var(--accent-primary); }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-nav:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .btn-nav svg { width: 14px; height: 14px; }
+
+        .hero {
+            padding: 36px 24px 28px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .breadcrumb svg { width: 12px; height: 12px; opacity: 0.4; }
+
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 0.95rem;
+            color: var(--fg-secondary);
+            max-width: 600px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: rgba(180, 83, 9, 0.08);
+            border: 1px solid rgba(180, 83, 9, 0.15);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .hero-badge svg { width: 12px; height: 12px; }
+
+        .section-nav {
+            position: sticky;
+            top: 60px;
+            background: rgba(248, 246, 241, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(180, 83, 9, 0.06);
+            z-index: 999;
+            padding: 0 24px;
+        }
+
+        .section-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 8px 0;
+            scrollbar-width: none;
+        }
+
+        .section-nav-container::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 8px 18px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+        }
+
+        .nav-tab:hover {
+            background: rgba(180, 83, 9, 0.06);
+            color: var(--accent-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 24px 70px;
+        }
+
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            transition: var(--transition-medium);
+        }
+
+        .module-card:hover { box-shadow: var(--shadow-medium); }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .module-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, rgba(180, 83, 9, 0.1), rgba(5, 150, 105, 0.08));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .module-icon svg { width: 22px; height: 22px; color: var(--accent-primary); }
+
+        .module-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin-bottom: 2px;
+        }
+
+        .module-subtitle { font-size: 0.8rem; color: var(--fg-muted); }
+
+        .module-content h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin: 16px 0 8px;
+        }
+
+        .module-content h3:first-child { margin-top: 0; }
+
+        .module-content p {
+            color: var(--fg-secondary);
+            margin-bottom: 10px;
+            font-size: 0.88rem;
+        }
+
+        .module-content ul, .module-content ol {
+            margin: 10px 0;
+            padding-left: 18px;
+        }
+
+        .module-content li {
+            color: var(--fg-secondary);
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, rgba(180, 83, 9, 0.04), rgba(5, 150, 105, 0.02));
+            border: 1px solid rgba(180, 83, 9, 0.1);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin: 14px 0;
+            text-align: center;
+        }
+
+        .formula {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .formula-description {
+            font-size: 0.75rem;
+            color: var(--fg-muted);
+            margin-top: 8px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 0.8rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .info-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--fg-primary);
+            font-size: 0.75rem;
+        }
+
+        .info-table td { color: var(--fg-secondary); }
+
+        .reference-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            background: rgba(180, 83, 9, 0.06);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            margin: 2px;
+            transition: var(--transition-fast);
+        }
+
+        .reference-link:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .reference-link svg { width: 10px; height: 10px; }
+
+        /* Visualization Layout */
+        .viz-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .viz-controls {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            height: fit-content;
+        }
+
+        .controls-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .controls-title svg { width: 16px; height: 16px; color: var(--accent-primary); }
+
+        .control-group { margin-bottom: 16px; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            margin-bottom: 8px;
+        }
+
+        .control-value {
+            font-family: 'Space Grotesk', monospace;
+            color: var(--accent-primary);
+            background: rgba(180, 83, 9, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 5px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--accent-glow);
+            transition: var(--transition-fast);
+        }
+
+        .slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .select-control:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .toggle-group { display: flex; gap: 5px; flex-wrap: wrap; }
+
+        .toggle-btn {
+            flex: 1;
+            min-width: 60px;
+            padding: 7px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: center;
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-top: 8px;
+        }
+
+        .btn-reset:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .viz-canvas-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            overflow: hidden;
+        }
+
+        .viz-header {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .viz-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        .viz-result {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            background: rgba(180, 83, 9, 0.08);
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .viz-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: var(--bg-secondary);
+        }
+
+        .viz-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .viz-info {
+            padding: 14px 18px;
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(180, 83, 9, 0.06);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .info-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .quiz-info h2 {
+            font-size: 1.1rem;
+            color: var(--fg-primary);
+            margin-bottom: 2px;
+        }
+
+        .quiz-info p {
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+        }
+
+        .quiz-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(180, 83, 9, 0.08), rgba(5, 150, 105, 0.06));
+            border-radius: var(--radius-md);
+        }
+
+        .score-label { font-size: 0.75rem; color: var(--fg-muted); }
+
+        .score-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .quiz-actions { display: flex; gap: 8px; }
+
+        .btn-quiz {
+            padding: 9px 16px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+        }
+
+        .btn-generate {
+            background: var(--accent-secondary);
+            color: white;
+        }
+
+        .btn-generate:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        .btn-retry {
+            background: var(--bg-secondary);
+            color: var(--fg-secondary);
+        }
+
+        .btn-retry:hover {
+            background: var(--fg-secondary);
+            color: white;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(180, 83, 9, 0.04);
+            margin-bottom: 14px;
+            transition: var(--transition-medium);
+        }
+
+        .question-card.correct { border-color: var(--accent-secondary); }
+        .question-card.incorrect { border-color: var(--accent-danger); }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .question-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.selected):not(.disabled) {
+            border-color: var(--accent-primary);
+            background: rgba(180, 83, 9, 0.04);
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent-primary);
+            background: rgba(180, 83, 9, 0.08);
+        }
+
+        .option-btn.correct {
+            border-color: var(--accent-secondary);
+            background: rgba(5, 150, 105, 0.1);
+        }
+
+        .option-btn.incorrect {
+            border-color: var(--accent-danger);
+            background: rgba(220, 38, 38, 0.1);
+        }
+
+        .option-btn.disabled { cursor: default; opacity: 0.7; }
+
+        .option-letter {
+            width: 26px;
+            height: 26px;
+            background: white;
+            border: 2px solid var(--fg-muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .option-btn.selected .option-letter {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            color: white;
+        }
+
+        .option-btn.incorrect .option-letter {
+            background: var(--accent-danger);
+            border-color: var(--accent-danger);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 0.85rem;
+            color: var(--fg-secondary);
+            line-height: 1.4;
+        }
+
+        .feedback-box {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .feedback-box.show { display: block; }
+        .feedback-box.correct { background: rgba(5, 150, 105, 0.1); color: #047857; border-left: 3px solid var(--accent-secondary); }
+        .feedback-box.incorrect { background: rgba(220, 38, 38, 0.1); color: #b91c1c; border-left: 3px solid var(--accent-danger); }
+
+        .quiz-result-card {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            color: white;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .quiz-result-card.show { display: block; }
+
+        .result-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .result-icon svg { width: 32px; height: 32px; }
+
+        .result-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+        .result-score { font-family: 'Space Grotesk', monospace; font-size: 2.5rem; font-weight: 700; margin: 12px 0; }
+        .result-message { font-size: 0.9rem; opacity: 0.9; }
+
+        @media (max-width: 900px) {
+            .viz-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 16px; }
+            .btn-nav span { display: none; }
+            .hero { padding: 24px 16px 18px; }
+            .hero-title { font-size: 1.4rem; }
+            .section-nav { top: 60px; padding: 0 16px; }
+            .nav-tab { padding: 7px 12px; font-size: 0.75rem; }
+            .main-content { padding: 14px 16px 50px; }
+            .module-grid { grid-template-columns: 1fr; }
+            .module-card { padding: 18px; }
+            .module-header { flex-direction: column; gap: 10px; }
+            .viz-controls { padding: 14px; }
+            .viz-canvas-wrapper { height: 300px; }
+            .quiz-header { padding: 16px; flex-direction: column; text-align: center; }
+            .question-card { padding: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.2rem; }
+            .formula { font-size: 1rem; }
+            .option-btn { padding: 10px 12px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" role="navigation">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            <a href="FULL_DASHBOARD_URL" target="_self" class="btn-nav">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="breadcrumb">
+            <a href="FULL_DASHBOARD_URL" target="_self">Dashboard</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="FULL_MATEMATIKA_URL" target="_self">Matematika</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <span>Limit Fungsi</span>
+        </div>
+        <div class="hero-header">
+            <div>
+                <h1 class="hero-title">
+                    <span class="hero-title-accent">Limit Fungsi</span>
+                </h1>
+                <p class="hero-description">
+                    Pelajari limit fungsi aljabar, trigonometri, dan limit di ketakhinggaan melalui visualisasi interaktif.
+                </p>
+            </div>
+            <span class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                </svg>
+                Matematika Tingkat Lanjut
+            </span>
+        </div>
+    </section>
+
+    <div class="section-nav">
+        <div class="section-nav-container">
+            <button class="nav-tab active" data-section="module">Modul Materi</button>
+            <button class="nav-tab" data-section="visualization">Visualisasi Interaktif</button>
+            <button class="nav-tab" data-section="quiz">Kuis Interaktif</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <section class="content-section active" id="module">
+            <div class="module-grid">
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Limit Fungsi Aljabar</h2>
+                            <p class="module-subtitle">Teknik Penyelesaian Bentuk Tak Tentu</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Pengertian</h3>
+                        <p>Limit fungsi aljabar lim(x→a) f(x) = L berarti nilai f(x) mendekati L saat x mendekati a.</p>
+
+                        <div class="formula-box">
+                            <div class="formula">lim(x→a) f(x) = L</div>
+                            <p class="formula-description">Limit mendekati nilai L</p>
+                        </div>
+
+                        <h3>Metode Penyelesaian</h3>
+                        <ul>
+                            <li><strong>Substitusi:</strong> Masukkan x = a langsung</li>
+                            <li><strong>Faktorisasi:</strong> Untuk bentuk 0/0</li>
+                            <li><strong>Konjugat:</strong> Untuk bentuk akar</li>
+                        </ul>
+
+                        <h3>Limit Tak Hingga</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr><th>Derajat P vs Q</th><th>Hasil Limit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>P &lt; Q</td><td>0</td></tr>
+                                <tr><td>P = Q</td><td>Rasio koefisien</td></tr>
+                                <tr><td>P &gt; Q</td><td>Tak hingga</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.defantri.com/2014/05/matematika-dasar-limit-fungsi-aljabar.html" target="_self" class="reference-link">Defantri</a>
+                            <a href="https://www.ruangguru.com/blog/konsep-limit-fungsi-aljabar-dan-sifat-sifatnya" target="_self" class="reference-link">Ruangguru</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Limit Trigonometri</h2>
+                            <p class="module-subtitle">Rumus Dasar dan Aplikasi</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Rumus Dasar (x → 0)</h3>
+                        <div class="formula-box">
+                            <div class="formula">lim sin(x)/x = 1</div>
+                            <p class="formula-description">Rumus utama trigonometri</p>
+                        </div>
+
+                        <div class="formula-box">
+                            <div class="formula">lim tan(x)/x = 1</div>
+                            <p class="formula-description">Turunan dari sin(x)/x</p>
+                        </div>
+
+                        <div class="formula-box">
+                            <div class="formula">lim (1-cos(x))/x² = 1/2</div>
+                            <p class="formula-description">Identitas kosinus</p>
+                        </div>
+
+                        <h3>Teknik Modifikasi</h3>
+                        <p>Untuk lim sin(kx)/x, ubah menjadi sin(kx)/(kx) × k</p>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.gramedia.com/literasi/limit-fungsi-trigonometri/" target="_self" class="reference-link">Gramedia</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Limit di Ketakhinggaan</h2>
+                            <p class="module-subtitle">x → ∞ atau x → -∞</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Rasio Polinomial</h3>
+                        <p>Bandingkan derajat pembilang dan penyebut:</p>
+                        <ul>
+                            <li>Derajat sama: limit = rasio koefisien tertinggi</li>
+                            <li>Derajat beda: lihat suku dominan</li>
+                        </ul>
+
+                        <div class="formula-box">
+                            <div class="formula">lim (3x²+2x)/(5x²-x) = 3/5</div>
+                            <p class="formula-description">Derajat sama, rasio 3:5</p>
+                        </div>
+
+                        <h3>Akar di Tak Hingga</h3>
+                        <p>Faktorkan |x| dari akar atau rasionalkan untuk selisih akar.</p>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.defantri.com/2016/04/matematika-dasar-limit-tak-hingga.html" target="_self" class="reference-link">Defantri</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-section" id="visualization">
+            <div class="viz-container">
+                <aside class="viz-controls">
+                    <h3 class="controls-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        Kontrol Visualisasi
+                    </h3>
+
+                    <div class="control-group">
+                        <label class="control-label">Mode Tampilan</label>
+                        <select class="select-control" id="vizMode">
+                            <option value="algebraic">Limit Aljabar (x → a)</option>
+                            <option value="trigonometric">Limit Trigonometri</option>
+                            <option value="infinity">Limit Tak Hingga</option>
+                        </select>
+                    </div>
+
+                    <div id="algebraicControls">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Titik Limit (a)
+                                <span class="control-value" id="limitPointValue">2</span>
+                            </label>
+                            <input type="range" class="slider" id="limitPointSlider" min="-3" max="5" value="2" step="0.5">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                x mendekati a
+                                <span class="control-value" id="approachValue">1.90</span>
+                            </label>
+                            <input type="range" class="slider" id="approachSlider" min="-5" max="5" value="1.9" step="0.01">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Arah Pendekatan</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn" id="leftBtn">Kiri</button>
+                                <button class="toggle-btn active" id="bothBtn">Keduanya</button>
+                                <button class="toggle-btn" id="rightBtn">Kanan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                             <button class="btn-reset" id="detectBtn" style="width: 100%; background: var(--fg-secondary); color: white; border: none;">Deteksi Bentuk Tak Tentu</button>
+                        </div>
+                    </div>
+
+                    <div id="trigControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Konstanta k
+                                <span class="control-value" id="trigKValue">1</span>
+                            </label>
+                            <input type="range" class="slider" id="trigKSlider" min="0.5" max="5" value="1" step="0.5">
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">
+                                Sudut θ (derajat)
+                                <span class="control-value" id="angleValue">5</span>
+                            </label>
+                            <input type="range" class="slider" id="angleSlider" min="1" max="45" value="5" step="1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Tampilkan</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="showSinBtn">sin kx</button>
+                                <button class="toggle-btn active" id="showTanBtn">tan kx</button>
+                            </div>
+                        </div>
+                         <div class="control-group">
+                            <label class="control-label">Bentuk Limit</label>
+                            <select class="select-control" id="trigFormType">
+                                <option value="sinx">lim sin(kx)/x</option>
+                                <option value="sinxkx">lim sin(kx)/(kx)</option>
+                </select>
+                        </div>
+                    </div>
+
+                    <div id="infinityControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Nilai x (x → ∞)
+                                <span class="control-value" id="xInfValue">10</span>
+                            </label>
+                            <input type="range" class="slider" id="xInfSlider" min="1" max="50" value="10" step="1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Jenis Fungsi</label>
+                            <select class="select-control" id="funcType">
+                                <option value="rational">Rasional (Polinomial)</option>
+                                <option value="sqrt">Akar (√x²+ax - x)</option>
+                                <option value="trig">Trigonometri (x sin 1/x)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-reset" id="resetBtn">Reset Simulasi</button>
+                </aside>
+
+                <div class="viz-canvas-container">
+                    <div class="viz-header">
+                        <span class="viz-title" id="vizTitle">Limit Aljabar: x mendekati a</span>
+                        <span class="viz-result" id="vizResult">lim(x→2) (x²-4)/(x-2) = 4</span>
+                    </div>
+                    <div class="viz-canvas-wrapper">
+                        <canvas class="viz-canvas" id="simCanvas"></canvas>
+                    </div>
+                    <div class="viz-info">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">f(x)</span>
+                                <span class="info-value" id="infoFx">4.00</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">|x - a|</span>
+                                <span class="info-value" id="infoDiff">0.10</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Hasil Limit</span>
+                                <span class="info-value" id="infoLimit">4</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Status</span>
+                                <span class="info-value" id="infoStatus">Mendekati</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="quiz">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h2>Kuis Limit Fungsi</h2>
+                        <p>Uji pemahaman Anda tentang limit aljabar, trigonometri, dan ketakhinggaan</p>
+                    </div>
+                    <div class="quiz-score">
+                        <span class="score-label">Skor:</span>
+                        <span class="score-value" id="scoreDisplay">0/5</span>
+                    </div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn-quiz btn-generate" id="generateBtn">Generate Soal Baru</button>
+                    <button class="btn-quiz btn-retry" id="retryBtn">Ulangi Kuis</button>
+                </div>
+
+                <div id="quizContainer"></div>
+
+                <div class="quiz-result-card" id="resultCard">
+                    <div class="result-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="result-title">Kuis Selesai</h3>
+                    <div class="result-score" id="finalScore">0/5</div>
+                    <p class="result-message" id="resultMessage">Terus berlatih untuk meningkatkan pemahaman!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // ========================================
+        // Question Bank - TAMBAHKAN SOAL DI SINI
+        // ========================================
+        var questionBank = [
+            { question: "Hasil lim(x→3) (2x² - 5x + 4) adalah...", options: ["7", "10", "13", "16"], correct: 0, explanation: "Substitusi langsung: 2(9) - 15 + 4 = 7" },
+            { question: "Hasil lim(x→2) (x² + 3x - 1) adalah...", options: ["7", "8", "9", "10"], correct: 2, explanation: "Substitusi x=2: 4 + 6 - 1 = 9" },
+            { question: "Hasil lim(x→3) (x² - 9)/(x - 3) adalah...", options: ["0", "3", "6", "9"], correct: 2, explanation: "Faktorkan: (x-3)(x+3)/(x-3) = x+3, substitusi x=3: 6" },
+            { question: "Hasil lim(x→2) (x² - 4)/(x - 2) adalah...", options: ["0", "2", "4", "8"], correct: 2, explanation: "Faktorkan: (x-2)(x+2)/(x-2) = x+2, substitusi x=2: 4" },
+            { question: "Hasil lim(x→∞) (2x+1)/(x²+3) adalah...", options: ["0", "2", "∞", "2/3"], correct: 0, explanation: "Derajat pembilang < penyebut, limit = 0" },
+            { question: "Hasil lim(x→0) sin(x)/x adalah...", options: ["0", "1", "1/2", "∞"], correct: 1, explanation: "Rumus dasar: lim(x→0) sin(x)/x = 1" },
+            { question: "Hasil lim(x→0) sin(2x)/x adalah...", options: ["1", "2", "1/2", "0"], correct: 1, explanation: "sin(2x)/x = sin(2x)/(2x) × 2 = 1 × 2 = 2" },
+            { question: "Hasil lim(x→∞) (5x²+1)/(2x²-7) adalah...", options: ["0", "2.5", "5", "5/2"], correct: 3, explanation: "Derajat sama, rasio koefisien: 5/2" },
+            { question: "Hasil lim(x→4) (x² - 16)/(x - 4) adalah...", options: ["4", "8", "12", "16"], correct: 1, explanation: "Faktorkan: (x-4)(x+4)/(x-4) = x+4, substitusi x=4: 8" },
+            { question: "Hasil lim(x→∞) (3x³-x)/(x³+5) adalah...", options: ["0", "1", "3", "∞"], correct: 2, explanation: "Derajat sama, rasio koefisien: 3/1 = 3" },
+            { question: "Hasil lim(x→0) tan(x)/x adalah...", options: ["0", "1", "1/2", "∞"], correct: 1, explanation: "Rumus dasar: lim(x→0) tan(x)/x = 1" },
+            { question: "Hasil lim(x→∞) (√(x²+1) - x) adalah...", options: ["0", "1", "∞", "1/2"], correct: 0, explanation: "Rasionalkan: (x²+1-x²)/(√(x²+1)+x) = 1/(√(x²+1)+x) → 0" }
+        ];
+
+        // ========================================
+        // Global State
+        // ========================================
+        var currentQuestions = [];
+        var userAnswers = [];
+        var score = 0;
+        var quizSubmitted = false;
+
+        // Visualization State
+        var vizMode = 'algebraic';
+        
+        // Algebraic State
+        var limitPoint = 2;
+        var approachValue = 1.9;
+        var approachDir = 'both'; // 'left', 'right', 'both'
+        var detectedForm = ''; // 'ok', '00'
+
+        // Trig State
+        var trigK = 1;
+        var angleDeg = 5;
+        var showSin = true;
+        var showTan = true;
+        var trigFormType = 'sinx'; // 'sinx', 'sinxkx'
+
+        // Infinity State
+        var xInf = 10;
+        var funcType = 'rational';
+
+        // Canvas
+        var canvas = null;
+        var ctx = null;
+        var animationFrame = null;
+
+        // ========================================
+        // DOM Ready
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initVisualization();
+            initQuiz();
+        });
+
+        // ========================================
+        // Navigation
+        // ========================================
+        function initNavigation() {
+            var navTabs = document.querySelectorAll('.nav-tab');
+            var sections = document.querySelectorAll('.content-section');
+
+            navTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var sectionId = this.getAttribute('data-section');
+                    navTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    sections.forEach(function(s) {
+                        s.classList.remove('active');
+                        if (s.id === sectionId) s.classList.add('active');
+                    });
+                    if (sectionId === 'visualization') {
+                        setTimeout(function() { resizeCanvas(); drawVisualization(); }, 100);
+                    }
+                });
+            });
+        }
+
+        // ========================================
+        // Visualization
+        // ========================================
+        function initVisualization() {
+            canvas = document.getElementById('simCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            setupControls();
+            startAnimation();
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            var wrapper = canvas.parentElement;
+            if (!wrapper) return;
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+        }
+
+        function setupControls() {
+            // Mode Select
+            var vizModeSelect = document.getElementById('vizMode');
+            if (vizModeSelect) {
+                vizModeSelect.addEventListener('change', function() {
+                    vizMode = this.value;
+                    updateControlVisibility();
+                    drawVisualization();
+                });
+            }
+
+            // Algebraic Controls
+            setupSlider('limitPointSlider', 'limitPointValue', function(v) { limitPoint = v; });
+            setupSlider('approachSlider', 'approachValue', function(v) { approachValue = v; });
+            
+            document.getElementById('leftBtn').addEventListener('click', function() {
+                approachDir = 'left';
+                updateToggleButtons(['leftBtn', 'bothBtn', 'rightBtn'], 'leftBtn');
+                drawVisualization();
+            });
+            document.getElementById('bothBtn').addEventListener('click', function() {
+                approachDir = 'both';
+                updateToggleButtons(['leftBtn', 'bothBtn', 'rightBtn'], 'bothBtn');
+                drawVisualization();
+            });
+            document.getElementById('rightBtn').addEventListener('click', function() {
+                approachDir = 'right';
+                updateToggleButtons(['leftBtn', 'bothBtn', 'rightBtn'], 'rightBtn');
+                drawVisualization();
+            });
+
+            document.getElementById('detectBtn').addEventListener('click', function() {
+                // Simulate detection: f(x) = (x^2 - 4) / (x - 2)
+                // At x = 2: 0/0 form
+                var numerator = limitPoint * limitPoint - 4;
+                var denominator = limitPoint - 2;
+                var resultText = "";
+                if (denominator === 0 && numerator === 0) {
+                    resultText = "Bentuk Tak Tentu: 0/0";
+                    this.style.background = "#dc2626";
+                } else {
+                    resultText = "Terdefinisi: " + (numerator/denominator).toFixed(2);
+                    this.style.background = "#059669";
+                }
+                this.textContent = resultText;
+            });
+
+            // Trig Controls
+            setupSlider('trigKSlider', 'trigKValue', function(v) { trigK = v; });
+            setupSlider('angleSlider', 'angleValue', function(v) { angleDeg = v; });
+            
+            document.getElementById('showSinBtn').addEventListener('click', function() {
+                showSin = !showSin;
+                this.classList.toggle('active');
+                drawVisualization();
+            });
+            document.getElementById('showTanBtn').addEventListener('click', function() {
+                showTan = !showTan;
+                this.classList.toggle('active');
+                drawVisualization();
+            });
+            
+            document.getElementById('trigFormType').addEventListener('change', function() {
+                trigFormType = this.value;
+                drawVisualization();
+            });
+
+            // Infinity Controls
+            setupSlider('xInfSlider', 'xInfValue', function(v) { xInf = v; });
+            document.getElementById('funcType').addEventListener('change', function() {
+                funcType = this.value;
+                drawVisualization();
+            });
+
+            // Reset
+            document.getElementById('resetBtn').addEventListener('click', resetVisualization);
+
+            window.addEventListener('resize', function() { resizeCanvas(); drawVisualization(); });
+        }
+
+        function setupSlider(sliderId, valueId, callback) {
+            var slider = document.getElementById(sliderId);
+            if (!slider) return;
+            slider.addEventListener('input', function() {
+                var v = parseFloat(this.value);
+                callback(v);
+                var valueEl = document.getElementById(valueId);
+                if (valueEl) valueEl.textContent = v;
+                drawVisualization();
+            });
+        }
+        
+        function updateToggleButtons(ids, activeId) {
+            ids.forEach(function(id) {
+                document.getElementById(id).classList.remove('active');
+            });
+            document.getElementById(activeId).classList.add('active');
+        }
+
+        function updateControlVisibility() {
+            var allControls = ['algebraicControls', 'trigControls', 'infinityControls'];
+            allControls.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            var activeId = vizMode + 'Controls';
+            var activeEl = document.getElementById(activeId);
+            if (activeEl) activeEl.style.display = 'block';
+
+            var titles = {
+                algebraic: 'Limit Aljabar: x mendekati a',
+                trigonometric: 'Limit Trigonometri',
+                infinity: 'Limit di Ketakhinggaan'
+            };
+            document.getElementById('vizTitle').textContent = titles[vizMode] || 'Visualisasi Limit';
+        }
+
+        function resetVisualization() {
+            limitPoint = 2;
+            approachValue = 1.9;
+            approachDir = 'both';
+            trigK = 1;
+            angleDeg = 5;
+            showSin = true;
+            showTan = true;
+            xInf = 10;
+            
+            // Reset UI
+            document.getElementById('limitPointSlider').value = 2; document.getElementById('limitPointValue').textContent = '2';
+            document.getElementById('approachSlider').value = 1.9; document.getElementById('approachValue').textContent = '1.9';
+            document.getElementById('trigKSlider').value = 1; document.getElementById('trigKValue').textContent = '1';
+            document.getElementById('angleSlider').value = 5; document.getElementById('angleValue').textContent = '5';
+            document.getElementById('xInfSlider').value = 10; document.getElementById('xInfValue').textContent = '10';
+            
+            updateToggleButtons(['leftBtn', 'bothBtn', 'rightBtn'], 'bothBtn');
+            document.getElementById('showSinBtn').classList.add('active');
+            document.getElementById('showTanBtn').classList.add('active');
+            
+            drawVisualization();
+        }
+
+        function startAnimation() {
+            function animate() {
+                drawVisualization();
+                animationFrame = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function drawVisualization() {
+            if (!ctx || !canvas) return;
+            if (canvas.width === 0 || canvas.height === 0) resizeCanvas();
+
+            var w = canvas.width;
+            var h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Background
+            ctx.fillStyle = '#edeae3';
+            ctx.fillRect(0, 0, w, h);
+
+            // Grid
+            ctx.strokeStyle = 'rgba(180, 83, 9, 0.06)';
+            ctx.lineWidth = 1;
+            for (var x = 0; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+            for (var y = 0; y < h; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+            if (vizMode === 'algebraic') drawAlgebraic(w, h);
+            else if (vizMode === 'trigonometric') drawTrigonometric(w, h);
+            else if (vizMode === 'infinity') drawInfinity(w, h);
+        }
+
+        // Helper for mapping coordinates
+        // Maps math coords (centered at cx, cy) to canvas coords
+        function mapX(x, scale, offsetX) { return offsetX + x * scale; }
+        function mapY(y, scale, offsetY) { return offsetY - y * scale; } // Invert Y for canvas
+
+        function drawAlgebraic(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var scale = Math.min(w, h) * 0.08;
+            
+            // Function: f(x) = (x^2 - 4)/(x - 2) simplified to f(x) = x + 2 (hole at x=2)
+            // We will plot x+2 and mark the hole.
+
+            // Draw axes
+            ctx.strokeStyle = '#a8a29e';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(40, cy); ctx.lineTo(w - 40, cy); // X-axis
+            ctx.moveTo(cx, 40); ctx.lineTo(cx, h - 40); // Y-axis
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#78716c';
+            ctx.font = '11px Space Grotesk';
+            ctx.fillText('x', w - 35, cy - 5);
+            ctx.fillText('y', cx + 5, 45);
+
+            // Draw function y = x + 2
+            ctx.strokeStyle = '#b45309';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            var startX = -w/(2*scale);
+            var endX = w/(2*scale);
+            
+            // Draw left part
+            for (var x = startX; x < limitPoint - 0.05; x += 0.1) {
+                var y = x + 2;
+                var px = mapX(x, scale, cx);
+                var py = mapY(y, scale, cy);
+                if (x === startX) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+
+            // Draw right part
+            ctx.beginPath();
+            for (var x = limitPoint + 0.05; x < endX; x += 0.1) {
+                var y = x + 2;
+                var px = mapX(x, scale, cx);
+                var py = mapY(y, scale, cy);
+                if (x === limitPoint + 0.05) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+
+            // Draw hole
+            var holeX = mapX(limitPoint, scale, cx);
+            var holeY = mapY(limitPoint + 2, scale, cy);
+            ctx.fillStyle = '#edeae3'; // Background color
+            ctx.beginPath(); ctx.arc(holeX, holeY, 5, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#b45309';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(holeX, holeY, 5, 0, Math.PI * 2); ctx.stroke();
+
+            // Draw Limit Point Line (x = a)
+            ctx.strokeStyle = '#dc2626';
+            ctx.setLineDash([4, 4]);
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(holeX, 40);
+            ctx.lineTo(holeX, h - 40);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw Approaching Points
+            ctx.fillStyle = '#059669';
+            ctx.strokeStyle = '#059669';
+            
+            // Left approach
+            if (approachDir === 'left' || approachDir === 'both') {
+                var ax = limitPoint - Math.abs(limitPoint - approachValue);
+                if (ax < limitPoint) {
+                    var ay = ax + 2;
+                    var apx = mapX(ax, scale, cx);
+                    var apy = mapY(ay, scale, cy);
+                    ctx.beginPath(); ctx.arc(apx, apy, 6, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillStyle = '#1c1917';
+                    ctx.font = 'bold 11px Space Grotesk';
+                    ctx.fillText('Kiri', apx - 15, apy - 10);
+                    ctx.fillStyle = '#059669';
+                }
+            }
+
+            // Right approach
+            if (approachDir === 'right' || approachDir === 'both') {
+                var ax = limitPoint + Math.abs(limitPoint - approachValue);
+                if (ax > limitPoint) {
+                    var ay = ax + 2;
+                    var apx = mapX(ax, scale, cx);
+                    var apy = mapY(ay, scale, cy);
+                    ctx.beginPath(); ctx.arc(apx, apy, 6, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillStyle = '#1c1917';
+                    ctx.font = 'bold 11px Space Grotesk';
+                    ctx.fillText('Kanan', apx + 10, apy - 10);
+                    ctx.fillStyle = '#059669';
+                }
+            }
+
+            // Info Update
+            var dist = Math.abs(limitPoint - approachValue);
+            document.getElementById('vizResult').textContent = 'lim(x→' + limitPoint + ') (x²-4)/(x-2) = ' + (limitPoint + 2);
+            document.getElementById('infoFx').textContent = (approachValue + 2).toFixed(2);
+            document.getElementById('infoDiff').textContent = dist.toFixed(3);
+            document.getElementById('infoLimit').textContent = (limitPoint + 2);
+            document.getElementById('infoStatus').textContent = dist < 0.5 ? 'Mendekati' : 'Jauh';
+        }
+
+        function drawTrigonometric(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var r = Math.min(w, h) * 0.3;
+            var theta = angleDeg * Math.PI / 180;
+
+            // Unit Circle
+            ctx.strokeStyle = '#a8a29e';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Axes
+            ctx.beginPath();
+            ctx.moveTo(cx - r - 30, cy); ctx.lineTo(cx + r + 30, cy);
+            ctx.moveTo(cx, cy - r - 30); ctx.lineTo(cx, cy + r + 30);
+            ctx.stroke();
+
+            // Angle Arc
+            ctx.strokeStyle = '#b45309';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 25, 0, -theta, true);
+            ctx.stroke();
+
+            // Radius
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + r * Math.cos(-theta), cy + r * Math.sin(-theta));
+            ctx.stroke();
+
+            // Point on circle
+            var px = cx + r * Math.cos(-theta);
+            var py = cy + r * Math.sin(-theta);
+            ctx.fillStyle = '#b45309';
+            ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI * 2); ctx.fill();
+
+            // Sin Projection
+            if (showSin) {
+                ctx.strokeStyle = '#059669';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(px, py);
+                ctx.lineTo(px, cy);
+                ctx.stroke();
+                ctx.fillStyle = '#059669';
+                ctx.beginPath(); ctx.arc(px, cy, 3, 0, Math.PI * 2); ctx.fill();
+            }
+
+            // Tan Projection
+            if (showTan) {
+                ctx.strokeStyle = '#d97706';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(cx + r, cy);
+                ctx.lineTo(cx + r, cy + r * Math.tan(-theta));
+                ctx.stroke();
+                ctx.fillStyle = '#d97706';
+                ctx.beginPath(); ctx.arc(cx + r, cy + r * Math.tan(-theta), 3, 0, Math.PI * 2); ctx.fill();
+            }
+
+            // Limit Value Display
+            var limitVal = 0;
+            var expr = "";
+            if (trigFormType === 'sinx') {
+                // lim sin(kx)/x = k
+                limitVal = trigK;
+                expr = "lim sin(" + trigK + "x)/x = " + trigK;
+            } else {
+                // lim sin(kx)/(kx) = 1
+                limitVal = 1;
+                expr = "lim sin(" + trigK + "x)/(" + trigK + "x) = 1";
+            }
+
+            document.getElementById('vizResult').textContent = expr;
+            document.getElementById('infoFx').textContent = (Math.sin(trigK * theta) / (trigK * theta)).toFixed(4);
+            document.getElementById('infoDiff').textContent = theta.toFixed(4) + ' rad';
+            document.getElementById('infoLimit').textContent = limitVal;
+            document.getElementById('infoStatus').textContent = angleDeg < 10 ? 'Dekat' : 'Jauh';
+        }
+
+        function drawInfinity(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var scaleX = Math.min(w, h) * 0.05; // Scale for X
+            var scaleY = Math.min(w, h) * 0.4; // Scale for Y (needs to fit small y values for large x)
+
+            // Axes
+            ctx.strokeStyle = '#a8a29e';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(40, cy); ctx.lineTo(w - 40, cy);
+            ctx.moveTo(cx, 40); ctx.lineTo(cx, h - 40);
+            ctx.stroke();
+
+            // Dynamic X offset to show "infinite" range concept
+            // We will plot from 0 to xInf
+            // Center the graph. If xInf is large, we squeeze the X scale.
+            
+            var currentScaleX = scaleX;
+            if (xInf > 20) currentScaleX = (w * 0.4) / xInf;
+
+            if (funcType === 'rational') {
+                // f(x) = (3x^2 + 2x) / (5x^2 - x) -> 3/5
+                ctx.strokeStyle = '#b45309';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                for (var x = 0.5; x < xInf; x += 0.5) {
+                    var y = (3*x*x + 2*x) / (5*x*x - x);
+                    if (isFinite(y)) {
+                        var px = cx + x * currentScaleX;
+                        var py = cy - y * scaleY;
+                        py = Math.max(40, Math.min(h - 40, py)); // Clamp
+                        if (x === 0.5) ctx.moveTo(px, py);
+                        else ctx.lineTo(px, py);
+                    }
+                }
+                ctx.stroke();
+
+                // Asymptote y = 3/5
+                ctx.strokeStyle = '#059669';
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(40, cy - 0.6 * scaleY);
+                ctx.lineTo(w - 40, cy - 0.6 * scaleY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                var currentY = (3*xInf*xInf + 2*xInf) / (5*xInf*xInf - xInf);
+                document.getElementById('vizResult').textContent = 'x=' + xInf + ' → f(x)=' + currentY.toFixed(3);
+                document.getElementById('infoFx').textContent = currentY.toFixed(4);
+                document.getElementById('infoDiff').textContent = Math.abs(currentY - 0.6).toFixed(4);
+                document.getElementById('infoLimit').textContent = '3/5';
+                document.getElementById('infoStatus').textContent = 'Konvergen';
+                
+            } else if (funcType === 'sqrt') {
+                // f(x) = sqrt(x^2 + 4x) - x -> 2
+                ctx.strokeStyle = '#b45309';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                for (var x = 0.5; x < xInf; x += 0.5) {
+                    var y = Math.sqrt(x*x + 4*x) - x;
+                    var px = cx + x * currentScaleX;
+                    var py = cy - y * scaleY;
+                    py = Math.max(40, Math.min(h - 40, py));
+                    if (x === 0.5) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Asymptote y = 2
+                ctx.strokeStyle = '#059669';
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(40, cy - 2 * scaleY);
+                ctx.lineTo(w - 40, cy - 2 * scaleY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                var currentY = Math.sqrt(xInf*xInf + 4*xInf) - xInf;
+                document.getElementById('vizResult').textContent = 'x=' + xInf + ' → f(x)=' + currentY.toFixed(3);
+                document.getElementById('infoFx').textContent = currentY.toFixed(4);
+                document.getElementById('infoDiff').textContent = Math.abs(currentY - 2).toFixed(4);
+                document.getElementById('infoLimit').textContent = '2';
+                document.getElementById('infoStatus').textContent = 'Konvergen';
+
+            } else if (funcType === 'trig') {
+                // f(x) = x sin(1/x) -> 1 (as x -> infinity)
+                // This oscillates rapidly. For x -> infinity, we use substitution t=1/x.
+                // We plot for x.
+                
+                // We need to adapt scale. x is large (10 to 50). y is between -1 and 1.
+                // Scale Y needs to be large.
+                scaleY = Math.min(w, h) * 0.35;
+                currentScaleX = (w * 0.4) / Math.max(10, xInf);
+                
+                ctx.strokeStyle = '#b45309';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                for (var x = 0.5; x < xInf; x += 0.2) {
+                    var y = x * Math.sin(1/x);
+                    var px = cx + x * currentScaleX;
+                    var py = cy - y * scaleY;
+                    py = Math.max(40, Math.min(h - 40, py));
+                    if (x === 0.5) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Asymptote y = 1
+                ctx.strokeStyle = '#059669';
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(40, cy - 1 * scaleY);
+                ctx.lineTo(w - 40, cy - 1 * scaleY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                var currentY = xInf * Math.sin(1/xInf);
+                document.getElementById('vizResult').textContent = 'x=' + xInf + ' sin(1/' + xInf + ')';
+                document.getElementById('infoFx').textContent = currentY.toFixed(4);
+                document.getElementById('infoDiff').textContent = Math.abs(currentY - 1).toFixed(4);
+                document.getElementById('infoLimit').textContent = '1';
+                document.getElementById('infoStatus').textContent = 'Osilasi → 1';
+            }
+        }
+
+        // ========================================
+        // Quiz System
+        // ========================================
+        function initQuiz() {
+            document.getElementById('generateBtn').addEventListener('click', generateQuiz);
+            document.getElementById('retryBtn').addEventListener('click', generateQuiz);
+            generateQuiz();
+        }
+
+        function shuffleArray(array) {
+            var newArray = array.slice();
+            for (var i = newArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
+            return newArray;
+        }
+
+        function generateQuiz() {
+            currentQuestions = shuffleArray(questionBank).slice(0, 5);
+            userAnswers = new Array(5).fill(null);
+            score = 0;
+            quizSubmitted = false;
+            document.getElementById('scoreDisplay').textContent = '0/5';
+            document.getElementById('resultCard').classList.remove('show');
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            var container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            currentQuestions.forEach(function(q, qIndex) {
+                var card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = 'question-' + qIndex;
+                var questionTitle = document.createElement('p');
+                questionTitle.className = 'question-text';
+                questionTitle.innerHTML = '<span class="question-number">' + (qIndex + 1) + '</span>' + q.question;
+                card.appendChild(questionTitle);
+                var optionsList = document.createElement('div');
+                optionsList.className = 'options-list';
+                var letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach(function(opt, oIndex) {
+                    var btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = '<span class="option-letter">' + letters[oIndex] + '</span><span class="option-text">' + opt + '</span>';
+                    btn.addEventListener('click', function() { selectOption(qIndex, oIndex); });
+                    optionsList.appendChild(btn);
+                });
+                card.appendChild(optionsList);
+                var feedback = document.createElement('div');
+                feedback.className = 'feedback-box';
+                feedback.id = 'feedback-' + qIndex;
+                card.appendChild(feedback);
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qIndex, oIndex) {
+            if (quizSubmitted) return;
+            userAnswers[qIndex] = oIndex;
+            var questionCard = document.getElementById('question-' + qIndex);
+            var options = questionCard.querySelectorAll('.option-btn');
+            options.forEach(function(opt, idx) {
+                opt.classList.remove('selected');
+                if (idx === oIndex) opt.classList.add('selected');
+            });
+            if (userAnswers.indexOf(null) === -1) submitQuiz();
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            score = 0;
+            currentQuestions.forEach(function(q, qIndex) {
+                var questionCard = document.getElementById('question-' + qIndex);
+                var options = questionCard.querySelectorAll('.option-btn');
+                var feedback = document.getElementById('feedback-' + qIndex);
+                var userAnswer = userAnswers[qIndex];
+                var correctAnswer = q.correct;
+                options.forEach(function(opt, idx) {
+                    opt.classList.add('disabled');
+                    opt.classList.remove('selected');
+                    if (idx === correctAnswer) opt.classList.add('correct');
+                    else if (idx === userAnswer && userAnswer !== correctAnswer) opt.classList.add('incorrect');
+                });
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    questionCard.classList.add('correct');
+                    feedback.className = 'feedback-box show correct';
+                    feedback.textContent = 'Benar! ' + q.explanation;
+                } else {
+                    questionCard.classList.add('incorrect');
+                    feedback.className = 'feedback-box show incorrect';
+                    feedback.textContent = 'Salah. ' + q.explanation;
+                }
+            });
+            document.getElementById('scoreDisplay').textContent = score + '/5';
+            document.getElementById('finalScore').textContent = score + '/5';
+            var resultMessage = document.getElementById('resultMessage');
+            if (score === 5) resultMessage.textContent = 'Sempurna! Pemahaman sangat baik!';
+            else if (score >= 3) resultMessage.textContent = 'Bagus! Terus tingkatkan pemahaman Anda.';
+            else resultMessage.textContent = 'Pelajari kembali materi dan coba lagi!';
+            document.getElementById('resultCard').classList.add('show');
+        }
+    </script>
+</body>
+</html>

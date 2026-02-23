@@ -1005,7 +1005,7 @@
 
                         <div class="formula-box">
                             <div class="formula">(x - h)² + (y - k)² = r²</div>
-                            <p class="formula-description">Bentuk baku dengan pusat (h, k)</div>
+                            <p class="formula-description">Bentuk baku dengan pusat (h, k)</p>
                         </div>
 
                         <h3>Bentuk Umum</h3>
@@ -1406,15 +1406,23 @@
 
         // Visualization State
         var curveType = 'circle';
-        var h = 0, k = 0, r = 3;
-        var a = 5, b = 3;
-        var p = 2;
-        var ha = 3, hb = 2;
+        var circleH = 0;
+        var circleK = 0;
+        var circleR = 3;
+        var ellipseA = 5;
+        var ellipseB = 3;
+        var parabolaP = 2;
+        var hyperbolaA = 3;
+        var hyperbolaB = 2;
         var isHorizontal = true;
-        var showCenter = true, showRadius = false;
-        var showFocus = true, showAsym = false;
-        var showFocusP = true, showDirectrix = true;
-        var showHypFocus = true, showHypAsym = true;
+        var showCenter = true;
+        var showRadius = false;
+        var showFocus = true;
+        var showAsym = false;
+        var showFocusP = true;
+        var showDirectrix = true;
+        var showHypFocus = true;
+        var showHypAsym = true;
         var isParaHoriz = true;
         var isHypHoriz = true;
         var canvas = null;
@@ -1486,31 +1494,31 @@
             }
 
             // Circle controls
-            setupSlider('hSlider', 'hValue', function(v) { h = v; });
-            setupSlider('kSlider', 'kValue', function(v) { k = v; });
-            setupSlider('rSlider', 'rValue', function(v) { r = v; });
+            setupSlider('hSlider', 'hValue', function(v) { circleH = v; });
+            setupSlider('kSlider', 'kValue', function(v) { circleK = v; });
+            setupSlider('rSlider', 'rValue', function(v) { circleR = v; });
 
             setupToggle('showCenter', function(v) { showCenter = v; });
             setupToggle('showRadius', function(v) { showRadius = v; });
 
             // Ellipse controls
-            setupSlider('aSlider', 'aValue', function(v) { a = v; });
-            setupSlider('bSlider', 'bValue', function(v) { b = v; });
+            setupSlider('aSlider', 'aValue', function(v) { ellipseA = v; });
+            setupSlider('bSlider', 'bValue', function(v) { ellipseB = v; });
             setupToggle('horizontalBtn', function(v) { if(v) isHorizontal = true; });
             setupToggle('verticalBtn', function(v) { if(v) isHorizontal = false; });
             setupToggle('showFocus', function(v) { showFocus = v; });
             setupToggle('showAsym', function(v) { showAsym = v; });
 
             // Parabola controls
-            setupSlider('pSlider', 'pValue', function(v) { p = v; });
+            setupSlider('pSlider', 'pValue', function(v) { parabolaP = v; });
             setupToggle('paraHoriz', function(v) { if(v) isParaHoriz = true; });
             setupToggle('paraVert', function(v) { if(v) isParaHoriz = false; });
             setupToggle('showFocusP', function(v) { showFocusP = v; });
             setupToggle('showDirectrix', function(v) { showDirectrix = v; });
 
             // Hyperbola controls
-            setupSlider('haSlider', 'haValue', function(v) { ha = v; });
-            setupSlider('hbSlider', 'hbValue', function(v) { hb = v; });
+            setupSlider('haSlider', 'haValue', function(v) { hyperbolaA = v; });
+            setupSlider('hbSlider', 'hbValue', function(v) { hyperbolaB = v; });
             setupToggle('hypHoriz', function(v) { if(v) isHypHoriz = true; });
             setupToggle('hypVert', function(v) { if(v) isHypHoriz = false; });
             setupToggle('showHypFocus', function(v) { showHypFocus = v; });
@@ -1566,7 +1574,7 @@
         }
 
         function resetVisualization() {
-            h = 0; k = 0; r = 3; a = 5; b = 3; p = 2; ha = 3; hb = 2;
+            circleH = 0; circleK = 0; circleR = 3; ellipseA = 5; ellipseB = 3; parabolaP = 2; hyperbolaA = 3; hyperbolaB = 2;
             document.querySelectorAll('.slider').forEach(function(s) {
                 var defaults = {
                     hSlider: 0, kSlider: 0, rSlider: 3, aSlider: 5, bSlider: 3, pSlider: 2, haSlider: 3, hbSlider: 2
@@ -1614,14 +1622,13 @@
             else if (curveType === 'hyperbola') drawHyperbola(w, h);
         }
 
+        // ========================================
+        // FIXED: drawCircle function
+        // ========================================
         function drawCircle(w, h) {
             var cx = w / 2;
             var cy = h / 2;
             var scale = 25;
-            var rx = cx + h * scale / 2;
-            var ry = cy - k * scale / 2;
-            var px = cx + h * scale / 2;
-            var py = cy - k * scale / 2;
 
             // Axes
             ctx.strokeStyle = '#a8a29e';
@@ -1631,11 +1638,15 @@
             ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
             ctx.stroke();
 
-            // Circle
-            var centerX = cx + h * scale;
-            var centerY = cy - k * scale;
-            var radius = r * scale;
+            // Calculate center position correctly
+            // cx, cy = center of canvas (origin)
+            // h, k = mathematical coordinates of circle center
+            // scale = pixels per unit
+            var centerX = cx + circleH * scale;
+            var centerY = cy - circleK * scale;
+            var radius = circleR * scale;
 
+            // Circle
             ctx.strokeStyle = '#c2410c';
             ctx.lineWidth = 3;
             ctx.beginPath();
@@ -1655,7 +1666,7 @@
                 ctx.fillStyle = '#1c1917';
                 ctx.font = 'bold 12px Space Grotesk';
                 ctx.textAlign = 'center';
-                ctx.fillText('P(' + h + ', ' + k + ')', centerX, centerY - 12);
+                ctx.fillText('P(' + circleH + ', ' + circleK + ')', centerX, centerY - 12);
             }
 
             // Radius line
@@ -1671,16 +1682,19 @@
 
                 ctx.fillStyle = '#0d9488';
                 ctx.font = '11px Space Grotesk';
-                ctx.fillText('r = ' + r, centerX + radius/2, centerY - 8);
+                ctx.fillText('r = ' + circleR, centerX + radius/2, centerY - 8);
             }
 
             // Update info
-            var area = Math.PI * r * r;
-            var circ = 2 * Math.PI * r;
+            var area = Math.PI * circleR * circleR;
+            var circ = 2 * Math.PI * circleR;
 
-            document.getElementById('vizResult').textContent = '(x' + (h >= 0 ? ' - ' + h : ' + ' + Math.abs(h)) + ')² + (y' + (k >= 0 ? ' - ' + k : ' + ' + Math.abs(k)) + ')² = ' + (r*r).toFixed(0);
-            document.getElementById('infoCenter').textContent = '(' + h + ', ' + k + ')';
-            document.getElementById('infoRadius').textContent = r.toFixed(1);
+            var hSign = circleH >= 0 ? ' - ' + circleH : ' + ' + Math.abs(circleH);
+            var kSign = circleK >= 0 ? ' - ' + circleK : ' + ' + Math.abs(circleK);
+
+            document.getElementById('vizResult').textContent = '(x' + hSign + ')² + (y' + kSign + ')² = ' + (circleR * circleR).toFixed(0);
+            document.getElementById('infoCenter').textContent = '(' + circleH + ', ' + circleK + ')';
+            document.getElementById('infoRadius').textContent = circleR.toFixed(1);
             document.getElementById('infoArea').textContent = area.toFixed(2);
             document.getElementById('infoCircum').textContent = circ.toFixed(2);
         }
@@ -1698,8 +1712,8 @@
             ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
             ctx.stroke();
 
-            var aVal = isHorizontal ? a : b;
-            var bVal = isHorizontal ? b : a;
+            var aVal = isHorizontal ? ellipseA : ellipseB;
+            var bVal = isHorizontal ? ellipseB : ellipseA;
             var rx = aVal * scale;
             var ry = bVal * scale;
 
@@ -1715,7 +1729,7 @@
 
             // Foci
             if (showFocus) {
-                var cVal = Math.sqrt(Math.abs(aVal*aVal - bVal*bVal));
+                var cVal = Math.sqrt(Math.abs(ellipseA * ellipseA - ellipseB * ellipseB));
                 var fx = isHorizontal ? cVal * scale : 0;
                 var fy = isHorizontal ? 0 : cVal * scale;
 
@@ -1730,11 +1744,11 @@
                 ctx.fillStyle = '#1c1917';
                 ctx.font = '10px Space Grotesk';
                 ctx.textAlign = 'center';
-                ctx.fillText('F₁', cx - fx, cy - fy - 10);
-                ctx.fillText('F₂', cx + fx, cy + fy - 10);
+                ctx.fillText('F1', cx - fx, cy - fy - 10);
+                ctx.fillText('F2', cx + fx, cy + fy - 10);
             }
 
-            // Asymptotes (not for ellipse, but show axes)
+            // Axes lines
             if (showAsym) {
                 ctx.strokeStyle = '#78716c';
                 ctx.lineWidth = 1;
@@ -1747,12 +1761,12 @@
             }
 
             // Info
-            var cVal = Math.sqrt(Math.abs(a*a - b*b));
-            var e = cVal / Math.max(a, b);
+            var cVal = Math.sqrt(Math.abs(ellipseA * ellipseA - ellipseB * ellipseB));
+            var e = cVal / Math.max(ellipseA, ellipseB);
 
-            document.getElementById('vizResult').textContent = 'x²/' + (a*a).toFixed(0) + ' + y²/' + (b*b).toFixed(0) + ' = 1';
+            document.getElementById('vizResult').textContent = 'x²/' + (ellipseA * ellipseA).toFixed(0) + ' + y²/' + (ellipseB * ellipseB).toFixed(0) + ' = 1';
             document.getElementById('infoCenter').textContent = '(0, 0)';
-            document.getElementById('infoRadius').textContent = 'a=' + a + ', b=' + b;
+            document.getElementById('infoRadius').textContent = 'a=' + ellipseA + ', b=' + ellipseB;
             document.getElementById('infoArea').textContent = 'e = ' + e.toFixed(3);
             document.getElementById('infoCircum').textContent = 'c = ' + cVal.toFixed(2);
         }
@@ -1777,19 +1791,19 @@
 
             if (isParaHoriz) {
                 for (var y = -h/2; y <= h/2; y += 2) {
-                    var x = (y * y) / (4 * p);
-                    if (p > 0) {
+                    var x = (y * y) / (4 * parabolaP);
+                    if (parabolaP > 0) {
                         ctx.lineTo(cx + x * scale, cy + y);
                     } else {
                         ctx.lineTo(cx + x * scale, cy + y);
                     }
-                    if (y === -h/2) ctx.moveTo(cx + (y*y)/(4*p) * scale, cy + y);
+                    if (y === -h/2) ctx.moveTo(cx + (y*y)/(4*parabolaP) * scale, cy + y);
                 }
             } else {
                 for (var x = -w/2; x <= w/2; x += 2) {
-                    var y = (x * x) / (4 * p);
+                    var y = (x * x) / (4 * parabolaP);
                     ctx.lineTo(cx + x, cy - y * scale);
-                    if (x === -w/2) ctx.moveTo(cx + x, cy - (x*x)/(4*p) * scale);
+                    if (x === -w/2) ctx.moveTo(cx + x, cy - (x*x)/(4*parabolaP) * scale);
                 }
             }
             ctx.stroke();
@@ -1797,8 +1811,8 @@
             // Focus
             if (showFocusP) {
                 ctx.fillStyle = '#0d9488';
-                var fx = isParaHoriz ? cx + p * scale : cx;
-                var fy = isParaHoriz ? cy : cy - p * scale;
+                var fx = isParaHoriz ? cx + parabolaP * scale : cx;
+                var fy = isParaHoriz ? cy : cy - parabolaP * scale;
                 ctx.beginPath();
                 ctx.arc(fx, fy, 5, 0, Math.PI * 2);
                 ctx.fill();
@@ -1815,11 +1829,11 @@
                 ctx.setLineDash([6, 4]);
                 ctx.beginPath();
                 if (isParaHoriz) {
-                    var dx = cx - p * scale;
+                    var dx = cx - parabolaP * scale;
                     ctx.moveTo(dx, 0);
                     ctx.lineTo(dx, h);
                 } else {
-                    var dy = cy + p * scale;
+                    var dy = cy + parabolaP * scale;
                     ctx.moveTo(0, dy);
                     ctx.lineTo(w, dy);
                 }
@@ -1827,10 +1841,10 @@
                 ctx.setLineDash([]);
             }
 
-            document.getElementById('vizResult').textContent = isParaHoriz ? 'y² = ' + (4*p).toFixed(0) + 'x' : 'x² = ' + (4*p).toFixed(0) + 'y';
+            document.getElementById('vizResult').textContent = isParaHoriz ? 'y² = ' + (4*parabolaP).toFixed(0) + 'x' : 'x² = ' + (4*parabolaP).toFixed(0) + 'y';
             document.getElementById('infoCenter').textContent = 'Vertex (0,0)';
-            document.getElementById('infoRadius').textContent = 'p = ' + p;
-            document.getElementById('infoArea').textContent = '4p = ' + (4*p).toFixed(0);
+            document.getElementById('infoRadius').textContent = 'p = ' + parabolaP;
+            document.getElementById('infoArea').textContent = '4p = ' + (4*parabolaP).toFixed(0);
             document.getElementById('infoCircum').textContent = 'e = 1';
         }
 
@@ -1851,14 +1865,14 @@
             ctx.strokeStyle = '#c2410c';
             ctx.lineWidth = 3;
 
-            var aVal = ha * scale;
-            var bVal = hb * scale;
+            var aVal = hyperbolaA * scale;
+            var bVal = hyperbolaB * scale;
 
             // Right branch
             ctx.beginPath();
             for (var y = -h/2; y <= h/2; y += 2) {
                 var yy = y / scale;
-                var xSq = aVal*aVal * (1 + (yy*yy)/(hb*hb));
+                var xSq = aVal * aVal * (1 + (yy * yy) / (hyperbolaB * hyperbolaB));
                 var x = Math.sqrt(Math.max(0, xSq));
                 if (isHypHoriz) {
                     ctx.lineTo(cx + x, cy + y);
@@ -1872,7 +1886,7 @@
             ctx.beginPath();
             for (var y = -h/2; y <= h/2; y += 2) {
                 var yy = y / scale;
-                var xSq = aVal*aVal * (1 + (yy*yy)/(hb*hb));
+                var xSq = aVal * aVal * (1 + (yy * yy) / (hyperbolaB * hyperbolaB));
                 var x = -Math.sqrt(Math.max(0, xSq));
                 if (isHypHoriz) {
                     ctx.lineTo(cx + x, cy + y);
@@ -1888,7 +1902,7 @@
                 ctx.lineWidth = 1.5;
                 ctx.setLineDash([5, 4]);
 
-                var slope = hb / ha;
+                var slope = hyperbolaB / hyperbolaA;
                 ctx.beginPath();
                 ctx.moveTo(0, cy + (cx * slope));
                 ctx.lineTo(w, cy - ((w - cx) * slope));
@@ -1903,7 +1917,7 @@
 
             // Foci
             if (showHypFocus) {
-                var cVal = Math.sqrt(ha*ha + hb*hb);
+                var cVal = Math.sqrt(hyperbolaA * hyperbolaA + hyperbolaB * hyperbolaB);
                 ctx.fillStyle = '#0d9488';
                 ctx.beginPath();
                 ctx.arc(cx - cVal * scale, cy, 5, 0, Math.PI * 2);
@@ -1913,12 +1927,12 @@
                 ctx.fill();
             }
 
-            var cVal = Math.sqrt(ha*ha + hb*hb);
-            var e = cVal / ha;
+            var cVal = Math.sqrt(hyperbolaA * hyperbolaA + hyperbolaB * hyperbolaB);
+            var e = cVal / hyperbolaA;
 
-            document.getElementById('vizResult').textContent = 'x²/' + (ha*ha).toFixed(0) + ' - y²/' + (hb*hb).toFixed(0) + ' = 1';
+            document.getElementById('vizResult').textContent = 'x²/' + (hyperbolaA * hyperbolaA).toFixed(0) + ' - y²/' + (hyperbolaB * hyperbolaB).toFixed(0) + ' = 1';
             document.getElementById('infoCenter').textContent = 'Pusat (0,0)';
-            document.getElementById('infoRadius').textContent = 'a=' + ha + ', b=' + hb;
+            document.getElementById('infoRadius').textContent = 'a=' + hyperbolaA + ', b=' + hyperbolaB;
             document.getElementById('infoArea').textContent = 'e = ' + e.toFixed(3);
             document.getElementById('infoCircum').textContent = 'c = ' + cVal.toFixed(2);
         }

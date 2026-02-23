@@ -9,6 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
+            --accent-primary: #e63946;
+    		--accent-primary-light: #ff5a5f;
+    		--accent-primary-dark: #b71c2b;
+    		--accent-glow: rgba(230, 57, 70, 0.25);
+    		--shadow-soft: 0 4px 24px rgba(230, 57, 70, 0.06);
+    		--shadow-medium: 0 8px 40px rgba(230, 57, 70, 0.1);
+    		--shadow-hover: 0 16px 56px rgba(230, 57, 70, 0.15);
             --bg-primary: #fffbf9;
             --bg-secondary: #fff5f2;
             --bg-card: #ffffff;
@@ -214,6 +221,90 @@
             margin: 0 auto;
             line-height: 1.8;
         }
+
+        .breadcrumb-container {
+    		max-width: 1200px;
+    		margin: 20px auto 0;
+    		padding: 0 24px;
+		}
+
+		.breadcrumb {
+    		display: inline-flex;
+    		align-items: center;
+    		gap: 10px;
+    		font-size: 0.9rem;
+    		font-weight: 600;
+		}
+
+		.breadcrumb-link {
+    		color: var(--accent-primary);
+    		text-decoration: none;
+    		padding: 6px 14px;
+    		border-radius: 100px;
+    		background: rgba(230, 57, 70, 0.08);
+    		border: 1px solid rgba(230, 57, 70, 0.15);
+    		transition: var(--transition-fast);
+		}
+
+		.breadcrumb-link:hover {
+    		background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-dark));
+    		color: white;
+    		box-shadow: 0 0 20px rgba(230, 57, 70, 0.35);
+    		transform: translateY(-2px);
+		}
+
+		.breadcrumb-separator {
+    		color: var(--fg-muted);
+		}
+
+		.breadcrumb-current {
+    		color: var(--accent-primary-dark);
+    		font-weight: 700;
+		}
+
+		.breadcrumb-container {
+    		max-width: 1200px;
+    		margin: 20px auto 0;
+    		padding: 0 24px;
+		}
+
+		.breadcrumb {
+    		display: inline-flex;
+    		align-items: center;
+    		gap: 10px;
+    		font-size: 0.9rem;
+    		font-weight: 600;
+		}
+
+		.breadcrumb-link {
+    		color: var(--accent-primary);
+    		text-decoration: none;
+    		padding: 6px 14px;
+    		border-radius: 100px;
+    		background: rgba(230, 57, 70, 0.08);
+    		border: 1px solid rgba(230, 57, 70, 0.15);
+    		transition: var(--transition-fast);
+		}
+
+		.breadcrumb-link:hover {
+    		background: linear-gradient(
+        		135deg,
+        		var(--accent-primary),
+        		var(--accent-primary-dark)
+    		);
+    		color: white;
+    		box-shadow: 0 0 20px var(--accent-glow);
+    		transform: translateY(-2px);
+		}
+
+		.breadcrumb-separator {
+    		color: var(--fg-muted);
+		}
+
+		.breadcrumb-current {
+    		color: var(--accent-primary-dark);
+    		font-weight: 700;
+		}
 
         /* Section */
         .section {
@@ -521,6 +612,18 @@
         </div>
     </nav>
 
+    <div class="breadcrumb-container">
+        <div class="breadcrumb">
+        	<a href="../../../index.html" class="breadcrumb-link">
+            	Dashboard
+        	</a>
+        	<span class="breadcrumb-separator">›</span>
+        	<span class="breadcrumb-current">
+            	Matematika TL
+        	</span>
+    	</div>
+	</div>
+    
     <section class="hero">
         <div class="hero-badge-group">
             <span class="hero-badge">

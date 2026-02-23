@@ -561,6 +561,12 @@
             background: linear-gradient(135deg, rgba(16, 166, 122, 0.15), rgba(16, 166, 122, 0.05));
             color: var(--accent-secondary);
         }
+        
+        .subject-card:nth-child(3) .subject-icon {
+    		background: linear-gradient(135deg, rgba(255, 70, 70, 0.25), rgba(255, 0, 0, 0.08));
+    		color: #ff2e2e;
+		}
+
 
         .subject-info {
             flex: 1;
@@ -642,6 +648,10 @@
         .subject-card:nth-child(2) .topic-item svg {
             color: var(--accent-secondary);
         }
+        
+        .subject-card:nth-child(3) .topic-item svg {
+    		color: #ff2e2e;
+		}
 
         .subject-footer {
             display: flex;
@@ -709,6 +719,20 @@
             background: var(--accent-secondary);
             color: white;
         }
+        
+        .subject-card:nth-child(3) .btn-subject {
+    		background: rgba(255, 0, 0, 0.12);
+    		color: #ff2e2e;
+    		box-shadow: 0 4px 16px rgba(255, 0, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+
+		.subject-card:nth-child(3) .btn-subject:hover {
+    		background: linear-gradient(135deg, #ff2e2e, #b30000);
+    		color: white;
+    		box-shadow: 0 8px 24px rgba(255, 0, 0, 0.45);
+    		transform: translateY(-2px);
+		}
 
         /* ========================================
            Footer
@@ -1074,6 +1098,62 @@
                         </a>
                     </div>
                 </article>
+                
+                <!-- Matematika TL Card -->
+                <article class="subject-card" data-animate>
+                    <div class="subject-header">
+                        <div class="subject-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="subject-info">
+                            <h3 class="subject-title">Matematika Tingkat Lanjut</h3>
+                            <div class="subject-meta">
+                                <span>Kelas 12</span>
+                                <span class="subject-meta-dot"></span>
+                                <span>Semester 1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="subject-description">
+                        Mendalami Irisan Kerucut, Limit Fungsi, dan Turunan Fungsi Trigonometri dengan pendekatan visual dan latihan soal adaptif.
+                    </p>
+                    <div class="subject-topics">
+                        <div class="subject-topics-title">Materi Pokok</div>
+                        <ul class="topic-list">
+                            <li class="topic-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Irisan Kerucut</span>
+                            </li>
+                            <li class="topic-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Limit Fungsi</span>
+                            </li>
+                            <li class="topic-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Turunan Fungsi Trigonometri</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="subject-footer">
+                        <div class="subject-progress">
+                            <span class="progress-text">3 Bab</span>
+                        </div>
+                        <a href="Mata_Pelajaran/Matematika_TL/matematika_tl.html" target="_self" class="btn btn-subject">
+                            Masuk Matematika Tingkat Lanjut
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
@@ -1081,7 +1161,7 @@
     <!-- Footer -->
     <footer class="footer">
         <p class="footer-text">E-Learning Kelas 12 Semester 1 - Platform Pembelajaran Interaktif</p>
-        <p class="footer-text">Oleh Haziel Owen XII M4 1</p>
+        <p class="footer-text">Oleh Haziel Owen XII-M4-1</p>
     </footer>
 
     <script>

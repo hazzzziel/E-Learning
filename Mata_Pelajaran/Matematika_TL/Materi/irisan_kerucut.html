@@ -1,1 +1,2054 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irisan Kerucut - Matematika Tingkat Lanjut</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #faf8f5;
+            --bg-secondary: #f0ebe4;
+            --bg-card: #ffffff;
+            --fg-primary: #1c1917;
+            --fg-secondary: #44403c;
+            --fg-muted: #78716c;
+            --accent-primary: #c2410c;
+            --accent-primary-light: #ea580c;
+            --accent-secondary: #0d9488;
+            --accent-info: #7c3aed;
+            --accent-glow: rgba(194, 65, 12, 0.12);
+            --shadow-soft: 0 2px 12px rgba(28, 25, 23, 0.04);
+            --shadow-medium: 0 8px 32px rgba(28, 25, 23, 0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(194, 65, 12, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(13, 148, 136, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(194, 65, 12, 0.08);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-logo svg { width: 18px; height: 18px; color: white; }
+
+        .navbar-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        .navbar-title span { color: var(--accent-primary); }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-nav:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        .btn-nav svg { width: 14px; height: 14px; }
+
+        .hero {
+            padding: 36px 24px 28px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .breadcrumb svg { width: 12px; height: 12px; opacity: 0.4; }
+
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 0.95rem;
+            color: var(--fg-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: rgba(194, 65, 12, 0.08);
+            border: 1px solid rgba(194, 65, 12, 0.15);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .hero-badge svg { width: 12px; height: 12px; }
+
+        .section-nav {
+            position: sticky;
+            top: 60px;
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(194, 65, 12, 0.06);
+            z-index: 999;
+            padding: 0 24px;
+        }
+
+        .section-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 8px 0;
+            scrollbar-width: none;
+        }
+
+        .section-nav-container::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 8px 18px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+        }
+
+        .nav-tab:hover {
+            background: rgba(194, 65, 12, 0.06);
+            color: var(--accent-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 24px 70px;
+        }
+
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            transition: var(--transition-medium);
+        }
+
+        .module-card:hover { box-shadow: var(--shadow-medium); }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .module-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, rgba(194, 65, 12, 0.1), rgba(13, 148, 136, 0.08));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .module-icon svg { width: 22px; height: 22px; color: var(--accent-primary); }
+
+        .module-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin-bottom: 2px;
+        }
+
+        .module-subtitle { font-size: 0.8rem; color: var(--fg-muted); }
+
+        .module-content h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin: 16px 0 8px;
+        }
+
+        .module-content h3:first-child { margin-top: 0; }
+
+        .module-content p {
+            color: var(--fg-secondary);
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-size: 0.88rem;
+        }
+
+        .module-content ul, .module-content ol {
+            margin: 10px 0;
+            padding-left: 18px;
+        }
+
+        .module-content li {
+            color: var(--fg-secondary);
+            margin-bottom: 5px;
+            line-height: 1.6;
+            font-size: 0.85rem;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, rgba(194, 65, 12, 0.04), rgba(13, 148, 136, 0.02));
+            border: 1px solid rgba(194, 65, 12, 0.1);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin: 14px 0;
+            text-align: center;
+        }
+
+        .formula {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .formula-description {
+            font-size: 0.75rem;
+            color: var(--fg-muted);
+            margin-top: 8px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 0.8rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .info-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--fg-primary);
+            font-size: 0.75rem;
+        }
+
+        .info-table td { color: var(--fg-secondary); }
+
+        .example-box {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin: 14px 0;
+            border-left: 3px solid var(--accent-secondary);
+        }
+
+        .example-label {
+            font-weight: 600;
+            color: var(--accent-secondary);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .reference-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            background: rgba(194, 65, 12, 0.06);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            margin: 2px;
+            transition: var(--transition-fast);
+        }
+
+        .reference-link:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .reference-link svg { width: 10px; height: 10px; }
+
+        /* Visualization */
+        .viz-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+        }
+
+        .viz-controls {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            height: fit-content;
+        }
+
+        .controls-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .controls-title svg { width: 16px; height: 16px; color: var(--accent-primary); }
+
+        .control-group { margin-bottom: 14px; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            margin-bottom: 6px;
+        }
+
+        .control-value {
+            font-family: 'Space Grotesk', monospace;
+            color: var(--accent-primary);
+            background: rgba(194, 65, 12, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 5px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--accent-glow);
+            transition: var(--transition-fast);
+        }
+
+        .slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .select-control:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .toggle-group { display: flex; gap: 5px; }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 7px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-top: 4px;
+        }
+
+        .btn-reset:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .viz-canvas-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            overflow: hidden;
+        }
+
+        .viz-header {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .viz-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        .viz-result {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            background: rgba(194, 65, 12, 0.08);
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+        }
+
+        .viz-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            background: var(--bg-secondary);
+        }
+
+        .viz-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .viz-info {
+            padding: 14px 18px;
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(194, 65, 12, 0.06);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .info-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg-primary);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .quiz-info h2 {
+            font-size: 1.1rem;
+            color: var(--fg-primary);
+            margin-bottom: 2px;
+        }
+
+        .quiz-info p {
+            font-size: 0.8rem;
+            color: var(--fg-muted);
+        }
+
+        .quiz-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(194, 65, 12, 0.08), rgba(13, 148, 136, 0.06));
+            border-radius: var(--radius-md);
+        }
+
+        .score-label { font-size: 0.75rem; color: var(--fg-muted); }
+
+        .score-value {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .quiz-actions { display: flex; gap: 8px; }
+
+        .btn-quiz {
+            padding: 9px 16px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+        }
+
+        .btn-generate {
+            background: var(--accent-secondary);
+            color: white;
+        }
+
+        .btn-generate:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        .btn-retry {
+            background: var(--bg-secondary);
+            color: var(--fg-secondary);
+        }
+
+        .btn-retry:hover {
+            background: var(--fg-secondary);
+            color: white;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(194, 65, 12, 0.04);
+            margin-bottom: 14px;
+            transition: var(--transition-medium);
+        }
+
+        .question-card.correct { border-color: var(--accent-secondary); }
+        .question-card.incorrect { border-color: #dc2626; }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .question-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--fg-primary);
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.selected):not(.disabled) {
+            border-color: var(--accent-primary);
+            background: rgba(194, 65, 12, 0.04);
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent-primary);
+            background: rgba(194, 65, 12, 0.08);
+        }
+
+        .option-btn.correct {
+            border-color: var(--accent-secondary);
+            background: rgba(13, 148, 136, 0.1);
+        }
+
+        .option-btn.incorrect {
+            border-color: #dc2626;
+            background: rgba(220, 38, 38, 0.1);
+        }
+
+        .option-btn.disabled { cursor: default; opacity: 0.7; }
+
+        .option-letter {
+            width: 26px;
+            height: 26px;
+            background: white;
+            border: 2px solid var(--fg-muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--fg-secondary);
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .option-btn.selected .option-letter {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            color: white;
+        }
+
+        .option-btn.incorrect .option-letter {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: white;
+        }
+
+        .option-text {
+            font-size: 0.85rem;
+            color: var(--fg-secondary);
+            line-height: 1.4;
+        }
+
+        .feedback-box {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .feedback-box.show { display: block; }
+        .feedback-box.correct { background: rgba(13, 148, 136, 0.1); color: #047857; border-left: 3px solid var(--accent-secondary); }
+        .feedback-box.incorrect { background: rgba(220, 38, 38, 0.1); color: #b91c1c; border-left: 3px solid #dc2626; }
+
+        .quiz-result-card {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            color: white;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .quiz-result-card.show { display: block; }
+
+        .result-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .result-icon svg { width: 32px; height: 32px; }
+
+        .result-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+        .result-score { font-family: 'Space Grotesk', monospace; font-size: 2.5rem; font-weight: 700; margin: 12px 0; }
+        .result-message { font-size: 0.9rem; opacity: 0.9; }
+
+        @media (max-width: 900px) {
+            .viz-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 16px; }
+            .btn-nav span { display: none; }
+            .hero { padding: 24px 16px 18px; }
+            .hero-title { font-size: 1.4rem; }
+            .section-nav { top: 60px; padding: 0 16px; }
+            .nav-tab { padding: 7px 12px; font-size: 0.75rem; }
+            .main-content { padding: 14px 16px 50px; }
+            .module-grid { grid-template-columns: 1fr; }
+            .module-card { padding: 18px; }
+            .module-header { flex-direction: column; gap: 10px; }
+            .viz-controls { padding: 14px; }
+            .viz-canvas-wrapper { height: 300px; }
+            .quiz-header { padding: 16px; flex-direction: column; text-align: center; }
+            .question-card { padding: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.2rem; }
+            .formula { font-size: 1rem; }
+            .option-btn { padding: 10px 12px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" role="navigation">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            <a href="FULL_DASHBOARD_URL" target="_self" class="btn-nav">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="breadcrumb">
+            <a href="FULL_DASHBOARD_URL" target="_self">Dashboard</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="FULL_MATEMATIKA_URL" target="_self">Matematika</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            <span>Irisan Kerucut</span>
+        </div>
+        <div class="hero-header">
+            <div>
+                <h1 class="hero-title">
+                    <span class="hero-title-accent">Irisan Kerucut</span>
+                </h1>
+                <p class="hero-description">
+                    Pelajari lingkaran, elips, parabola, dan hiperbola beserta garis singgungnya melalui visualisasi interaktif.
+                </p>
+            </div>
+            <span class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                </svg>
+                Geometri Analitik
+            </span>
+        </div>
+    </section>
+
+    <div class="section-nav">
+        <div class="section-nav-container">
+            <button class="nav-tab active" data-section="module">Modul Materi</button>
+            <button class="nav-tab" data-section="visualization">Visualisasi Interaktif</button>
+            <button class="nav-tab" data-section="quiz">Kuis Interaktif</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <section class="content-section active" id="module">
+            <div class="module-grid">
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Persamaan Lingkaran</h2>
+                            <p class="module-subtitle">Bentuk Baku dan Umum</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Definisi</h3>
+                        <p>Lingkaran adalah himpunan titik-titik di bidang kartesius yang berjarak tetap (jari-jari r) dari suatu titik tetap (pusat (h,k)).</p>
+
+                        <div class="formula-box">
+                            <div class="formula">(x - h)² + (y - k)² = r²</div>
+                            <p class="formula-description">Bentuk baku dengan pusat (h, k)</div>
+                        </div>
+
+                        <h3>Bentuk Umum</h3>
+                        <p>x² + y² + Ax + By + C = 0</p>
+                        <ul>
+                            <li>Pusat: (-A/2, -B/2)</li>
+                            <li>Jari-jari: r = √((A² + B²)/4 - C)</li>
+                        </ul>
+
+                        <h3>Kedudukan Titik</h3>
+                        <p>Substitusi titik ke bentuk umum:</p>
+                        <ul>
+                            <li>< 0: di dalam lingkaran</li>
+                            <li>= 0: pada lingkaran</li>
+                            <li>> 0: di luar lingkaran</li>
+                        </ul>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://mathcyber1997.com/soal-dan-pembahasan-irisan-kerucut-persamaan-lingkaran/" target="_self" class="reference-link">Math Cyber</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Garis Singgung Lingkaran</h2>
+                            <p class="module-subtitle">Berbagai Kondisi</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Di Titik (x₁, y₁) pada Lingkaran</h3>
+                        <div class="formula-box">
+                            <div class="formula">x·x₁ + y·y₁ = r²</div>
+                            <p class="formula-description">Untuk x² + y² = r²</p>
+                        </div>
+
+                        <h3>Bergradien m</h3>
+                        <div class="formula-box">
+                            <div class="formula">y = mx ± r√(m² + 1)</div>
+                            <p class="formula-description">Dua garis singgung</p>
+                        </div>
+
+                        <h3>Dari Titik Luar</h3>
+                        <p>Menggunakan rumus titik pada lingkaran atau syarat diskriminan D = 0.</p>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://www.defantri.com/2021/03/persamaan-garis-singgung-lingkaran.html" target="_self" class="reference-link">Defantri</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <ellipse cx="12" cy="12" rx="10" ry="6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Persamaan Elips</h2>
+                            <p class="module-subtitle">Unsur dan Garis Singgung</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Persamaan Baku</h3>
+                        <div class="formula-box">
+                            <div class="formula">x²/a² + y²/b² = 1</div>
+                            <p class="formula-description">a > b, horizontal; b > a, vertikal</p>
+                        </div>
+
+                        <h3>Unsur-Unsur</h3>
+                        <ul>
+                            <li>Sumbu mayor: 2a</li>
+                            <li>Sumbu minor: 2b</li>
+                            <li>Fokus: c = √(a² - b²)</li>
+                            <li>Eksentrisitas: e = c/a < 1</li>
+                        </ul>
+
+                        <h3>Garis Singgung</h3>
+                        <p>Di titik (x₁, y₁): xx₁/a² + yy₁/b² = 1</p>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://mathcyber1997.com/soal-dan-pembahasan-irisan-kerucut-elips/" target="_self" class="reference-link">Math Cyber</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="module-title">Parabola & Hiperbola</h2>
+                            <p class="module-subtitle">Pengantar</p>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <h3>Parabola</h3>
+                        <p>Himpunan titik dengan jarak ke fokus = jarak ke direktris. Eksentrisitas e = 1.</p>
+                        <div class="formula-box">
+                            <div class="formula">y² = 4px</div>
+                            <p class="formula-description">p = jarak fokus ke vertex</p>
+                        </div>
+
+                        <h3>Hiperbola</h3>
+                        <p>Selisih jarak ke dua fokus tetap. Eksentrisitas e > 1.</p>
+                        <div class="formula-box">
+                            <div class="formula">x²/a² - y²/b² = 1</div>
+                            <p class="formula-description">c = √(a² + b²), e = c/a</p>
+                        </div>
+
+                        <h3>Referensi</h3>
+                        <div>
+                            <a href="https://id.wikipedia.org/wiki/Irisan_kerucut" target="_self" class="reference-link">Wikipedia</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-section" id="visualization">
+            <div class="viz-container">
+                <aside class="viz-controls">
+                    <h3 class="controls-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        Kontrol Simulasi
+                    </h3>
+
+                    <div class="control-group">
+                        <label class="control-label">Jenis Kurva</label>
+                        <select class="select-control" id="curveType">
+                            <option value="circle">Lingkaran</option>
+                            <option value="ellipse">Elips</option>
+                            <option value="parabola">Parabola</option>
+                            <option value="hyperbola">Hiperbola</option>
+                        </select>
+                    </div>
+
+                    <div id="circleControls">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Pusat h
+                                <span class="control-value" id="hValue">0</span>
+                            </label>
+                            <input type="range" class="slider" id="hSlider" min="-5" max="5" value="0" step="0.5">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Pusat k
+                                <span class="control-value" id="kValue">0</span>
+                            </label>
+                            <input type="range" class="slider" id="kSlider" min="-5" max="5" value="0" step="0.5">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Jari-jari r
+                                <span class="control-value" id="rValue">3</span>
+                            </label>
+                            <input type="range" class="slider" id="rSlider" min="0.5" max="5" value="3" step="0.1">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Tampilkan</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="showCenter">Pusat</button>
+                                <button class="toggle-btn" id="showRadius">Radius</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="ellipseControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Sumbu a
+                                <span class="control-value" id="aValue">5</span>
+                            </label>
+                            <input type="range" class="slider" id="aSlider" min="1" max="8" value="5" step="0.5">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Sumbu b
+                                <span class="control-value" id="bValue">3</span>
+                            </label>
+                            <input type="range" class="slider" id="bSlider" min="1" max="8" value="3" step="0.5">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Orientasi</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="horizontalBtn">Horizontal</button>
+                                <button class="toggle-btn" id="verticalBtn">Vertikal</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Tampilkan</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="showFocus">Fokus</button>
+                                <button class="toggle-btn" id="showAsym">Asimtot</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="parabolaControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Parameter p
+                                <span class="control-value" id="pValue">2</span>
+                            </label>
+                            <input type="range" class="slider" id="pSlider" min="-5" max="5" value="2" step="0.5">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Orientasi</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="paraHoriz">Horizontal</button>
+                                <button class="toggle-btn" id="paraVert">Vertikal</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Tampilkan</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="showFocusP">Fokus</button>
+                                <button class="toggle-btn active" id="showDirectrix">Direktris</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="hyperbolaControls" style="display: none;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Sumbu a
+                                <span class="control-value" id="haValue">3</span>
+                            </label>
+                            <input type="range" class="slider" id="haSlider" min="1" max="6" value="3" step="0.5">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Sumbu b
+                                <span class="control-value" id="hbValue">2</span>
+                            </label>
+                            <input type="range" class="slider" id="hbSlider" min="1" max="6" value="2" step="0.5">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Orientasi</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="hypHoriz">Horizontal</button>
+                                <button class="toggle-btn" id="hypVert">Vertikal</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Tampilkan</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="showHypFocus">Fokus</button>
+                                <button class="toggle-btn active" id="showHypAsym">Asimtot</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-reset" id="resetBtn">Reset Simulasi</button>
+                </aside>
+
+                <div class="viz-canvas-container">
+                    <div class="viz-header">
+                        <span class="viz-title" id="vizTitle">Persamaan Lingkaran</span>
+                        <span class="viz-result" id="vizResult">(x - 0)² + (y - 0)² = 9</span>
+                    </div>
+                    <div class="viz-canvas-wrapper">
+                        <canvas class="viz-canvas" id="simCanvas"></canvas>
+                    </div>
+                    <div class="viz-info">
+                        <div class="info-grid" id="infoGrid">
+                            <div class="info-item">
+                                <span class="info-label">Pusat</span>
+                                <span class="info-value" id="infoCenter">(0, 0)</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Jari-jari</span>
+                                <span class="info-value" id="infoRadius">3</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Luas</span>
+                                <span class="info-value" id="infoArea">28.27</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Keliling</span>
+                                <span class="info-value" id="infoCircum">18.85</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="quiz">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h2>Kuis Irisan Kerucut</h2>
+                        <p>Uji pemahaman Anda tentang lingkaran, elips, parabola, dan hiperbola</p>
+                    </div>
+                    <div class="quiz-score">
+                        <span class="score-label">Skor:</span>
+                        <span class="score-value" id="scoreDisplay">0/5</span>
+                    </div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn-quiz btn-generate" id="generateBtn">Generate Soal Baru</button>
+                    <button class="btn-quiz btn-retry" id="retryBtn">Ulangi Kuis</button>
+                </div>
+
+                <div id="quizContainer"></div>
+
+                <div class="quiz-result-card" id="resultCard">
+                    <div class="result-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="result-title">Kuis Selesai</h3>
+                    <div class="result-score" id="finalScore">0/5</div>
+                    <p class="result-message" id="resultMessage">Terus berlatih untuk meningkatkan pemahaman!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // ========================================
+        // Question Bank - TAMBAHKAN SOAL DI SINI
+        // ========================================
+        var questionBank = [
+            // Persamaan Lingkaran
+            { question: "Pusat dan jari-jari lingkaran x² + y² = 49 adalah...", options: ["(0,0), r=7", "(0,0), r=49", "(7,0), r=7", "(0,7), r=7"], correct: 0, explanation: "x² + y² = r² → r = √49 = 7, pusat (0,0)." },
+            { question: "Pusat lingkaran (x-3)² + (y+4)² = 16 adalah...", options: ["(3,4)", "(3,-4)", "(-3,4)", "(-3,-4)"], correct: 1, explanation: "Bentuk (x-h)² + (y-k)² = r², pusat (h,k) = (3,-4)." },
+            { question: "Jari-jari lingkaran x² + y² - 6x + 8y + 9 = 0 adalah...", options: ["2", "3", "4", "5"], correct: 2, explanation: "r = √((36+64)/4 - 9) = √(25-9) = √16 = 4." },
+            { question: "Pusat lingkaran x² + y² - 4x + 6y - 3 = 0 adalah...", options: ["(2,-3)", "(-2,3)", "(2,3)", "(-2,-3)"], correct: 0, explanation: "Pusat = (-A/2, -B/2) = (2,-3)." },
+            { question: "Titik (3,4) terhadap lingkaran x² + y² = 25 berada...", options: ["Di dalam", "Pada", "Di luar", "Tidak tentu"], correct: 1, explanation: "3² + 4² = 25 = r², titik pada lingkaran." },
+            { question: "Bentuk umum dari (x-2)² + (y+3)² = 16 adalah...", options: ["x² + y² - 4x + 6y - 3 = 0", "x² + y² + 4x - 6y - 3 = 0", "x² + y² - 4x + 6y + 3 = 0", "x² + y² + 4x + 6y + 3 = 0"], correct: 0, explanation: "x² - 4x + 4 + y² + 6y + 9 = 16 → x² + y² - 4x + 6y - 3 = 0." },
+            { question: "Jika titik (1,2) di dalam lingkaran x² + y² - 4x + 2y - 4 = 0, maka nilai substitusi...", options: ["< 0", "= 0", "> 0", "Tidak tentu"], correct: 0, explanation: "1 + 4 - 4 + 4 - 4 = 1 > 0, titik di luar. Untuk di dalam, nilai < 0." },
+            { question: "Lingkaran pusat (2,5) menyentuh sumbu X. Persamaannya adalah...", options: ["(x-2)² + (y-5)² = 4", "(x-2)² + (y-5)² = 25", "(x+2)² + (y-5)² = 25", "(x-2)² + (y+5)² = 25"], correct: 1, explanation: "Jika menyentuh sumbu X, r = |k| = 5. Persamaan: (x-2)² + (y-5)² = 25." },
+            // Garis Singgung Lingkaran
+            { question: "Garis singgung lingkaran x² + y² = 25 di titik (3,4) adalah...", options: ["3x + 4y = 25", "3x - 4y = 25", "4x + 3y = 25", "4x - 3y = 25"], correct: 0, explanation: "Rumus: x·x₁ + y·y₁ = r² → 3x + 4y = 25." },
+            { question: "Garis singgung lingkaran x² + y² = 16 dengan gradien m = 1 adalah...", options: ["y = x ± 4√2", "y = x ± 4", "y = x ± 4√3", "y = x ± 16"], correct: 0, explanation: "y = mx ± r√(m²+1) = x ± 4√2." },
+            { question: "Banyak garis singgung dari titik (6,8) ke lingkaran x² + y² = 16 adalah...", options: ["0", "1", "2", "Tak hingga"], correct: 2, explanation: "Jarak titik ke pusat = 10 > r = 4, titik di luar, ada 2 garis singgung." },
+            // Elips
+            { question: "Nilai c dari elips x²/25 + y²/16 = 1 adalah...", options: ["3", "4", "5", "9"], correct: 0, explanation: "c = √(a² - b²) = √(25 - 16) = √9 = 3." },
+            { question: "Eksentrisitas elips x²/25 + y²/9 = 1 adalah...", options: ["0.6", "0.8", "0.5", "0.75"], correct: 1, explanation: "e = c/a = 4/5 = 0.8, dengan c = √(25-9) = 4." },
+            { question: "Panjang sumbu mayor elips x²/36 + y²/16 = 1 adalah...", options: ["6", "8", "12", "16"], correct: 2, explanation: "Sumbu mayor = 2a = 2×6 = 12." },
+            { question: "Fokus elips x²/25 + y²/16 = 1 adalah...", options: ["(±3,0)", "(±4,0)", "(±5,0)", "(0,±3)"], correct: 0, explanation: "c = 3, elips horizontal, fokus di (±c, 0) = (±3, 0)." },
+            { question: "Garis singgung elips x²/16 + y²/9 = 1 di (4,0) adalah...", options: ["x = 4", "y = 0", "x = 0", "y = 4"], correct: 0, explanation: "xx₁/a² + yy₁/b² = 1 → 4x/16 = 1 → x = 4." },
+            // Parabola
+            { question: "Fokus parabola y² = 12x adalah...", options: ["(3,0)", "(0,3)", "(-3,0)", "(0,-3)"], correct: 0, explanation: "y² = 4px → 4p = 12, p = 3. Fokus (p, 0) = (3, 0)." },
+            { question: "Direktris parabola x² = 16y adalah...", options: ["x = -4", "y = -4", "x = 4", "y = 4"], correct: 1, explanation: "x² = 4py → p = 4. Direktris y = -p = -4." },
+            { question: "Nilai p dari parabola y² = 8x adalah...", options: ["1", "2", "4", "8"], correct: 1, explanation: "y² = 4px → 4p = 8, p = 2." },
+            // Hiperbola
+            { question: "Nilai c dari hiperbola x²/9 - y²/16 = 1 adalah...", options: ["3", "4", "5", "7"], correct: 2, explanation: "c = √(a² + b²) = √(9 + 16) = √25 = 5." },
+            { question: "Eksentrisitas hiperbola x²/9 - y²/16 = 1 adalah...", options: ["3/5", "5/3", "4/5", "5/4"], correct: 1, explanation: "e = c/a = 5/3." },
+            { question: "Asimtot hiperbola x²/9 - y²/16 = 1 adalah...", options: ["y = ±(3/4)x", "y = ±(4/3)x", "y = ±(9/16)x", "y = ±(16/9)x"], correct: 1, explanation: "Asimtot: y = ±(b/a)x = ±(4/3)x." },
+            // Lanjutan
+            { question: "Persamaan lingkaran dengan diameter ujungnya (1,2) dan (5,6) adalah...", options: ["(x-3)² + (y-4)² = 8", "(x-3)² + (y-4)² = 4", "(x+3)² + (y+4)² = 8", "(x-3)² + (y-4)² = 16"], correct: 0, explanation: "Pusat = ((1+5)/2, (2+6)/2) = (3,4), r = √((5-1)²+(6-2)²)/2 = √32/2 = 2√2." },
+            { question: "Lingkaran x² + y² - 2x + 4y - 4 = 0. Jari-jarinya adalah...", options: ["2", "3", "4", "9"], correct: 1, explanation: "r = √((4+16)/4 + 4) = √(5+4) = √9 = 3." },
+            { question: "Elips dengan fokus (±4,0) dan 2a = 10. Persamaannya adalah...", options: ["x²/25 + y²/9 = 1", "x²/25 + y²/16 = 1", "x²/9 + y²/25 = 1", "x²/16 + y²/25 = 1"], correct: 0, explanation: "c = 4, a = 5, b² = 25 - 16 = 9." },
+            { question: "Panjang latus rectum parabola y² = 16x adalah...", options: ["4", "8", "16", "32"], correct: 2, explanation: "Latus rectum = 4p = 16." },
+            { question: "Vertex parabola y² = -8x adalah...", options: ["(0,0)", "(2,0)", "(-2,0)", "(0,2)"], correct: 0, explanation: "Bentuk y² = 4px, vertex di (0,0)." },
+            { question: "Hiperbola x²/16 - y²/9 = 1. Titik puncaknya adalah...", options: ["(±4,0)", "(0,±4)", "(±5,0)", "(±3,0)"], correct: 0, explanation: "Vertex di (±a, 0) = (±4, 0)." }
+        ];
+
+        // ========================================
+        // Global State
+        // ========================================
+        var currentQuestions = [];
+        var userAnswers = [];
+        var score = 0;
+        var quizSubmitted = false;
+
+        // Visualization State
+        var curveType = 'circle';
+        var h = 0, k = 0, r = 3;
+        var a = 5, b = 3;
+        var p = 2;
+        var ha = 3, hb = 2;
+        var isHorizontal = true;
+        var showCenter = true, showRadius = false;
+        var showFocus = true, showAsym = false;
+        var showFocusP = true, showDirectrix = true;
+        var showHypFocus = true, showHypAsym = true;
+        var isParaHoriz = true;
+        var isHypHoriz = true;
+        var canvas = null;
+        var ctx = null;
+        var animationFrame = null;
+        var time = 0;
+
+        // ========================================
+        // DOM Ready
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initVisualization();
+            initQuiz();
+            initAnimations();
+        });
+
+        // ========================================
+        // Navigation
+        // ========================================
+        function initNavigation() {
+            var navTabs = document.querySelectorAll('.nav-tab');
+            var sections = document.querySelectorAll('.content-section');
+
+            navTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var sectionId = this.getAttribute('data-section');
+                    navTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    sections.forEach(function(s) {
+                        s.classList.remove('active');
+                        if (s.id === sectionId) s.classList.add('active');
+                    });
+                    if (sectionId === 'visualization') {
+                        setTimeout(function() { resizeCanvas(); drawVisualization(); }, 100);
+                    }
+                });
+            });
+        }
+
+        // ========================================
+        // Visualization
+        // ========================================
+        function initVisualization() {
+            canvas = document.getElementById('simCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            setupControls();
+            startAnimation();
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            var wrapper = canvas.parentElement;
+            if (!wrapper) return;
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+        }
+
+        function setupControls() {
+            var curveTypeSelect = document.getElementById('curveType');
+            if (curveTypeSelect) {
+                curveTypeSelect.addEventListener('change', function() {
+                    curveType = this.value;
+                    updateControlVisibility();
+                    drawVisualization();
+                });
+            }
+
+            // Circle controls
+            setupSlider('hSlider', 'hValue', function(v) { h = v; });
+            setupSlider('kSlider', 'kValue', function(v) { k = v; });
+            setupSlider('rSlider', 'rValue', function(v) { r = v; });
+
+            setupToggle('showCenter', function(v) { showCenter = v; });
+            setupToggle('showRadius', function(v) { showRadius = v; });
+
+            // Ellipse controls
+            setupSlider('aSlider', 'aValue', function(v) { a = v; });
+            setupSlider('bSlider', 'bValue', function(v) { b = v; });
+            setupToggle('horizontalBtn', function(v) { if(v) isHorizontal = true; });
+            setupToggle('verticalBtn', function(v) { if(v) isHorizontal = false; });
+            setupToggle('showFocus', function(v) { showFocus = v; });
+            setupToggle('showAsym', function(v) { showAsym = v; });
+
+            // Parabola controls
+            setupSlider('pSlider', 'pValue', function(v) { p = v; });
+            setupToggle('paraHoriz', function(v) { if(v) isParaHoriz = true; });
+            setupToggle('paraVert', function(v) { if(v) isParaHoriz = false; });
+            setupToggle('showFocusP', function(v) { showFocusP = v; });
+            setupToggle('showDirectrix', function(v) { showDirectrix = v; });
+
+            // Hyperbola controls
+            setupSlider('haSlider', 'haValue', function(v) { ha = v; });
+            setupSlider('hbSlider', 'hbValue', function(v) { hb = v; });
+            setupToggle('hypHoriz', function(v) { if(v) isHypHoriz = true; });
+            setupToggle('hypVert', function(v) { if(v) isHypHoriz = false; });
+            setupToggle('showHypFocus', function(v) { showHypFocus = v; });
+            setupToggle('showHypAsym', function(v) { showHypAsym = v; });
+
+            var resetBtn = document.getElementById('resetBtn');
+            if (resetBtn) resetBtn.addEventListener('click', resetVisualization);
+
+            window.addEventListener('resize', function() { resizeCanvas(); drawVisualization(); });
+        }
+
+        function setupSlider(sliderId, valueId, callback) {
+            var slider = document.getElementById(sliderId);
+            if (!slider) return;
+            slider.addEventListener('input', function() {
+                var v = parseFloat(this.value);
+                callback(v);
+                var valueEl = document.getElementById(valueId);
+                if (valueEl) valueEl.textContent = v;
+                drawVisualization();
+            });
+        }
+
+        function setupToggle(id, callback) {
+            var btn = document.getElementById(id);
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                var isActive = this.classList.toggle('active');
+                callback(isActive);
+                drawVisualization();
+            });
+        }
+
+        function updateControlVisibility() {
+            var allControls = ['circleControls', 'ellipseControls', 'parabolaControls', 'hyperbolaControls'];
+            allControls.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            var activeId = curveType + 'Controls';
+            var activeEl = document.getElementById(activeId);
+            if (activeEl) activeEl.style.display = 'block';
+
+            var vizTitle = document.getElementById('vizTitle');
+            var titles = {
+                circle: 'Persamaan Lingkaran',
+                ellipse: 'Persamaan Elips',
+                parabola: 'Parabola',
+                hyperbola: 'Hiperbola'
+            };
+            if (vizTitle) vizTitle.textContent = titles[curveType] || 'Irisan Kerucut';
+        }
+
+        function resetVisualization() {
+            h = 0; k = 0; r = 3; a = 5; b = 3; p = 2; ha = 3; hb = 2;
+            document.querySelectorAll('.slider').forEach(function(s) {
+                var defaults = {
+                    hSlider: 0, kSlider: 0, rSlider: 3, aSlider: 5, bSlider: 3, pSlider: 2, haSlider: 3, hbSlider: 2
+                };
+                if (defaults[s.id]) s.value = defaults[s.id];
+            });
+            document.querySelectorAll('.control-value').forEach(function(v) {
+                var defaults = { hValue: 0, kValue: 0, rValue: 3, aValue: 5, bValue: 3, pValue: 2, haValue: 3, hbValue: 2 };
+                if (defaults[v.id]) v.textContent = defaults[v.id];
+            });
+            drawVisualization();
+        }
+
+        function startAnimation() {
+            function animate() {
+                time += 0.02;
+                drawVisualization();
+                animationFrame = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function drawVisualization() {
+            if (!ctx || !canvas) return;
+            if (canvas.width === 0 || canvas.height === 0) resizeCanvas();
+
+            var w = canvas.width;
+            var h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Background
+            ctx.fillStyle = '#f0ebe4';
+            ctx.fillRect(0, 0, w, h);
+
+            // Grid
+            ctx.strokeStyle = 'rgba(194, 65, 12, 0.05)';
+            ctx.lineWidth = 1;
+            for (var x = 0; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+            for (var y = 0; y < h; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+            if (curveType === 'circle') drawCircle(w, h);
+            else if (curveType === 'ellipse') drawEllipse(w, h);
+            else if (curveType === 'parabola') drawParabola(w, h);
+            else if (curveType === 'hyperbola') drawHyperbola(w, h);
+        }
+
+        function drawCircle(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var scale = 25;
+            var rx = cx + h * scale / 2;
+            var ry = cy - k * scale / 2;
+            var px = cx + h * scale / 2;
+            var py = cy - k * scale / 2;
+
+            // Axes
+            ctx.strokeStyle = '#a8a29e';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+            ctx.stroke();
+
+            // Circle
+            var centerX = cx + h * scale;
+            var centerY = cy - k * scale;
+            var radius = r * scale;
+
+            ctx.strokeStyle = '#c2410c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = 'rgba(194, 65, 12, 0.05)';
+            ctx.fill();
+
+            // Center point
+            if (showCenter) {
+                ctx.fillStyle = '#0d9488';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#1c1917';
+                ctx.font = 'bold 12px Space Grotesk';
+                ctx.textAlign = 'center';
+                ctx.fillText('P(' + h + ', ' + k + ')', centerX, centerY - 12);
+            }
+
+            // Radius line
+            if (showRadius) {
+                ctx.strokeStyle = '#0d9488';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX + radius, centerY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#0d9488';
+                ctx.font = '11px Space Grotesk';
+                ctx.fillText('r = ' + r, centerX + radius/2, centerY - 8);
+            }
+
+            // Update info
+            var area = Math.PI * r * r;
+            var circ = 2 * Math.PI * r;
+
+            document.getElementById('vizResult').textContent = '(x' + (h >= 0 ? ' - ' + h : ' + ' + Math.abs(h)) + ')² + (y' + (k >= 0 ? ' - ' + k : ' + ' + Math.abs(k)) + ')² = ' + (r*r).toFixed(0);
+            document.getElementById('infoCenter').textContent = '(' + h + ', ' + k + ')';
+            document.getElementById('infoRadius').textContent = r.toFixed(1);
+            document.getElementById('infoArea').textContent = area.toFixed(2);
+            document.getElementById('infoCircum').textContent = circ.toFixed(2);
+        }
+
+        function drawEllipse(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var scale = 20;
+
+            // Axes
+            ctx.strokeStyle = '#a8a29e';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+            ctx.stroke();
+
+            var aVal = isHorizontal ? a : b;
+            var bVal = isHorizontal ? b : a;
+            var rx = aVal * scale;
+            var ry = bVal * scale;
+
+            // Ellipse
+            ctx.strokeStyle = '#c2410c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = 'rgba(194, 65, 12, 0.05)';
+            ctx.fill();
+
+            // Foci
+            if (showFocus) {
+                var cVal = Math.sqrt(Math.abs(aVal*aVal - bVal*bVal));
+                var fx = isHorizontal ? cVal * scale : 0;
+                var fy = isHorizontal ? 0 : cVal * scale;
+
+                ctx.fillStyle = '#0d9488';
+                ctx.beginPath();
+                ctx.arc(cx - fx, cy - fy, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cx + fx, cy + fy, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#1c1917';
+                ctx.font = '10px Space Grotesk';
+                ctx.textAlign = 'center';
+                ctx.fillText('F₁', cx - fx, cy - fy - 10);
+                ctx.fillText('F₂', cx + fx, cy + fy - 10);
+            }
+
+            // Asymptotes (not for ellipse, but show axes)
+            if (showAsym) {
+                ctx.strokeStyle = '#78716c';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(cx - rx, cy); ctx.lineTo(cx + rx, cy);
+                ctx.moveTo(cx, cy - ry); ctx.lineTo(cx, cy + ry);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Info
+            var cVal = Math.sqrt(Math.abs(a*a - b*b));
+            var e = cVal / Math.max(a, b);
+
+            document.getElementById('vizResult').textContent = 'x²/' + (a*a).toFixed(0) + ' + y²/' + (b*b).toFixed(0) + ' = 1';
+            document.getElementById('infoCenter').textContent = '(0, 0)';
+            document.getElementById('infoRadius').textContent = 'a=' + a + ', b=' + b;
+            document.getElementById('infoArea').textContent = 'e = ' + e.toFixed(3);
+            document.getElementById('infoCircum').textContent = 'c = ' + cVal.toFixed(2);
+        }
+
+        function drawParabola(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var scale = 15;
+
+            // Axes
+            ctx.strokeStyle = '#a8a29e';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+            ctx.stroke();
+
+            // Parabola
+            ctx.strokeStyle = '#c2410c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            if (isParaHoriz) {
+                for (var y = -h/2; y <= h/2; y += 2) {
+                    var x = (y * y) / (4 * p);
+                    if (p > 0) {
+                        ctx.lineTo(cx + x * scale, cy + y);
+                    } else {
+                        ctx.lineTo(cx + x * scale, cy + y);
+                    }
+                    if (y === -h/2) ctx.moveTo(cx + (y*y)/(4*p) * scale, cy + y);
+                }
+            } else {
+                for (var x = -w/2; x <= w/2; x += 2) {
+                    var y = (x * x) / (4 * p);
+                    ctx.lineTo(cx + x, cy - y * scale);
+                    if (x === -w/2) ctx.moveTo(cx + x, cy - (x*x)/(4*p) * scale);
+                }
+            }
+            ctx.stroke();
+
+            // Focus
+            if (showFocusP) {
+                ctx.fillStyle = '#0d9488';
+                var fx = isParaHoriz ? cx + p * scale : cx;
+                var fy = isParaHoriz ? cy : cy - p * scale;
+                ctx.beginPath();
+                ctx.arc(fx, fy, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#1c1917';
+                ctx.font = '10px Space Grotesk';
+                ctx.textAlign = 'center';
+                ctx.fillText('F', fx, fy - 10);
+            }
+
+            // Directrix
+            if (showDirectrix) {
+                ctx.strokeStyle = '#7c3aed';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([6, 4]);
+                ctx.beginPath();
+                if (isParaHoriz) {
+                    var dx = cx - p * scale;
+                    ctx.moveTo(dx, 0);
+                    ctx.lineTo(dx, h);
+                } else {
+                    var dy = cy + p * scale;
+                    ctx.moveTo(0, dy);
+                    ctx.lineTo(w, dy);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            document.getElementById('vizResult').textContent = isParaHoriz ? 'y² = ' + (4*p).toFixed(0) + 'x' : 'x² = ' + (4*p).toFixed(0) + 'y';
+            document.getElementById('infoCenter').textContent = 'Vertex (0,0)';
+            document.getElementById('infoRadius').textContent = 'p = ' + p;
+            document.getElementById('infoArea').textContent = '4p = ' + (4*p).toFixed(0);
+            document.getElementById('infoCircum').textContent = 'e = 1';
+        }
+
+        function drawHyperbola(w, h) {
+            var cx = w / 2;
+            var cy = h / 2;
+            var scale = 18;
+
+            // Axes
+            ctx.strokeStyle = '#a8a29e';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+            ctx.stroke();
+
+            // Hyperbola branches
+            ctx.strokeStyle = '#c2410c';
+            ctx.lineWidth = 3;
+
+            var aVal = ha * scale;
+            var bVal = hb * scale;
+
+            // Right branch
+            ctx.beginPath();
+            for (var y = -h/2; y <= h/2; y += 2) {
+                var yy = y / scale;
+                var xSq = aVal*aVal * (1 + (yy*yy)/(hb*hb));
+                var x = Math.sqrt(Math.max(0, xSq));
+                if (isHypHoriz) {
+                    ctx.lineTo(cx + x, cy + y);
+                } else {
+                    ctx.lineTo(cx + y, cy - x);
+                }
+            }
+            ctx.stroke();
+
+            // Left branch
+            ctx.beginPath();
+            for (var y = -h/2; y <= h/2; y += 2) {
+                var yy = y / scale;
+                var xSq = aVal*aVal * (1 + (yy*yy)/(hb*hb));
+                var x = -Math.sqrt(Math.max(0, xSq));
+                if (isHypHoriz) {
+                    ctx.lineTo(cx + x, cy + y);
+                } else {
+                    ctx.lineTo(cx + y, cy - x);
+                }
+            }
+            ctx.stroke();
+
+            // Asymptotes
+            if (showHypAsym) {
+                ctx.strokeStyle = '#78716c';
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([5, 4]);
+
+                var slope = hb / ha;
+                ctx.beginPath();
+                ctx.moveTo(0, cy + (cx * slope));
+                ctx.lineTo(w, cy - ((w - cx) * slope));
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(0, cy - (cx * slope));
+                ctx.lineTo(w, cy + ((w - cx) * slope));
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Foci
+            if (showHypFocus) {
+                var cVal = Math.sqrt(ha*ha + hb*hb);
+                ctx.fillStyle = '#0d9488';
+                ctx.beginPath();
+                ctx.arc(cx - cVal * scale, cy, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cx + cVal * scale, cy, 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            var cVal = Math.sqrt(ha*ha + hb*hb);
+            var e = cVal / ha;
+
+            document.getElementById('vizResult').textContent = 'x²/' + (ha*ha).toFixed(0) + ' - y²/' + (hb*hb).toFixed(0) + ' = 1';
+            document.getElementById('infoCenter').textContent = 'Pusat (0,0)';
+            document.getElementById('infoRadius').textContent = 'a=' + ha + ', b=' + hb;
+            document.getElementById('infoArea').textContent = 'e = ' + e.toFixed(3);
+            document.getElementById('infoCircum').textContent = 'c = ' + cVal.toFixed(2);
+        }
+
+        // ========================================
+        // Quiz System
+        // ========================================
+        function initQuiz() {
+            document.getElementById('generateBtn').addEventListener('click', generateQuiz);
+            document.getElementById('retryBtn').addEventListener('click', generateQuiz);
+            generateQuiz();
+        }
+
+        function shuffleArray(array) {
+            var newArray = array.slice();
+            for (var i = newArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
+            return newArray;
+        }
+
+        function generateQuiz() {
+            currentQuestions = shuffleArray(questionBank).slice(0, 5);
+            userAnswers = new Array(5).fill(null);
+            score = 0;
+            quizSubmitted = false;
+            document.getElementById('scoreDisplay').textContent = '0/5';
+            document.getElementById('resultCard').classList.remove('show');
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            var container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            currentQuestions.forEach(function(q, qIndex) {
+                var card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = 'question-' + qIndex;
+                var questionTitle = document.createElement('p');
+                questionTitle.className = 'question-text';
+                questionTitle.innerHTML = '<span class="question-number">' + (qIndex + 1) + '</span>' + q.question;
+                card.appendChild(questionTitle);
+                var optionsList = document.createElement('div');
+                optionsList.className = 'options-list';
+                var letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach(function(opt, oIndex) {
+                    var btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = '<span class="option-letter">' + letters[oIndex] + '</span><span class="option-text">' + opt + '</span>';
+                    btn.addEventListener('click', function() { selectOption(qIndex, oIndex); });
+                    optionsList.appendChild(btn);
+                });
+                card.appendChild(optionsList);
+                var feedback = document.createElement('div');
+                feedback.className = 'feedback-box';
+                feedback.id = 'feedback-' + qIndex;
+                card.appendChild(feedback);
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qIndex, oIndex) {
+            if (quizSubmitted) return;
+            userAnswers[qIndex] = oIndex;
+            var questionCard = document.getElementById('question-' + qIndex);
+            var options = questionCard.querySelectorAll('.option-btn');
+            options.forEach(function(opt, idx) {
+                opt.classList.remove('selected');
+                if (idx === oIndex) opt.classList.add('selected');
+            });
+            if (userAnswers.indexOf(null) === -1) submitQuiz();
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            score = 0;
+            currentQuestions.forEach(function(q, qIndex) {
+                var questionCard = document.getElementById('question-' + qIndex);
+                var options = questionCard.querySelectorAll('.option-btn');
+                var feedback = document.getElementById('feedback-' + qIndex);
+                var userAnswer = userAnswers[qIndex];
+                var correctAnswer = q.correct;
+                options.forEach(function(opt, idx) {
+                    opt.classList.add('disabled');
+                    opt.classList.remove('selected');
+                    if (idx === correctAnswer) opt.classList.add('correct');
+                    else if (idx === userAnswer && userAnswer !== correctAnswer) opt.classList.add('incorrect');
+                });
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    questionCard.classList.add('correct');
+                    feedback.className = 'feedback-box show correct';
+                    feedback.textContent = 'Benar! ' + q.explanation;
+                } else {
+                    questionCard.classList.add('incorrect');
+                    feedback.className = 'feedback-box show incorrect';
+                    feedback.textContent = 'Salah. ' + q.explanation;
+                }
+            });
+            document.getElementById('scoreDisplay').textContent = score + '/5';
+            document.getElementById('finalScore').textContent = score + '/5';
+            var resultMessage = document.getElementById('resultMessage');
+            if (score === 5) resultMessage.textContent = 'Sempurna! Pemahaman sangat baik!';
+            else if (score >= 3) resultMessage.textContent = 'Bagus! Terus tingkatkan pemahaman Anda.';
+            else resultMessage.textContent = 'Pelajari kembali materi dan coba lagi!';
+            document.getElementById('resultCard').classList.add('show');
+        }
+
+        // ========================================
+        // Animations
+        // ========================================
+        function initAnimations() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.module-card').forEach(function(card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematika Tingkat Lanjut Kelas 12 - E-Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fffbf9;
+            --bg-secondary: #fff5f2;
+            --bg-card: #ffffff;
+            --fg-primary: #1a1210;
+            --fg-secondary: #4a3f3a;
+            --fg-muted: #8c7a72;
+            --accent-primary: #e63946;
+            --accent-primary-light: #ff6b6b;
+            --accent-primary-dark: #c1121f;
+            --accent-glow: rgba(230, 57, 70, 0.15);
+            --accent-secondary: #7c3aed;
+            --accent-success: #10b981;
+            --shadow-soft: 0 2px 16px rgba(26, 18, 16, 0.04);
+            --shadow-medium: 0 8px 40px rgba(230, 57, 70, 0.08);
+            --shadow-card: 0 4px 24px rgba(230, 57, 70, 0.06);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--fg-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 70% 50% at 0% 0%, rgba(230, 57, 70, 0.06), transparent),
+                radial-gradient(ellipse 50% 40% at 100% 100%, rgba(124, 58, 237, 0.04), transparent);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 251, 249, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(230, 57, 70, 0.08);
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 68px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .navbar-logo svg {
+            width: 22px;
+            height: 22px;
+            color: white;
+        }
+
+        .navbar-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+        }
+
+        .navbar-title span {
+            color: var(--accent-primary);
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--fg-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid rgba(230, 57, 70, 0.1);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-back:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+            transform: translateX(-4px);
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-back svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 60px 24px 48px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-badge-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(230, 57, 70, 0.08);
+            border: 1px solid rgba(230, 57, 70, 0.15);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .hero-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .hero-badge.secondary {
+            background: rgba(124, 58, 237, 0.08);
+            border-color: rgba(124, 58, 237, 0.15);
+            color: var(--accent-secondary);
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--fg-primary);
+            margin-bottom: 16px;
+            line-height: 1.15;
+        }
+
+        .hero-title-accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--fg-secondary);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Section */
+        .section {
+            padding: 20px 24px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--fg-muted);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 28px;
+        }
+
+        /* Topic Card */
+        .topic-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 0;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(230, 57, 70, 0.05);
+            overflow: hidden;
+            transition: var(--transition-medium);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .topic-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-primary-light));
+        }
+
+        .topic-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(230, 57, 70, 0.12);
+        }
+
+        .topic-header {
+            padding: 28px 28px 20px;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .topic-header-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .topic-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.12), rgba(255, 107, 107, 0.06));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(230, 57, 70, 0.1);
+        }
+
+        .topic-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--accent-primary);
+        }
+
+        .topic-info {
+            flex: 1;
+        }
+
+        .topic-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+
+        .topic-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--fg-primary);
+            line-height: 1.3;
+        }
+
+        .topic-description {
+            color: var(--fg-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .topic-body {
+            padding: 24px 28px;
+        }
+
+        .topic-subtopics-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 14px;
+        }
+
+        .topic-subtopics {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .topic-subtopics li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: var(--fg-secondary);
+            line-height: 1.5;
+        }
+
+        .topic-subtopics li svg {
+            width: 16px;
+            height: 16px;
+            color: var(--accent-primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .topic-footer {
+            padding: 20px 28px 28px;
+            background: var(--bg-secondary);
+        }
+
+        .btn-topic {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 24px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: rgba(230, 57, 70, 0.08);
+            border: 2px solid rgba(230, 57, 70, 0.2);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-topic:hover {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-dark));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 28px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-topic svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Stats */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            padding: 32px;
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(230, 57, 70, 0.05);
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+            margin-top: 6px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 24px;
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(230, 57, 70, 0.06);
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+        }
+
+        .footer-text strong {
+            color: var(--accent-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar { padding: 0 16px; }
+            .navbar-container { height: 60px; }
+            .btn-back span { display: none; }
+            .hero { padding: 40px 16px 32px; }
+            .hero-title { font-size: 1.8rem; }
+            .hero-description { font-size: 1rem; }
+            .section { padding: 16px 16px 60px; }
+            .cards-grid { grid-template-columns: 1fr; gap: 20px; }
+            .topic-header { padding: 24px 20px 16px; }
+            .topic-body { padding: 20px; }
+            .topic-footer { padding: 16px 20px 24px; }
+            .stats-bar { gap: 24px; padding: 24px 16px; }
+            .stat-value { font-size: 1.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-badge { padding: 6px 12px; font-size: 0.75rem; }
+            .topic-icon { width: 48px; height: 48px; }
+            .topic-icon svg { width: 24px; height: 24px; }
+            .topic-title { font-size: 1.1rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" role="navigation">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <span class="navbar-title">E-Learning <span>Kelas 12</span></span>
+            </a>
+            <a href="../../index.html" target="_self" class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Kembali ke Dashboard</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge-group">
+            <span class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Total Materi: 3 Topik Besar
+            </span>
+            <span class="hero-badge secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Semester 1
+            </span>
+        </div>
+        <h1 class="hero-title">
+            <span class="hero-title-accent">Matematika Tingkat Lanjut</span><br>
+            Kelas 12 Semester 1
+        </h1>
+        <p class="hero-description">
+            Pelajari Irisan Kerucut, Limit Fungsi, dan Turunan Fungsi Trigonometri secara sistematis dengan latihan soal interaktif dan evaluasi adaptif.
+        </p>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section-title">Daftar Materi Pembelajaran</h2>
+            <p class="section-subtitle">Pilih topik untuk mulai belajar</p>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Card 1: Irisan Kerucut -->
+            <article class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-header-top">
+                        <div class="topic-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="9" stroke-dasharray="4 2"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18" stroke-dasharray="2 2"/>
+                            </svg>
+                        </div>
+                        <div class="topic-info">
+                            <span class="topic-number">Topik 01</span>
+                            <h3 class="topic-title">Irisan Kerucut</h3>
+                        </div>
+                    </div>
+                    <p class="topic-description">
+                        Memahami persamaan yang berkaitan dengan Lingkaran, Garis Singgung Lingkaran dan Elips, serta Parabola dan Hiperbola.
+                    </p>
+                </div>
+                <div class="topic-body">
+                    <h4 class="topic-subtopics-title">Submateri</h4>
+                    <ul class="topic-subtopics">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Persamaan Lingkaran
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Persamaan Garis Singgung Lingkaran
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Persamaan Elips dan Garis Singgung Elips
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Pengantar Parabola dan Hiperbola
+                        </li>
+                    </ul>
+                </div>
+                <div class="topic-footer">
+                    <a href="FULL_URL_IRISAN_KERUCUT" target="_self" class="btn-topic">
+                        <span>Masuk Materi</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Card 2: Limit Fungsi -->
+            <article class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-header-top">
+                        <div class="topic-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                            </svg>
+                        </div>
+                        <div class="topic-info">
+                            <span class="topic-number">Topik 02</span>
+                            <h3 class="topic-title">Limit Fungsi</h3>
+                        </div>
+                    </div>
+                    <p class="topic-description">
+                        Memahami Limit dalam Aljabar, Trigonometri hingga Ketakhinggaan.
+                    </p>
+                </div>
+                <div class="topic-body">
+                    <h4 class="topic-subtopics-title">Submateri</h4>
+                    <ul class="topic-subtopics">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Limit Fungsi Aljabar (lanjutan)
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Limit Fungsi Trigonometri
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Limit di Ketakhinggaan (Fungsi Aljabar dan Trigonometri)
+                        </li>
+                    </ul>
+                </div>
+                <div class="topic-footer">
+                    <a href="FULL_URL_LIMIT_FUNGSI" target="_self" class="btn-topic">
+                        <span>Masuk Materi</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Card 3: Turunan Fungsi Trigonometri -->
+            <article class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-header-top">
+                        <div class="topic-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <div class="topic-info">
+                            <span class="topic-number">Topik 03</span>
+                            <h3 class="topic-title">Turunan Fungsi Trigonometri</h3>
+                        </div>
+                    </div>
+                    <p class="topic-description">
+                        Memahami Turunan Fungsi Trigonometri, Sifat-Sifat dan Aturan Turunan, hingga Aplikasi Turunan.
+                    </p>
+                </div>
+                <div class="topic-body">
+                    <h4 class="topic-subtopics-title">Submateri</h4>
+                    <ul class="topic-subtopics">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Konsep Dasar Turunan Fungsi Trigonometri
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Sifat-sifat dan Aturan Rantai Turunan Fungsi Trigonometri
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Aplikasi Turunan (Persamaan Garis Singgung Kurva; Fungsi Naik, Fungsi Turun, dan Nilai Stasioner; Titik Ekstrem; dan Masalah Optimasi)
+                        </li>
+                    </ul>
+                </div>
+                <div class="topic-footer">
+                    <a href="FULL_URL_TURUNAN_TRIGONOMETRI" target="_self" class="btn-topic">
+                        <span>Masuk Materi</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Topik Utama</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">10</div>
+                <div class="stat-label">Submateri</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p class="footer-text">
+            Platform E-Learning Kelas 12 | Dikembangkan untuk <strong>Matematika Tingkat Lanjut</strong>
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initScrollAnimations();
+        });
+
+        function initScrollAnimations() {
+            var observerOptions = {
+                threshold: 0.15,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry, index) {
+                    if (entry.isIntersecting) {
+                        var delay = Array.from(document.querySelectorAll('.topic-card')).indexOf(entry.target) * 120;
+                        setTimeout(function() {
+                            entry.target.classList.add('visible');
+                        }, delay);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.topic-card').forEach(function(card) {
+                observer.observe(card);
+            });
+
+            var statsObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        animateStats(entry.target);
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            var statsBar = document.querySelector('.stats-bar');
+            if (statsBar) {
+                statsObserver.observe(statsBar);
+            }
+        }
+
+        function animateStats(container) {
+            var statValues = container.querySelectorAll('.stat-value');
+            
+            statValues.forEach(function(stat) {
+                var target = parseInt(stat.textContent.replace(/\D/g, ''));
+                var suffix = stat.textContent.replace(/[0-9]/g, '');
+                var duration = 1200;
+                var start = 0;
+                var startTime = null;
+
+                function animate(currentTime) {
+                    if (!startTime) startTime = currentTime;
+                    var progress = Math.min((currentTime - startTime) / duration, 1);
+                    var easeProgress = 1 - Math.pow(1 - progress, 3);
+                    var current = Math.floor(easeProgress * target);
+                    stat.textContent = current + suffix;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        stat.textContent = target + suffix;
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            });
+        }
+    </script>
+</body>
+</html>
